@@ -1,0 +1,461 @@
+/* =========================================
+   Global Variables & Reset
+========================================= */
+:root {
+  --bg-white: #ffffff;
+  --bg-beige: #f6f4ee;
+  --bg-dark-purple: #1e1b4b; /* Keeps your dark accent section deep and premium */
+  --bg-light-green: #f0fdfa; /* 🟢 NEW: Replaces light purple tint with soft mint/teal */
+
+  --text-dark: #111827;
+  --text-muted: #6b7280;
+  --brand-green: #0d9488; /* 🟢 NEW: Your beautiful brand green code */
+
+  --border-color: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  color: var(--text-dark);
+  background-color: var(--bg-white);
+}
+
+/* =========================================
+   Navigation Header
+========================================= */
+.home-nav {
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+}
+
+.home-nav nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.logo a {
+  text-decoration: none;
+  color: var(--brand-green);
+}
+
+.sign {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.sign a {
+  text-decoration: none;
+  color: var(--text-dark);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+
+.sign a:last-child {
+  border-color: var(--border-color);
+}
+
+/* =========================================
+   Hero Section (Upper Container)
+========================================= */
+.upper-container {
+  display: flex;
+  min-height: 85vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Left Side (White) */
+.upper-left {
+  flex: 1.1; /* Gives slightly more horizontal room to the text */
+  padding: 5rem 4.5rem;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid #e5e7eb; /* 👈 HERE IS THE MISSING VERTICAL LINE */
+}
+
+.upper-left > h1:first-child {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-green);
+  margin-bottom: 2.5rem;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+/* This targets the fix applied in step #3 */
+.hero-heading {
+  font-family: "Georgia", serif;
+  font-size: 4rem;
+  line-height: 1.1;
+  font-weight: 400;
+  color: #111827;
+  margin-bottom: 2rem;
+}
+
+.hero-heading em {
+  font-style: italic;
+  color: var(--brand-green);
+}
+
+/* Paragraph spacing and dimensions */
+.upper-left p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  max-width: 90%;
+}
+
+.upp-lf-btns {
+  display: flex;
+  gap: 1rem;
+}
+
+.upp-lf-btns a {
+  text-decoration: none;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Right Side (Beige) */
+.upper-right {
+  flex: 0.9;
+  background-color: #f6f4ee; /* Beautiful warm-beige background tint */
+  padding: 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+/* Individual Card Styling rules */
+.preview-card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+.smpl-icon {
+  background-color: var(--brand-green);
+  padding: 0.75rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: max-content;
+}
+
+.smpl-info {
+  flex: 1;
+}
+.smpl-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.smpl-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+.smpl-info > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.smpl-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.smpl-badge {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* Specific Badge Colors */
+.smpl-badge:not(:empty) {
+  background-color: var(--bg-light-purple);
+  color: var(--brand-purple);
+}
+
+.smple-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.smple-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* =========================================
+   Features Section (Lower Up)
+========================================= */
+.lower-up {
+  display: flex;
+  gap: 3rem;
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.lower-up > div {
+  flex: 1;
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  /* Lightens the inline theme color you passed in JS */
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.feature-title {
+  font-family: "Georgia", serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.feature-description {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* =========================================
+   Join Class Section (Lower Down)
+========================================= */
+.join-class {
+  /* Wrapper */
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.join-left {
+  flex: 1;
+  background-color: var(--brand-green);
+  color: var(--bg-white);
+  padding: 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.join-left p:first-child {
+  font-family: "Georgia", serif;
+  font-size: 1.8rem;
+  font-style: italic;
+  line-height: 1.4;
+  margin-bottom: 2rem;
+}
+
+.join-left p:last-child {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.join-right {
+  flex: 1;
+  background-color: var(--bg-light-purple);
+  padding: 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.join-right h2 {
+  font-family: "Georgia", serif;
+  font-size: 2.5rem;
+  color: var(--bg-dark-purple);
+  margin-bottom: 1rem;
+}
+
+.join-right p {
+  color: var(--brand-green);
+  margin-bottom: 2rem;
+}
+
+/* Needs fix #1 applied to work */
+.join-form {
+  display: flex;
+  gap: 1rem;
+}
+
+.join-form input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.join-btn {
+  background-color: transparent;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* =========================================
+   Footer (Matching the screenshot design)
+========================================= */
+footer {
+  border-top: 1px solid var(--border-color);
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.footer-top {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-brand .logo {
+  color: var(--text-dark);
+}
+
+.footer-brand p {
+  display: none; /* Hidden to match the simple design in screenshot */
+}
+
+.footer-links-grid {
+  display: flex;
+  gap: 2rem;
+}
+
+.footer-column {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-column h4 {
+  display: none; /* Hidden to match single-line footer design */
+}
+
+.footer-column a {
+  text-decoration: none;
+  color: var(--text-muted);
+}
+
+.footer-bottom {
+  color: var(--text-muted);
+}
+.home-footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e5e7eb; /* The elegant light-gray dividing line */
+  font-size: 0.875rem;
+  background-color: #ffffff;
+}
+
+.footer-logo {
+  font-weight: 700;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.footer-center {
+  display: flex;
+  gap: 2rem; /* Evenly spaces out your links */
+}
+
+.footer-center a {
+  text-decoration: none;
+  color: #6b7280; /* Dimmed gray text color for links */
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.footer-center a:hover {
+  color: #111827; /* Darkens slightly when hovering */
+}
+
+.footer-right p {
+  color: #9ca3af; /* Slightly lighter gray for the copyright text */
+}
+
+/* 📱 Responsive Adjustments: If the screen is small, stack them nicely */
+@media (max-width: 768px) {
+  .home-footer {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  .footer-center {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
