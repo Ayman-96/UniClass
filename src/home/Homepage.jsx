@@ -1,7 +1,7 @@
 import "./Homepage.css";
 import { NavLink } from "react-router-dom";
 import { GraduationCap } from "lucide-react";
-import { previewCards, previewFetures } from "./data/homepage";
+import { previewCards, previewFetures } from "../data/homepage";
 
 function Homepage() {
   return (
