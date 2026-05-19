@@ -15,7 +15,7 @@ function Homepage() {
 
 function HomeNav() {
   return (
-    <div className="home-nav">
+    <div className="welcome-nav">
       <nav>
         <Logo />
 
