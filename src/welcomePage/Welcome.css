@@ -49,16 +49,58 @@ body {
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-weight: bold;
-  font-size: 1.25rem;
+  gap: 0.75rem;
+  text-decoration: none; /* Removes any default underline from NavLink */
+  color: inherit; /* Prevents the text from turning blue */
 }
 
-.logo a {
-  text-decoration: none;
-  color: var(--brand-green);
+/* The box wrapping the graduation cap icon */
+.plat-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(
+    13,
+    148,
+    136,
+    0.1
+  ); /* Your soft translucent green tint */
+  color: #0d9488; /* Your solid brand green stroke */
+  border-radius: 8px;
+  flex-shrink: 0; /* Stops the icon box from squeezing */
 }
 
+/* Make sure the raw vector icon fills nicely inside the wrapper */
+.plat-logo svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* The text column container wrapper */
+.plat-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* "UniClass" Title heading */
+.plat-name h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a; /* Sharp obsidian charcoal */
+  margin: 0; /* Clears default heading spacing */
+  line-height: 1.2;
+}
+
+/* "Student Learning Platform" Subtitle text */
+.plat-name p {
+  font-size: 0.75rem;
+  color: #94a3b8; /* Soft slate placeholder gray */
+  margin: 0; /* Clears default paragraph spacing */
+  font-weight: 500;
+}
 .sign {
   display: flex;
   gap: 1rem;

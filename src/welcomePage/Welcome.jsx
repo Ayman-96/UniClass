@@ -1,7 +1,7 @@
-import "./Homepage.css";
+import "./Welcome.css";
 import { NavLink } from "react-router-dom";
 import { GraduationCap } from "lucide-react";
-import { previewCards, previewFetures } from "../data/homepage";
+import { previewCards, previewFetures } from "../data/welcome";
 
 function Homepage() {
   return (
@@ -17,12 +17,7 @@ function HomeNav() {
   return (
     <div className="home-nav">
       <nav>
-        <div className="logo">
-          <NavLink to="/">
-            <GraduationCap />
-          </NavLink>
-          <h2>UniClass</h2>
-        </div>
+        <Logo />
 
         <div className="sign">
           <NavLink to="/signIn">Sign In</NavLink>
@@ -32,7 +27,19 @@ function HomeNav() {
     </div>
   );
 }
-
+export function Logo() {
+  return (
+    <NavLink to="/Home" className="logo">
+      <div className="plat-logo">
+        <GraduationCap />
+      </div>
+      <div className="plat-name">
+        <h2>UniClass</h2>
+        <p>Student Learning Platform</p>
+      </div>
+    </NavLink>
+  );
+}
 function Mainpage({ previewCards, previewFetures }) {
   return (
     <div className="main">
