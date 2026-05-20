@@ -21,10 +21,8 @@ function HomeHeader() {
     <div className="home-header">
       <div className="header-left">
         <button className="toggle-menu">{sideBar ? <Menu /> : <X />}</button>
-        <input
-          className="search-bar"
-          placeholder={`${(<Search />)} Search...`}
-        />
+        <Search className="search-icon" />
+        <input className="search-input" placeholder="Search" />
       </div>
       <div className="header-right">
         <button className="notifications-btn">

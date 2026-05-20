@@ -3,8 +3,8 @@ import { Logo } from "../welcomePage/Welcome.jsx";
 import { LayoutGrid, Bell, Users, BookOpen } from "lucide-react";
 function SideNav() {
   return (
-    <nav className="dash-nav">
-      <div className="dash-nav-logo">
+    <nav className="side-nav">
+      <div className="side-nav-logo">
         <Logo />
       </div>
 

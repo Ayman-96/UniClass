@@ -10,7 +10,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<HomePage />}>
-            {/* Nested for Menu Section */}
+            {/* Nested for Menu Section  OUTLET*/}
             <Route path="dashboard" element={UserDashboard} />
           </Route>
         </Routes>
