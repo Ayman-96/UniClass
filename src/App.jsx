@@ -1,7 +1,7 @@
 import "./App.css";
 import Homepage from "./home/Homepage";
 import Welcome from "./welcomePage/Welcome";
-import UserDashboard from "./home/menuContents/UserDashboard";
+import UserDashboard from "./home/menuContents/dashboard/UserDashboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 function App() {
   return (
