@@ -36,6 +36,8 @@ body {
 .welcome-nav {
   border-bottom: 1px solid var(--border-color);
   padding: 1rem 2rem;
+  width: 100%; /* 🔑 Spans full viewport width */
+  background-color: var(--bg-white);
 }
 
 .welcome-nav nav {
@@ -45,7 +47,6 @@ body {
   max-width: 1200px;
   margin: 0 auto;
 }
-
 .logo {
   display: flex;
   align-items: center;
@@ -126,22 +127,24 @@ body {
 .upper-container {
   display: flex;
   min-height: 85vh;
-  max-width: 1200px;
+  width: 100%; /* 🔑 Changes from max-width: 1200px to full fluid width */
   margin: 0 auto;
-  border-left: 1px solid #e5e7eb;
-  border-right: 1px solid #e5e7eb;
   border-bottom: 1px solid #e5e7eb;
+  /* Removed old side borders so it seamlessly touches the display edge */
 }
 
 /* Left Side (White) */
 .upper-left {
-  flex: 1.1; /* Gives slightly more horizontal room to the text */
+  flex: 1.1;
   padding: 5rem 4.5rem;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-right: 1px solid #e5e7eb; /* 👈 HERE IS THE MISSING VERTICAL LINE */
+  border-right: 1px solid #e5e7eb;
+
+  /* 🔑 Aligns internal content neatly with a 1200px center line on wide screens */
+  padding-left: calc((100vw - 1200px) / 2 + 4.5rem);
 }
 
 .upper-left > h1:first-child {
@@ -198,12 +201,15 @@ body {
 /* Right Side (Beige) */
 .upper-right {
   flex: 0.9;
-  background-color: #f6f4ee; /* Beautiful warm-beige background tint */
+  background-color: #f6f4ee;
   padding: 5rem 4rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   justify-content: center;
+
+  /* 🔑 Aligns right content neatly with a 1200px center line on wide screens */
+  padding-right: calc((100vw - 1200px) / 2 + 4rem);
 }
 
 /* Individual Card Styling rules */
@@ -498,6 +504,132 @@ footer {
   .footer-center {
     flex-wrap: wrap;
     justify-content: center;
+    gap: 1rem;
+  }
+}
+/* ==========================================================================
+   📱 COMPREHENSIVE RESPONSIVE STACK (PRESERVES DESKTOP DESIGN)
+   ========================================================================== */
+
+/* 1. Large Tablets & Small Laptops Breakpoint */
+@media (max-width: 1024px) {
+  .upper-container {
+    flex-direction: column; /* Stacks the hero elements vertically */
+    min-height: auto;
+    border-left: none;
+    border-right: none;
+  }
+
+  .upper-left {
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb; /* Divides sections beautifully when stacked */
+    padding: 4rem 2.5rem;
+  }
+
+  .upper-right {
+    padding: 4rem 2.5rem;
+  }
+
+  .hero-heading {
+    font-size: 3rem; /* Scales heading down slightly to fit tablet widths */
+  }
+
+  .lower-up {
+    flex-direction: column; /* Features grid changes from 3-columns to stacked rows */
+    gap: 2.5rem;
+    padding: 4rem 2.5rem;
+    border-left: none;
+    border-right: none;
+  }
+
+  .join-class {
+    flex-direction: column; /* Stack Join section split panels */
+  }
+
+  .join-left,
+  .join-right {
+    padding: 4rem 2.5rem;
+  }
+}
+
+/* 2. Smartphones & Tiny Handsets Breakpoint */
+@media (max-width: 640px) {
+  /* Navigation adjustments */
+  .welcome-nav {
+    padding: 1rem;
+  }
+
+  .welcome-nav nav {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .sign {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Hero Adjustments */
+  .hero-heading {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .upper-left p {
+    max-width: 100%;
+    font-size: 1rem;
+  }
+
+  .upp-lf-btns {
+    flex-direction: column; /* Stack buttons vertically so text won't compress */
+    width: 100%;
+  }
+
+  .upp-lf-btns a {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Right Panel Preview Cards */
+  .preview-card {
+    flex-direction: column; /* Stack icon container above details inside preview card */
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .smpl-info-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  /* Join Code Action Section Form */
+  .join-form {
+    flex-direction: column; /* Inputs and buttons sit nicely on their own block rows */
+    width: 100%;
+  }
+
+  .join-form input,
+  .join-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Unified Footer Stack */
+  footer {
+    padding: 2rem 1rem;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .footer-links-grid,
+  .footer-column {
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
   }
 }
