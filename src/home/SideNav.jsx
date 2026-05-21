@@ -17,7 +17,7 @@ function SideNav() {
           </div>
         </NavLink>
 
-        <NavLink to="/home/notification" className="sidebar-link">
+        <NavLink to="/home/notifications" className="sidebar-link">
           <div className="sidebar-link-left">
             <Bell className="sidebar-icon bell-icon" />
             <span>Notifications</span>

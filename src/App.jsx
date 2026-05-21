@@ -1,7 +1,7 @@
 import "./App.css";
-import HomePage from "./home/Homepage";
+import Homepage from "./home/Homepage";
 import Welcome from "./welcomePage/Welcome";
-import UserDashboard from "./home/UserDashboard";
+import UserDashboard from "./home/menuContents/UserDashboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 function App() {
   return (
@@ -9,9 +9,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/home" element={<HomePage />}>
-            {/* Nested for Menu Section  OUTLET*/}
-            <Route path="dashboard" element={UserDashboard} />
+          <Route path="/home" element={<Homepage />}>
+            {/* Nested routes for the outlet */}
+            <Route index element={<UserDashboard />} />
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="notifications" element={<UserDashboard />} />
+            <Route path="classmates" element={<UserDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

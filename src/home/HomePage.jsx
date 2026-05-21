@@ -1,10 +1,11 @@
-import "./HomePage.css";
+import "./Homepage.css";
 import SideNav from "./SideNav";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+
 import { Menu, X, Search, Bell, Settings } from "lucide-react";
 
-function HomePage() {
+function Homepage() {
   const [isOpenSideBar, setIsOpenSideBar] = useState(true);
 
   return (
@@ -28,6 +29,7 @@ function HomePage() {
     </div>
   );
 }
+
 function HomeHeader({ isOpenSideBar, setIsOpenSideBar }) {
   return (
     <div className="header-container">
@@ -58,4 +60,4 @@ function HomeHeader({ isOpenSideBar, setIsOpenSideBar }) {
     </div>
   );
 }
-export default HomePage;
+export default Homepage;
