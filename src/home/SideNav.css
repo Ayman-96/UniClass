@@ -1,0 +1,121 @@
+/* ── Layout ── */
+.side-nav {
+  width: 260px;
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 16px 0;
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+}
+
+/* ── Logo area ── */
+.side-nav-logo {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 8px;
+}
+
+/* ── Section titles (MENU, MY COURSES) ── */
+.sideNav-titles {
+  font-size: 11px;
+  font-weight: 600;
+  color: #aaaaaa;
+  letter-spacing: 0.06em;
+  padding: 14px 20px 6px;
+  text-transform: uppercase;
+}
+
+/* ── Nav sections ── */
+.sideNav-menu-section,
+.sideNav-classes-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 10px;
+}
+
+/* ── Links ── */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #555555;
+  font-weight: 400;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.sidebar-link:hover {
+  background: #f5f5f5;
+  color: #111111;
+}
+
+.sidebar-link.active {
+  background: #e6f5f1;
+  color: #0f6e56;
+  font-weight: 500;
+}
+
+/* ── Left side of link (icon + label) ── */
+.sidebar-link-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Icons ── */
+.sidebar-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  opacity: 0.65;
+}
+
+.sidebar-link.active .sidebar-icon {
+  opacity: 1;
+  color: #0f6e56;
+}
+
+/* ── Notification badge ── */
+.sidebar-badge {
+  background: #1a9e78;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 1px 7px;
+  min-width: 20px;
+  text-align: center;
+  line-height: 18px;
+}
+
+/* ── Course status dots ── */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/*Courses DOT*/
+.ds-dot {
+  background: #1a9e78;
+} /* green  */
+.algo-dot {
+  background: #1a9e78;
+} /* green  */
+.os-dot {
+  background: #e24b4a;
+} /* red    */
+.la-dot {
+  background: #378add;
+} /* blue   */

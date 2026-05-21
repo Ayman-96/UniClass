@@ -1,0 +1,210 @@
+/* ==========================================================================
+   🧱 MASTER PAGE FLEXBOX GRID VIEWPORT
+   ========================================================================== */
+.home-page {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Crucial: hides the sidebar when it's off-screen on the left */
+  background-color: #f8fafc;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ⬅️ LEFT SIDE PANEL - THE SLIDE & PUSH ENGINE */
+.home-sideBar {
+  width: 260px;
+  height: 100%;
+  flex-shrink: 0; /* Prevents layout from squishing the sidebar content */
+  background-color: #ffffff;
+  border-right: 1px solid #f1f5f9;
+
+  /* 🚀 THE MAGIC LINE: Animates the margin shift smoothly */
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: 0; /* Default state: open and fully visible */
+}
+
+/* 🚀 WHEN CLOSED: Slide out by its exact width. 
+   Flexbox pulls the main area leftward, expanding it over the vacant space! */
+.sidebar-closed .home-sideBar {
+  margin-left: -260px;
+}
+
+/* ➡️ RIGHT SIDE MAIN CONTAINER FRAMEWORK */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Automatically grows to consume 100% of available display width */
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+    HEADER STRUCTURAL BLOCK LAYOUT RULES
+   ========================================================================== */
+.home-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  height: 74.7px;
+  display: flex;
+  align-items: center;
+  padding: 10px 32px 0px;
+  flex-shrink: 0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   🔍 LEFT HEADER COMPONENTS (MENU TOGGLE & SEARCH ENGINE BAR)
+   ========================================================================== */
+.toggle-menu {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #334155;
+  flex-shrink: 0;
+  transition: all 0.15s ease-in-out;
+}
+
+.toggle-menu:hover {
+  background-color: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.toggle-menu svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  border-radius: 10px;
+  padding: 0 16px;
+  height: 42px;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.search-icon {
+  width: 18px;
+  height: 18px;
+  color: #64748b;
+  stroke-width: 2.25px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+/* ==========================================================================
+   🔔 RIGHT HEADER COMPONENTS (ACTIONS & PROFILE WRAPPER)
+   ========================================================================== */
+.notifications-btn,
+.settings-btn {
+  background: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.15s ease-in-out;
+}
+
+.notifications-btn:hover,
+.settings-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.notifications-btn svg,
+.settings-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2px;
+}
+
+.notifications-btn::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  transition: background 0.15s ease-in-out;
+}
+
+.profile-avatar {
+  width: 38px;
+  height: 38px;
+  background-color: #e2e8f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   📉 CENTRAL ROUTER OUTLET SHEET SCREEN
+   ========================================================================== */
+.home-outlet {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 40px;
+}
