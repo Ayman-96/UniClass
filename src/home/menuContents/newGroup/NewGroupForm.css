@@ -1,0 +1,232 @@
+/* ─── NewGroupForm.css ─────────────────────────────────── */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-group-popup {
+  position: relative; /* remove fixed, inset, margin:auto — overlay handles centering now */
+  z-index: 9999;
+}
+.new-group-popup {
+  position: fixed;
+
+  inset: 0;
+  margin: auto;
+  width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 32px 24px;
+  gap: 0;
+  font-family: "Segoe UI", sans-serif;
+  z-index: 1000;
+}
+
+/* ── Header ── */
+.group-form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e5e7eb; /* ← line goes here, under the title */
+}
+
+.group-form-label p {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.group-form-label svg:hover {
+  color: #111827;
+}
+.close-form {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.close-form:hover {
+  color: #111827;
+  background: #f3f4f6;
+}
+
+.close-form svg {
+  width: 20px;
+  height: 20px;
+}
+/* ── Divider line under header ── */
+.new-group-popup::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0 -32px;
+  order: -1; /* won't work here; use a real divider in JSX if needed */
+}
+
+/* ── Tab Switcher ── */
+.switch-new-buttons {
+  display: flex;
+  gap: 0;
+  border-bottom: 1.5px solid #e5e7eb;
+  margin-bottom: 24px;
+}
+
+.switch-new-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1.5px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.switch-new-buttons button svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Active tab — add an "active" class in JSX via conditional className */
+.switch-new-buttons button.active {
+  color: #16a34a;
+  border-bottom-color: #16a34a;
+  font-weight: 600;
+}
+
+.switch-new-buttons button:hover:not(.active) {
+  color: #374151;
+}
+
+/* ── Form Container ── */
+.form-container {
+  flex: 1;
+}
+
+/* ── Bottom Buttons ── */
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 4px;
+}
+
+.cancel-btn {
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #374151;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.cancel-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.perform-group-btn {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  background: #16a34a;
+  color: #ffffff;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+
+.perform-group-btn:hover {
+  background: #15803d;
+}
+
+.perform-group-btn:active {
+  transform: scale(0.98);
+}
+.switch-new-buttons {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 4px;
+  background: #f9fafb;
+}
+
+.switch-new-buttons button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.switch-new-buttons button.active {
+  background: #ffffff;
+  color: #16a34a;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.switch-new-buttons button:hover:not(.active) {
+  color: #374151;
+}
+.popup-divider {
+  border: none;
+  border-top: 1.5px solid #e5e7eb;
+  margin: 0 -32px 20px; /* remove the top negative margin if any */
+  width: calc(100% + 64px);
+}

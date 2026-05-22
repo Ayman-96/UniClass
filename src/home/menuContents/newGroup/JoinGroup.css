@@ -1,0 +1,114 @@
+/* ─── JoinGroup.css ────────────────────────────────────── */
+
+.join-group-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Key icon hero block ── */
+.how-to-join {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 10px 0 4px;
+}
+
+.key-icon {
+  width: 52px;
+  height: 52px;
+  padding: 14px;
+  color: #16a34a;
+  background: #f0fdf4;
+  border-radius: 16px;
+  margin-bottom: 4px;
+}
+
+.how-to-join h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.how-to-join p {
+  font-size: 13.5px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ── Code input block ── */
+.enter-group-code {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.groupCode-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.groupCode-label span {
+  font-weight: 400;
+  font-size: 12.5px;
+  color: #9ca3af;
+  margin-left: 4px;
+}
+
+/* Reuse groupId-input style — import from CreateGroup.css or repeat */
+.enter-group-code .groupId-input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  text-align: center;
+  letter-spacing: 0.04em;
+  color: #111827;
+  background: #f3f4f6;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.enter-group-code .groupId-input::placeholder {
+  color: #9ca3af;
+  letter-spacing: 0;
+}
+
+.enter-group-code .groupId-input:focus {
+  background: #ffffff;
+  border-color: #16a34a;
+}
+
+/* ── Hint banner ── */
+.group-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #f0fdf4;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.group-hint span {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.group-hint svg {
+  width: 16px;
+  height: 16px;
+  color: #16a34a;
+}

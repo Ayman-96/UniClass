@@ -1,5 +1,7 @@
+import { PlusIcon } from "lucide-react";
 import "./DashboardHeader.css";
-function DashboardHeader() {
+
+function DashboardHeader({ handleOpenNewGroup }) {
   return (
     <div className="dash-header-container">
       <div className="dashbord-title-sec">
@@ -10,8 +12,9 @@ function DashboardHeader() {
         </p>
       </div>
       <div className="dashbord-join-sec">
-        <button className="new-hub-button">New Group</button>
-        {/* Whether create a group or join one */}
+        <button className="new-hub-button" onClick={handleOpenNewGroup}>
+          New Group <PlusIcon />
+        </button>
       </div>
     </div>
   );
