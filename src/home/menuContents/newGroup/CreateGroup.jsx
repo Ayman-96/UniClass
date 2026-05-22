@@ -1,6 +1,16 @@
 import "./CreateGroup.css";
+import { nanoid } from "nanoid";
+import { useState } from "react";
 import { RefreshCw } from "lucide-react";
 function CreateGroup() {
+  const [groupId, setGroupId] = useState("");
+
+  function handleGenerateId(e) {
+    e.preventDefault();
+    const id = nanoid(9).toUpperCase();
+    setGroupId(`GRP-${id.slice(0, 3)}-${id.slice(3, 6)}-${id.slice(6, 9)}`);
+    ("GRP-aaa-bbb");
+  }
   const colorOptions = [
     "#00a86b", // Emerald Green
     "#065f46", // Deep Forest Green
@@ -33,11 +43,11 @@ function CreateGroup() {
         <div className="id-generater">
           <input
             id="groupId"
-            type="text"
+            value={groupId}
             className="groupId-input"
             placeholder="Unique ID"
           />
-          <button className="generate-code-btn">
+          <button className="generate-code-btn" onClick={handleGenerateId}>
             <RefreshCw /> Generate
           </button>
         </div>
