@@ -4,9 +4,13 @@ import JoinGroup from "./JoinGroup";
 import CreateGroup from "./CreateGroup";
 import { Plus, X, KeyRound } from "lucide-react";
 
-function NewGroupForm({ handleOpenNewGroup, dispatch, handleCreateGroup }) {
+function NewGroupForm({
+  dispatch,
+  fillWarning,
+  handleOpenNewGroup,
+  handleCreateGroup,
+}) {
   const [activeTab, setActiveTab] = useState("create");
-
   return (
     <div className="popup-overlay">
       <div className="new-group-popup">
@@ -44,7 +48,7 @@ function NewGroupForm({ handleOpenNewGroup, dispatch, handleCreateGroup }) {
 
         <div className="form-container">
           {activeTab === "create" ? (
-            <CreateGroup dispatch={dispatch} />
+            <CreateGroup dispatch={dispatch} fillWarning={fillWarning} />
           ) : (
             <JoinGroup />
           )}
@@ -63,9 +67,10 @@ function NewGroupForm({ handleOpenNewGroup, dispatch, handleCreateGroup }) {
 
           {activeTab === "create" ? (
             <button
+              type="submit"
               className="perform-group-btn"
               onClick={() => {
-                (handleOpenNewGroup(), handleCreateGroup());
+                handleCreateGroup();
               }}
             >
               Create Group

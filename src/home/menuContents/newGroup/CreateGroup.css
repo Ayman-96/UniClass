@@ -137,3 +137,29 @@
   resize: none;
   min-height: 90px;
 }
+
+/* ── Warning banner ── */
+.group-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #ff6262;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+.group-warning span {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.group-warning svg {
+  width: 16px;
+  height: 16px;
+  color: #820202;
+}

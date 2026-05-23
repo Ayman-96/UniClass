@@ -3,6 +3,7 @@ import { useState, useReducer } from "react";
 import DashboardBody from "./DashboardBody";
 import DashboardHeader from "./DashboardHeader";
 import NewGroupForm from "../newGroup/NewGroupForm";
+import { StorageGroups } from "./StorageGroups";
 const groupsData = {
   groupId: "",
   groupName: "",
@@ -12,13 +13,13 @@ const groupsData = {
   color: "#00a86b",
   description: "",
 };
-const leacture = {
-  id: "111",
-  name: "DB",
-  u: "a",
-  numOfLeactures: "",
-  color: "orange",
-};
+// const leacture = {
+//   id: "111",
+//   name: "DB",
+//   u: "a",
+//   numOfLeactures: "",
+//   color: "orange",
+// };
 function groupReducer(state, action) {
   // state = newGroup
   switch (action.type) {
@@ -42,18 +43,29 @@ function groupReducer(state, action) {
   }
 }
 function UserDashboard() {
-  const [storedGroup, setStoredGroup] = useState([]);
   const [popNewGroup, setPopNewGroup] = useState(false);
+  const [fillWarning, setFillWarning] = useState(false);
+  const [storedGroup, setStoredGroup] = StorageGroups([], "storeGroup");
   const [newGroup, dispatch] = useReducer(groupReducer, groupsData);
   // this  ↑ is state
   function handleOpenNewGroup() {
+    setFillWarning(false);
     setPopNewGroup((prev) => !prev);
   }
   function handleCreateGroup() {
-    setStoredGroup([...storedGroup, newGroup]);
+    if (!newGroup.groupName || !newGroup.groupId || !newGroup.groupRep) {
+      setFillWarning(true);
+      return;
+    } else {
+      if (!newGroup.color) {
+        dispatch({ action: "SET_COLOR", payload: "#00a86b" });
+      }
+      setStoredGroup([...storedGroup, newGroup]);
+      localStorage.setItem("storeGroup", newGroup);
+      handleOpenNewGroup();
+      setFillWarning(false);
+    }
   }
-  console.log(storedGroup);
-
   return (
     <div className="dashboard-page">
       <div className="dashbord-header">
@@ -68,6 +80,7 @@ function UserDashboard() {
         {popNewGroup && (
           <NewGroupForm
             dispatch={dispatch}
+            fillWarning={fillWarning}
             handleCreateGroup={handleCreateGroup}
             handleOpenNewGroup={handleOpenNewGroup}
           />

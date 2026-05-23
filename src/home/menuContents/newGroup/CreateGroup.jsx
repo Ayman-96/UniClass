@@ -1,9 +1,13 @@
 import "./CreateGroup.css";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, InfoIcon } from "lucide-react";
 
-function CreateGroup({ dispatch }) {
+function CreateGroup({ dispatch, fillWarning }) {
+  useEffect(() => {
+    dispatch({ type: "RESET" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [groupId, setGroupId] = useState("");
 
   function handleGenerateId(e) {
@@ -12,7 +16,7 @@ function CreateGroup({ dispatch }) {
     setGroupId(`GRP-${id.slice(0, 3)}-${id.slice(3, 6)}-${id.slice(6, 9)}`);
   }
   useEffect(() => {
-    dispatch({ action: "SET_ID", payload: groupId });
+    dispatch({ type: "SET_ID", payload: groupId });
   }, [dispatch, groupId]);
   const colorOptions = [
     "#00a86b", // Emerald Green
@@ -30,8 +34,9 @@ function CreateGroup({ dispatch }) {
           Group Name
         </label>
         <input
-          id="groupName"
+          required
           type="text"
+          id="groupName"
           className="groupName-input"
           placeholder="e.g. Class Software"
           onChange={(e) => {
@@ -48,13 +53,17 @@ function CreateGroup({ dispatch }) {
 
         <div className="id-generater">
           <input
+            required
             id="groupId"
             value={groupId}
-            className="groupId-input"
-            placeholder="Unique ID"
             readOnly={true}
+            placeholder="Unique ID"
+            className="groupId-input"
           />
-          <button className="generate-code-btn" onClick={handleGenerateId}>
+          <button
+            className="generate-code-btn"
+            onClick={(e) => handleGenerateId(e)}
+          >
             <RefreshCw /> Generate
           </button>
         </div>
@@ -66,8 +75,9 @@ function CreateGroup({ dispatch }) {
           Group Representative
         </label>
         <input
-          id="groupRep"
+          required
           type="text"
+          id="groupRep"
           className="groupName-input"
           placeholder="Representative Name"
           onChange={(e) => {
@@ -98,13 +108,25 @@ function CreateGroup({ dispatch }) {
           Description <span>(optional)</span>
         </label>
         <input
-          id="groupDesc"
           type="text"
+          id="groupDesc"
           className="groupDesc-input"
           placeholder="Describe the group"
         />
       </div>
+      {fillWarning && <RequiredWarning />}
     </form>
+  );
+}
+function RequiredWarning() {
+  console.log("RUNED");
+  return (
+    <div className="group-warning">
+      <span>
+        <InfoIcon />
+      </span>{" "}
+      Please Fill All the Required Fills
+    </div>
   );
 }
 export default CreateGroup;
