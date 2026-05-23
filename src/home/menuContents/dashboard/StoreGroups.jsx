@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 // key = name of the value to store
 //initialState = the very first value, like [] or avatar[0]
-export function StorageGroups(initialState, key) {
+export function StoreGroups(initialState, key) {
   const [value, setValue] = useState(() => {
     const storedValue = localStorage.getItem(key);
     return storedValue ? JSON.parse(storedValue) : initialState; // now its parsed and stored in {value}

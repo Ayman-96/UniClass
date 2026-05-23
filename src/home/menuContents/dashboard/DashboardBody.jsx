@@ -1,11 +1,13 @@
+import { Link } from "react-router-dom";
 import "./DashboardBody.css";
 import { Users } from "lucide-react";
-function DashboardBody({ storedGroup }) {
+function DashboardBody({ storedGroups }) {
   return (
     <div className="groups">
-      {storedGroup.map((group) => {
+      {storedGroups.map((group) => {
         return (
-          <div
+          <Link
+            to={`/home/group/${group.groupId}`}
             key={group.groupId}
             className="group-card"
             style={{ boxShadow: `inset 0 4px 0 0 ${group.color}` }}
@@ -43,7 +45,7 @@ function DashboardBody({ storedGroup }) {
               <p className="num-of-lecs"># Leactures : {group.numOfMembers}</p>
               <div className="group-news">ex: new Leacture</div>
             </div>
-          </div>
+          </Link>
         );
       })}
     </div>

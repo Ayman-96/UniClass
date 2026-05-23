@@ -3,7 +3,7 @@ import { useState, useReducer } from "react";
 import DashboardBody from "./DashboardBody";
 import DashboardHeader from "./DashboardHeader";
 import NewGroupForm from "../newGroup/NewGroupForm";
-import { StorageGroups } from "./StorageGroups";
+import { StoreGroups } from "./StoreGroups";
 const groupsData = {
   groupId: "",
   groupName: "",
@@ -45,7 +45,8 @@ function groupReducer(state, action) {
 function UserDashboard() {
   const [popNewGroup, setPopNewGroup] = useState(false);
   const [fillWarning, setFillWarning] = useState(false);
-  const [storedGroup, setStoredGroup] = StorageGroups([], "storeGroup");
+  const [storedGroups, setStoredGroups] = StoreGroups([], "storeGroup");
+
   const [newGroup, dispatch] = useReducer(groupReducer, groupsData);
   // this  ↑ is state
   function handleOpenNewGroup() {
@@ -60,7 +61,7 @@ function UserDashboard() {
       if (!newGroup.color) {
         dispatch({ action: "SET_COLOR", payload: "#00a86b" });
       }
-      setStoredGroup([...storedGroup, newGroup]);
+      setStoredGroups([...storedGroups, newGroup]);
       localStorage.setItem("storeGroup", newGroup);
       handleOpenNewGroup();
       setFillWarning(false);
@@ -73,7 +74,7 @@ function UserDashboard() {
       </div>
 
       <div className="dashbord-body">
-        <DashboardBody storedGroup={storedGroup} />
+        <DashboardBody storedGroups={storedGroups} />
       </div>
 
       <div className="open-group-form">
