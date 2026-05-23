@@ -1,12 +1,12 @@
 import "./DashboardBody.css";
 import { Users } from "lucide-react";
-function DashboardBody({ groups }) {
+function DashboardBody({ storedGroup }) {
   return (
     <div className="groups">
-      {groups.map((group) => {
+      {storedGroup.map((group) => {
         return (
           <div
-            key={group.id}
+            key={group.groupId}
             className="group-card"
             style={{ boxShadow: `inset 0 4px 0 0 ${group.color}` }}
           >
@@ -22,9 +22,9 @@ function DashboardBody({ groups }) {
             </div>
 
             <div className="group-title">
-              <p className="group-name">{group.name}</p>
+              <p className="group-name">{group.groupName}</p>
               <p className="rep-name">
-                Representative <span>{group.rep}</span>
+                Representative : <span>{group.groupRep}</span>
               </p>
             </div>
 

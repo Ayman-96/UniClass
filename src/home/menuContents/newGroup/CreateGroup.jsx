@@ -1,16 +1,19 @@
 import "./CreateGroup.css";
 import { nanoid } from "nanoid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
-function CreateGroup() {
+
+function CreateGroup({ dispatch }) {
   const [groupId, setGroupId] = useState("");
 
   function handleGenerateId(e) {
     e.preventDefault();
     const id = nanoid(9).toUpperCase();
     setGroupId(`GRP-${id.slice(0, 3)}-${id.slice(3, 6)}-${id.slice(6, 9)}`);
-    ("GRP-aaa-bbb");
   }
+  useEffect(() => {
+    dispatch({ action: "SET_ID", payload: groupId });
+  }, [dispatch, groupId]);
   const colorOptions = [
     "#00a86b", // Emerald Green
     "#065f46", // Deep Forest Green
@@ -31,6 +34,9 @@ function CreateGroup() {
           type="text"
           className="groupName-input"
           placeholder="e.g. Class Software"
+          onChange={(e) => {
+            dispatch({ type: "SET_NAME", payload: e.target.value });
+          }}
         />
       </div>
 
@@ -46,6 +52,7 @@ function CreateGroup() {
             value={groupId}
             className="groupId-input"
             placeholder="Unique ID"
+            readOnly={true}
           />
           <button className="generate-code-btn" onClick={handleGenerateId}>
             <RefreshCw /> Generate
@@ -53,7 +60,7 @@ function CreateGroup() {
         </div>
       </div>
 
-      {/* Group Name*/}
+      {/* Group Rep*/}
       <div className="set-group-rep">
         <label htmlFor="groupRep" className="groupRep-label">
           Group Representative
@@ -63,6 +70,9 @@ function CreateGroup() {
           type="text"
           className="groupName-input"
           placeholder="Representative Name"
+          onChange={(e) => {
+            dispatch({ type: "SET_REP", payload: e.target.value });
+          }}
         />
       </div>
 
@@ -71,8 +81,12 @@ function CreateGroup() {
         {colorOptions.map((color) => {
           return (
             <div
+              key={color}
               className="color-placeHolder"
               style={{ backgroundColor: color }}
+              onClick={() => {
+                dispatch({ type: "SET_COLOR", payload: color });
+              }}
             ></div>
           );
         })}
