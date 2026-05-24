@@ -1,5 +1,7 @@
 import "./GroupBar.css";
+import { useGroups } from "../../hooks/useGroups";
 import { NavLink, useParams } from "react-router-dom";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 import { BookOpen, MessageSquareText, Users, Megaphone } from "lucide-react";
 
 const groupSections = [
@@ -25,16 +27,24 @@ const groupSections = [
   },
 ];
 function GroupSideBar() {
-  const setOfGroups = JSON.parse(localStorage.getItem("storeGroup"));
+  // const setOfGroups = JSON.parse(localStorage.getItem("storeGroup"));
+  // const { groupId } = useParams();
+  // const specifiedGroup = setOfGroups.find(
+  //   (group) => group.group_code === groupId,
+  // );
+  const { data: storedGroups, isLoading, isError } = useGroups();
   const { groupId } = useParams();
-  const specifiedGroup = setOfGroups.find((group) => group.groupId === groupId);
-
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <div>Something went wrong</div>;
+  const specifiedGroup = storedGroups.find(
+    (group) => group.group_code === groupId,
+  );
   return (
     <nav className="group-nav">
       <div className="group-nav-header">
-        <div className="group-logo">{specifiedGroup.groupName.slice(0, 2)}</div>
-        <div className="group-nav-name">{specifiedGroup.groupName}</div>
-        <div className="group-nav-code">{specifiedGroup.groupId}</div>
+        <div className="group-logo">{specifiedGroup.name.slice(0, 2)}</div>
+        <div className="group-nav-name">{specifiedGroup.name}</div>
+        <div className="group-nav-code">{specifiedGroup.group_code}</div>
       </div>
 
       <div className="group-nav-body">

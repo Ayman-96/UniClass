@@ -38,11 +38,15 @@ export function useAddGroup() {
     },
     // TanStack Query automatically updates UI
     onSuccess: () => {
-      queryClient.invalidateQueries(["groups"]);
+      queryClient.invalidateQueries({ queryKey: ["groups"] });
     },
     // “after adding a group, refetch the groups list”
     // Because the cached "groups" data is now outdated.
     // Without this: UI would still show old groups
+    onError: (error) => {
+      console.error("Failed to create group:", error.message);
+      // later you can show a toast notification here
+    },
   });
 }
 ///////////////////

@@ -1,9 +1,9 @@
 import "./UserDashboard.css";
-import { useState, useReducer } from "react";
 import DashboardBody from "./DashboardBody";
+import { useState, useReducer } from "react";
 import DashboardHeader from "./DashboardHeader";
 import NewGroupForm from "../newGroup/NewGroupForm";
-import { StoreGroups } from "./StoreGroups";
+import { useGroups, useAddGroup } from "../../../hooks/useGroups";
 const groupsData = {
   groupId: "",
   groupName: "",
@@ -13,13 +13,7 @@ const groupsData = {
   color: "#00a86b",
   description: "",
 };
-// const leacture = {
-//   id: "111",
-//   name: "DB",
-//   u: "a",
-//   numOfLeactures: "",
-//   color: "orange",
-// };
+
 function groupReducer(state, action) {
   // state = newGroup
   switch (action.type) {
@@ -45,8 +39,9 @@ function groupReducer(state, action) {
 function UserDashboard() {
   const [popNewGroup, setPopNewGroup] = useState(false);
   const [fillWarning, setFillWarning] = useState(false);
-  const [storedGroups, setStoredGroups] = StoreGroups([], "storeGroup");
-
+  // const [storedGroups, setStoredGroups] = StoreGroups([], "storeGroup");
+  const { data: storedGroups, isLoading, isError } = useGroups();
+  const { mutate: addGroup } = useAddGroup();
   const [newGroup, dispatch] = useReducer(groupReducer, groupsData);
   // this  ↑ is state
   function handleOpenNewGroup() {
@@ -57,16 +52,22 @@ function UserDashboard() {
     if (!newGroup.groupName || !newGroup.groupId || !newGroup.groupRep) {
       setFillWarning(true);
       return;
-    } else {
-      if (!newGroup.color) {
-        dispatch({ action: "SET_COLOR", payload: "#00a86b" });
-      }
-      setStoredGroups([...storedGroups, newGroup]);
-      localStorage.setItem("storeGroup", newGroup);
-      handleOpenNewGroup();
-      setFillWarning(false);
     }
+    addGroup({
+      name: newGroup.groupName,
+      group_code: newGroup.groupId,
+      description: newGroup.description,
+      color: newGroup.color,
+      rep_id: null,
+    });
+    // setStoredGroups([...storedGroups, newGroup]); replaced by addGroup(...) which saves to Supabase
+    // localStorage.setItem("storeGroup", newGroup);  Supabase is the storage now,
+    setFillWarning(false);
+    dispatch({ type: "RESET" });
+    handleOpenNewGroup();
   }
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Something went wrong</div>;
   return (
     <div className="dashboard-page">
       <div className="dashbord-header">

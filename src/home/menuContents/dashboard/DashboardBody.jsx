@@ -5,10 +5,11 @@ function DashboardBody({ storedGroups }) {
   return (
     <div className="groups">
       {storedGroups.map((group) => {
+        console.log(group.group_code);
         return (
           <Link
-            to={`/home/group/${group.groupId}`}
-            key={group.groupId}
+            to={`/home/group/${group.group_code}`}
+            key={group.group_code}
             className="group-card"
             style={{ boxShadow: `inset 0 4px 0 0 ${group.color}` }}
           >
@@ -24,15 +25,15 @@ function DashboardBody({ storedGroups }) {
             </div>
 
             <div className="group-title">
-              <p className="group-name">{group.groupName}</p>
+              <p className="group-name">{group.name}</p>
               <p className="rep-name">
-                Representative : <span>{group.groupRep}</span>
+                Representative : <span>{group.rep_name}</span>
               </p>
             </div>
 
             <div className="group-roster-summary">
               <div className="member-count-row">
-                <Users size={16} /> <span>33 members</span>
+                <Users size={16} /> <span>{group.members_count} members</span>
               </div>
               <div className="courses-count-row">
                 <span>4 Courses</span>
@@ -42,7 +43,7 @@ function DashboardBody({ storedGroups }) {
             </div>
 
             <div className="group-subtitle">
-              <p className="num-of-lecs"># Leactures : {group.numOfMembers}</p>
+              <p className="num-of-lecs"># Leactures : {group.members_count}</p>
               <div className="group-news">ex: new Leacture</div>
             </div>
           </Link>
