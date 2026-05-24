@@ -1,10 +1,12 @@
+import { Outlet } from "react-router-dom";
 import GroupSideBar from "./GroupBar";
-function GroupPage() {
+function GroupWorkspace() {
   return (
     <div className="group-page">
       <GroupSideBar />
+      <Outlet />
     </div>
   );
 }
 
-export default GroupPage;
+export default GroupWorkspace;
