@@ -27,6 +27,7 @@
   position: relative;
   overflow: hidden; /* Mask ensures inner inline shadow/background doesn't leak behind corners */
   box-sizing: border-box;
+  text-decoration: none;
   transition:
     transform 0.22s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.22s ease;

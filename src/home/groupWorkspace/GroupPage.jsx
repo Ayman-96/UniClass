@@ -1,8 +1,10 @@
-import { useParams } from "react-router-dom";
+import GroupSideBar from "./GroupBar";
 function GroupPage() {
-  const setOfGroups = JSON.parse(localStorage.getItem("storeGroup"));
-  const { groupId } = useParams();
-  const specifiedGroup = setOfGroups.find((group) => group.groupId === groupId);
-  return <div className="group-page">{specifiedGroup.groupName}</div>;
+  return (
+    <div className="group-page">
+      <GroupSideBar />
+    </div>
+  );
 }
+
 export default GroupPage;

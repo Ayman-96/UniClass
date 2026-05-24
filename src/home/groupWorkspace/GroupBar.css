@@ -1,0 +1,178 @@
+/* ── Group Nav ── */
+.group-nav {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 200px;
+  transform: translateX(-80%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  background: #edeade;
+  border-right: 0.5px solid #d6d9d0;
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.group-nav:hover {
+  transform: translateX(0);
+}
+
+/* ── Header ── */
+.group-nav-header {
+  padding: 16px 14px;
+  border-bottom: 0.5px solid #d6d9d0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.group-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #c8ede0;
+  color: #0f6e56;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.group-nav-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1f1c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-nav-code {
+  font-size: 10px;
+  color: #7a8078;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Body / Nav links ── */
+.group-nav-body {
+  flex: 1;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.groupNav-link {
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.groupNav-link-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #4a4f4c;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.groupNav-link-left > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.groupNav-link-left svg,
+.groupNav-link-left i {
+  font-size: 17px;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: #4a4f4c;
+}
+
+.groupNav-link-count {
+  font-size: 11px;
+  color: #7a8078;
+}
+
+.groupNav-link:hover .groupNav-link-left {
+  background: #e2e5dd;
+  color: #1a1f1c;
+}
+
+.groupNav-link:hover .groupNav-link-left svg,
+.groupNav-link:hover .groupNav-link-left i {
+  color: #1a1f1c;
+}
+
+/* Active — white card, green text, like your screenshot */
+.groupNav-link.active .groupNav-link-left {
+  background: #ffffff;
+  color: #0f6e56;
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+.groupNav-link.active .groupNav-link-left svg,
+.groupNav-link.active .groupNav-link-left i {
+  color: #0f6e56;
+}
+
+.groupNav-link.active .groupNav-link-count {
+  color: #0f6e56;
+}
+
+/* ── Footer / Rep ── */
+.link-to-rep-acc {
+  padding: 12px 14px;
+  border-top: 0.5px solid #d6d9d0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.rep-acc-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #c8ede0;
+  color: #0f6e56;
+  font-size: 9px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.refer-to-rep {
+  font-size: 10px;
+  color: #0f6e56;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.refer-to-rep span {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: #1a1f1c;
+  margin-top: 1px;
+}
+
+/* ── Outlet wrapper ── */
+/* Make sure your outlet has: position: relative; overflow: hidden; */
