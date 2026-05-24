@@ -4,6 +4,7 @@ import { useState, useReducer } from "react";
 import DashboardHeader from "./DashboardHeader";
 import NewGroupForm from "../newGroup/NewGroupForm";
 import { useGroups, useAddGroup } from "../../../hooks/useGroups";
+import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
 const groupsData = {
   groupId: "",
   groupName: "",
@@ -66,7 +67,7 @@ function UserDashboard() {
     dispatch({ type: "RESET" });
     handleOpenNewGroup();
   }
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Something went wrong</div>;
   return (
     <div className="dashboard-page">

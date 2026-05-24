@@ -2,11 +2,9 @@ import "./Homepage.css";
 import SideNav from "./SideNav";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-
 import { Menu, X, Search, Bell, Settings } from "lucide-react";
-
 function Homepage() {
-  const [isOpenSideBar, setIsOpenSideBar] = useState(true);
+  const [isOpenSideBar, setIsOpenSideBar] = useState(false);
 
   return (
     <div

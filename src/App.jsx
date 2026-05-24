@@ -1,7 +1,7 @@
 import "./App.css";
 import Homepage from "./home/Homepage";
 import Welcome from "./welcomePage/Welcome";
-import GroupPage from "./home/groupWorkspace/GroupPage";
+import GroupWorkSpace from "./home/groupWorkspace/GroupWorkSpace";
 import { Route, Routes } from "react-router-dom";
 import GroupPostsPage from "./home/groupWorkspace/GroupPostsPage";
 import GroupCoursesPage from "./home/groupWorkspace/GroupCoursesPage";
@@ -20,7 +20,8 @@ function App() {
           <Route path="notifications" element={<UserDashboard />} />
           <Route path="classmates" element={<UserDashboard />} />
 
-          <Route path="group/:groupId" element={<GroupPage />}>
+          <Route path="group/:groupId" element={<GroupWorkSpace />}>
+            <Route index element={<GroupCoursesPage />} />
             <Route path="courses" element={<GroupCoursesPage />} />
             <Route path="posts" element={<GroupPostsPage />} />
             <Route path="members" element={<GroupMembersPage />} />
