@@ -1,7 +1,7 @@
 import "./GroupBar.css";
-import { useGroups } from "../../hooks/useGroups";
+import { useGroups } from "../../../hooks/useGroups";
 import { NavLink, useParams } from "react-router-dom";
-import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
 import { BookOpen, MessageSquareText, Users, Megaphone } from "lucide-react";
 
 const groupSections = [
