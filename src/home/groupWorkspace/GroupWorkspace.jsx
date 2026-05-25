@@ -1,5 +1,5 @@
 import "./GroupWorkspace.css";
-import GroupSideBar from "./groupSections/GroupBar";
+import GroupSideBar from "./groupSections/GroupSideBar";
 import { Outlet } from "react-router-dom";
 
 function GroupWorkspace() {

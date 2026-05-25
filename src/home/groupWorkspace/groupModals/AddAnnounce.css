@@ -1,0 +1,299 @@
+.add-post-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.add-post-modal {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+/* --- Header Section --- */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.modal-header div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.modal-header div svg {
+  color: #d97706;
+  width: 20px;
+  height: 20px;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: #8e8e93;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.close-modal:hover {
+  background-color: #f5f5f5;
+}
+
+.close-modal svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- Modal Body --- */
+.post-modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+/* Representative Banner info */
+.rep-info {
+  display: flex;
+  align-items: center;
+}
+
+.rep-pro-pic {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 14px;
+  background-color: #faeeda;
+  color: #d97706;
+}
+
+.rep-name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rep-name p:first-child {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.rep-name p:last-child {
+  margin: 0;
+  font-size: 13px;
+  color: #b45309;
+  font-weight: 500;
+}
+
+/* Form inputs & Typography mapping labels */
+.add-announce-details,
+.add-announcement-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.add-announce-details label,
+.add-announcement-details label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2d2d2d;
+}
+
+/* Single line Textarea for title */
+.announcement-title {
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  padding: 10px 14px;
+  background-color: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #2d2d2d;
+  font-family: inherit;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  line-height: 22px;
+  transition: border-color 0.2s;
+}
+
+/* Multi-line Content input */
+.announcement-content {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 14px;
+  background-color: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #2d2d2d;
+  font-family: inherit;
+  line-height: 1.5;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.announcement-title:focus,
+.announcement-content:focus {
+  border-color: #d97706;
+}
+
+.announcement-title::placeholder,
+.announcement-content::placeholder {
+  color: #8e8e93;
+}
+
+.announce-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Gold Warning Banner Box */
+.announce-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #faeeda;
+  color: #b45309;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.announce-hint span svg {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  color: #d97706;
+}
+
+/* --- Footer Setup --- */
+.announcement-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-top: 1px solid #eaeaea;
+  background-color: #ffffff;
+}
+
+/* Attachments container */
+.attach-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* Individual File & Link action elements */
+.add-attach {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  color: #2d2d2d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.add-attach:hover {
+  background-color: #faeeda;
+}
+
+.add-attach svg {
+  width: 16px;
+  height: 16px;
+  color: #2d2d2d;
+}
+
+/* Navigation actions wrapper */
+.announce-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+/* Cancel Button style mapping */
+.announce-buttons button:first-child {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.announce-buttons button:first-child:hover {
+  background-color: #f5f5f5;
+}
+
+/* Post Button style mapping */
+.announce-buttons button:last-child {
+  background-color: #d97706;
+  border: 1px solid #eaeaea;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  color: #ffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.announce-buttons button:last-child:hover {
+  background-color: #d97706;
+  color: #ffffff;
+  border-color: #d97706;
+}
+
+.announce-buttons button:last-child svg {
+  width: 16px;
+  height: 16px;
+}

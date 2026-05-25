@@ -1,5 +1,5 @@
-import "./GroupPageHeader.css";
-function GroupPageHeader({
+import "./GroupWorkspaceHeader.css";
+function GroupWorkspaceHeader({
   titleIcon,
   title,
   btnIcon,
@@ -17,4 +17,4 @@ function GroupPageHeader({
     </div>
   );
 }
-export default GroupPageHeader;
+export default GroupWorkspaceHeader;

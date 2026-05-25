@@ -1,13 +1,13 @@
 import "./App.css";
 import Homepage from "./home/Homepage";
 import Welcome from "./welcomePage/Welcome";
-import GroupWorkSpace from "./home/groupWorkspace/GroupWorkSpace";
 import { Route, Routes } from "react-router-dom";
-import GroupPostsPage from "./home/groupWorkspace/GroupPostsPage";
-import GroupCoursesPage from "./home/groupWorkspace/GroupCoursesPage";
-import GroupMembersPage from "./home/groupWorkspace/GroupMembersPage";
+import GroupWorkSpace from "./home/groupWorkspace/GroupWorkspace";
 import UserDashboard from "./home/menuContents/dashboard/UserDashboard";
-import GroupAnnouncementsPage from "./home/groupWorkspace/GroupAnnouncementsPage";
+import GroupPostsPage from "./home/groupWorkspace/groupSections/GroupPostsPage";
+import GroupCoursesPage from "./home/groupWorkspace/groupSections/GroupCoursesPage";
+import GroupMembersPage from "./home/groupWorkspace/groupSections/GroupMembersPage";
+import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/GroupAnnouncementsPage";
 function App() {
   return (
     <div>

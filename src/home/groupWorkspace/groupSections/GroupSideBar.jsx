@@ -1,4 +1,4 @@
-import "./GroupBar.css";
+import "./GroupSideBar.css";
 import { useGroups } from "../../../hooks/useGroups";
 import { NavLink, useParams } from "react-router-dom";
 import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";

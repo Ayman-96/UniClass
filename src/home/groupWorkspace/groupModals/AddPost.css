@@ -1,0 +1,315 @@
+/* AddPost.css */
+
+/* ── Overlay ── */
+.add-post-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Crucial support for Safari browsers */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+/* ── Modal ── */
+.add-post-modal {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 620px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+.post-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 0.5px solid #e5e4df;
+}
+
+.post-modal-header div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1916;
+}
+
+.post-modal-header div svg {
+  width: 20px;
+  height: 20px;
+  color: #3a86ff;
+}
+
+.close-modal {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 0.5px solid #e5e4df;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f5e5a;
+}
+.close-modal:hover {
+  background: #f4f3ef;
+}
+.close-modal svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ── Body ── */
+.post-modal-body {
+  padding: 18px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Author row */
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-pro-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ebf3ff;
+  color: #3a86ff;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.author-name p:first-child {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1916;
+  margin: 0 0 2px;
+}
+
+.author-name p:last-child {
+  font-size: 12px;
+  color: #888780;
+  margin: 0;
+}
+
+.author-name p:last-child span {
+  color: #1a9e6e;
+  font-weight: 500;
+}
+
+/* Text area */
+.post-text-area {
+  width: 100%;
+}
+
+/* Container spacing to mimic the exact layout gap */
+.post-text-area {
+  width: 100%;
+  margin-top: 16px;
+  position: relative;
+}
+
+/* The Exact Textarea Styling */
+.post-text-area textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 16px;
+  background-color: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #2d2d2d;
+  font-family: inherit;
+  line-height: 1.5;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Gray placeholder text styling */
+.post-text-area textarea::placeholder {
+  color: #8e8e93;
+  font-weight: 400;
+}
+
+/* Focused state applying the UniClass primary green signature hue */
+.post-text-area textarea:focus {
+  border-color: #0d684d; /* Elegant emerald green theme tone */
+  box-shadow: 0 0 0 3px rgba(13, 104, 77, 0.08); /* Soft glow matching modern input states */
+}
+/* char count under textarea */
+.post-char-count {
+  text-align: right;
+  font-size: 12px;
+  color: #b4b2a9;
+  margin-top: 6px;
+}
+
+/* ── Attachments ── */
+.post-attachments-area {
+  padding: 0 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Image upload zone */
+.post-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px 20px;
+  border-radius: 10px;
+  border: 1.5px dashed #d3d1c7;
+  background: #edeade;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.post-img:hover {
+  border-color: #1a9e6e;
+  background: #f0fdf4;
+}
+
+.post-img svg {
+  width: 28px;
+  height: 28px;
+  color: #888780;
+}
+
+.post-img p:first-of-type {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1916;
+  margin: 0;
+}
+
+.post-img p:last-of-type {
+  font-size: 12px;
+  color: #888780;
+  margin: 0;
+}
+
+/* Divider */
+.post-hr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #b4b2a9;
+  gap: 6px;
+}
+
+/* Attachment buttons row */
+.post-attachments {
+  display: flex;
+  gap: 10px;
+}
+
+.post-attachments button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 38px;
+  border-radius: 9px;
+  border: 0.5px solid #e5e4df;
+  background: transparent;
+  font-size: 13px;
+  color: #5f5e5a;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.post-attachments button:hover {
+  background: #f4f3ef;
+  color: #1a1916;
+}
+.post-attachments button svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ── Footer ── */
+.post-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 0.5px solid #e5e4df;
+}
+
+.count-char {
+  font-size: 12px;
+  color: #b4b2a9;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.cancel-post-btn {
+  height: 36px;
+  padding: 0 18px;
+  border-radius: 9px;
+  border: 0.5px solid #e5e4df;
+  background: transparent;
+  font-size: 13px;
+  color: #5f5e5a;
+  cursor: pointer;
+  font-family: inherit;
+}
+.cancel-post-btn:hover {
+  background: #f4f3ef;
+}
+
+.publish-post-btn {
+  height: 36px;
+  padding: 0 18px;
+  border-radius: 9px;
+  border: none;
+  background: #3a86ff;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+.publish-post-btn:hover {
+  background: #0f6e3f;
+}
+.publish-post-btn svg {
+  width: 15px;
+  height: 15px;
+}
