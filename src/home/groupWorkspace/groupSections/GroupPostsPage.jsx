@@ -12,7 +12,6 @@ function GroupPostsPage() {
   const [postModal, setPostModal] = useState(false);
   const { data: storedPosts, isLoading, isError } = usePosts(groupId);
 
-  console.log(storedPosts);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Something went Wrong...! *(</div>;
 

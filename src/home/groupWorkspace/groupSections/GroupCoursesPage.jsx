@@ -15,7 +15,7 @@ function GroupCoursesPage() {
   const { data: storedCourses, isLoading, isError } = useCourses(groupId);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Something went Wrong...! *(</div>;
-  console.log(storedCourses);
+
   function handleCourseModal() {
     setCourseModal((prev) => !prev);
   }
