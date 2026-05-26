@@ -18,3 +18,10 @@ export const courseIcons = [
   <SquarePi />,
   <Earth />,
 ];
+// export const courseIcons = [
+//   { name: "Database", component: <Database /> },
+//   { name: "CodeXml", component: <CodeXml /> },
+//   { name: "Cpu", component: <Cpu /> },
+//   { name: "SquarePi", component: <SquarePi /> },
+//   { name: "Earth", component: <Earth /> },
+// ];

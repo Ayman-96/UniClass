@@ -36,9 +36,7 @@ function GroupSideBar() {
   const { groupId } = useParams();
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Something went wrong</div>;
-  const specifiedGroup = storedGroups.find(
-    (group) => group.group_code === groupId,
-  );
+  const specifiedGroup = storedGroups.find((group) => group.id === groupId);
   return (
     <nav className="group-nav">
       <div className="group-nav-header">

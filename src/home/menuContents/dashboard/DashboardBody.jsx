@@ -8,7 +8,7 @@ function DashboardBody({ storedGroups }) {
         console.log(group.group_code);
         return (
           <Link
-            to={`/home/group/${group.group_code}`}
+            to={`/home/group/${group.id}`}
             key={group.group_code}
             className="group-card"
             style={{ boxShadow: `inset 0 4px 0 0 ${group.color}` }}

@@ -4,8 +4,81 @@ import {
   seasons,
   courseIcons,
 } from "../../../data/addCourseData";
-import { BookOpen, X, Info, LayersPlus } from "lucide-react";
+import {
+  BookOpen,
+  X,
+  Info,
+  LayersPlus,
+  InfoIcon,
+  LibraryBig,
+} from "lucide-react";
+import { useEffect, useReducer, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useAddCourse } from "../../../hooks/useCourses";
+const courseData = {
+  id: "",
+  name: "",
+  lecturer: "",
+  color: "#1a9e6e",
+  description: "",
+  season: "fall",
+  year: new Date().getFullYear().toString(),
+  icon: "LibraryBig",
+};
+function courseReducer(state, action) {
+  switch (action.type) {
+    case "SET_NAME":
+      return { ...state, name: action.payload };
+    case "SET_LECTURER":
+      return { ...state, lecturer: action.payload };
+    case "SET_COLOR":
+      return { ...state, color: action.payload };
+    case "SET_DESC":
+      return { ...state, description: action.payload };
+    case "SET_SEASON":
+      return { ...state, season: action.payload };
+    case "SET_YEAR":
+      return { ...state, year: action.payload };
+    case "SET_ICON":
+      return { ...state, icon: action.payload };
+    case "RESET":
+      return courseData;
+
+    default:
+      return state;
+  }
+}
 function AddCourse({ handleCourseModal }) {
+  const { groupId } = useParams();
+  console.log(groupId);
+  const [newCourse, dispatch] = useReducer(courseReducer, courseData);
+  const { mutate: addCourse } = useAddCourse();
+  // For Requirment Filling
+  const [fillWarning, setFillWarning] = useState(false);
+
+  function handleSubmit() {
+    if (!newCourse.name || !newCourse.lecturer) {
+      setFillWarning(true);
+      return;
+    }
+    addCourse({
+      group_id: groupId,
+      name: newCourse.name,
+      lecturer: newCourse.lecturer,
+      color: newCourse.color,
+      description: newCourse.description,
+      season: newCourse.season,
+      year: newCourse.year,
+      icon: newCourse.icon,
+    });
+    dispatch({ type: "RESET" });
+    handleCourseModal();
+  }
+
+  useEffect(() => {
+    dispatch({ type: "RESET" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="add-course-overlay">
       <div className="add-course-modal">
@@ -13,7 +86,13 @@ function AddCourse({ handleCourseModal }) {
           <div>
             <BookOpen /> <span>Add New Course</span>
           </div>
-          <button className="close-modal" onClick={handleCourseModal}>
+          <button
+            className="close-modal"
+            onClick={() => {
+              handleCourseModal();
+              dispatch({ type: "RESET" });
+            }}
+          >
             <X />
           </button>
         </div>
@@ -28,10 +107,13 @@ function AddCourse({ handleCourseModal }) {
               id="courseName"
               className="course-input"
               placeholder="e.g. Database Systems"
+              onChange={(e) => {
+                dispatch({ type: "SET_NAME", payload: e.target.value });
+              }}
             />
           </div>
 
-          {/* Course Name */}
+          {/* Lecturer Name */}
           <div className="add-course-details">
             <label htmlFor="lecturerName">Lecturer Name</label>
             <input
@@ -40,6 +122,9 @@ function AddCourse({ handleCourseModal }) {
               id="lecturerName"
               className="course-input"
               placeholder="e.g. Dr. Him/Her"
+              onChange={(e) => {
+                dispatch({ type: "SET_LECTURER", payload: e.target.value });
+              }}
             />
           </div>
 
@@ -48,7 +133,13 @@ function AddCourse({ handleCourseModal }) {
             <div className="course-season">
               <div>
                 <label htmlFor="courseSeason">Season</label>
-                <select name="season" id="season">
+                <select
+                  name="season"
+                  id="season"
+                  onChange={(e) => {
+                    dispatch({ type: "SET_SEASON", payload: e.target.value });
+                  }}
+                >
                   {seasons.map((season) => {
                     return (
                       <option key={season} value={season}>
@@ -63,11 +154,13 @@ function AddCourse({ handleCourseModal }) {
             <div>
               <label htmlFor="courseYear">Year</label>
               <input
-                required
                 type="number"
                 id="courseYear"
                 className="course-input"
                 placeholder="e.g. 2025"
+                onChange={(e) => {
+                  dispatch({ type: "SET_YEAR", payload: e.target.value });
+                }}
               />
             </div>
           </div>
@@ -77,7 +170,13 @@ function AddCourse({ handleCourseModal }) {
             <div className="course-icon">
               {courseIcons.map((icon, i) => {
                 return (
-                  <div key={i} className="icon-opt">
+                  <div
+                    key={i}
+                    className="icon-opt"
+                    onClick={() =>
+                      dispatch({ type: "SET_ICON", payload: icon })
+                    }
+                  >
                     {icon}
                   </div>
                 );
@@ -95,6 +194,9 @@ function AddCourse({ handleCourseModal }) {
                     key={color}
                     className="color-placeHolder"
                     style={{ backgroundColor: color }}
+                    onClick={() =>
+                      dispatch({ type: "SET_COLOR", payload: color })
+                    }
                   ></div>
                 );
               })}
@@ -123,16 +225,40 @@ function AddCourse({ handleCourseModal }) {
           </div>
         </div>
 
+        {fillWarning && <RequiredWarning />}
+
         <div className="course-modal-footer">
-          <button className="cancel-course" onClick={handleCourseModal}>
+          <button
+            className="cancel-course"
+            onClick={() => {
+              handleCourseModal;
+              dispatch({ type: "RESET" });
+            }}
+          >
             Cancel
           </button>
-          <button className="add-course-button">
+          <button
+            className="add-course-button"
+            onClick={() => {
+              handleSubmit();
+              dispatch({ type: "RESET" });
+            }}
+          >
             <LayersPlus size={18} />
             Add Course
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+function RequiredWarning() {
+  return (
+    <div className="group-warning">
+      <span>
+        <InfoIcon />
+      </span>{" "}
+      Please Fill All the Required Fills
     </div>
   );
 }

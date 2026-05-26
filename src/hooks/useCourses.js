@@ -19,6 +19,7 @@ export function useAddCourse() {
 
   return useMutation({
     mutationFn: async (newCourse) => {
+      // I passed addCourse here from AddCourse.jsx
       const { data, error } = await supabase
         .from("courses") // go to the "courses" table
         .insert(newCourse) // INSERT this object as a new row
