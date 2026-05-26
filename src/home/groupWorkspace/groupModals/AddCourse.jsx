@@ -4,16 +4,10 @@ import {
   seasons,
   courseIcons,
 } from "../../../data/addCourseData";
-import {
-  BookOpen,
-  X,
-  Info,
-  LayersPlus,
-  InfoIcon,
-  LibraryBig,
-} from "lucide-react";
-import { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
+import RequiredWarning from "./RequiredWarning";
+import { useEffect, useReducer, useState } from "react";
+import { BookOpen, X, Info, LayersPlus } from "lucide-react";
 import { useAddCourse } from "../../../hooks/useCourses";
 const courseData = {
   id: "",
@@ -252,14 +246,5 @@ function AddCourse({ handleCourseModal }) {
     </div>
   );
 }
-function RequiredWarning() {
-  return (
-    <div className="group-warning">
-      <span>
-        <InfoIcon />
-      </span>{" "}
-      Please Fill All the Required Fills
-    </div>
-  );
-}
+
 export default AddCourse;

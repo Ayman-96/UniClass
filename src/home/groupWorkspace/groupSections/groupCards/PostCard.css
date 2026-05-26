@@ -1,0 +1,203 @@
+/* PostCard.css */
+
+.post-overylay {
+  width: 100%;
+}
+
+/* ── Card ── */
+.post-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e4df;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+/* ── Header ── */
+.post-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  position: relative;
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.author-pro-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e1f5ee;
+  color: #0f6e3f;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.author-name p:first-child {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1916;
+  margin: 0 0 2px;
+}
+
+.author-name p:last-child {
+  font-size: 12px;
+  color: #888780;
+  margin: 0;
+}
+
+.author-name p:last-child span {
+  color: #888780;
+}
+
+.post-setting {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 0.5px solid #e5e4df;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f5e5a;
+  font-size: 14px;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+.post-setting:hover {
+  background: #f4f3ef;
+}
+
+/* ── Delete confirm ── */
+.delete-confirm-row {
+  position: absolute;
+  top: 44px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 0.5px solid #e5e4df;
+  border-radius: 9px;
+  padding: 6px 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.confirm-yes {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #fee2e2;
+  color: #dc2626;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+}
+.confirm-yes:hover {
+  background: #fecaca;
+}
+.confirm-yes:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.confirm-no {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 0.5px solid #e5e4df;
+  background: transparent;
+  color: #888780;
+  cursor: pointer;
+  font-family: inherit;
+}
+.confirm-no:hover {
+  background: #f4f3ef;
+}
+
+/* ── Body ── */
+.post-body {
+  padding: 0 16px 12px;
+}
+
+.post-content {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #1a1916;
+  margin: 0 0 10px;
+}
+
+.post-img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  max-height: 300px;
+  border: 0.5px solid #e5e4df;
+}
+
+/* ── Stats row (likes • comments) ── */
+.post-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 16px 8px;
+  font-size: 13px;
+  color: #888780;
+  border-bottom: 0.5px solid #f1efe8;
+}
+
+/* ── Interactions ── */
+.post-interactions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 0.5px solid #e5e4df;
+}
+
+.post-interactions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 0;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: #5f5e5a;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  border-right: 0.5px solid #e5e4df;
+}
+
+.post-interactions button:last-child {
+  border-right: none;
+}
+
+.post-interactions button:hover {
+  background: #f4f3ef;
+  color: #1a1916;
+}
+
+.post-interactions button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.like-post:hover {
+  color: #dc2626;
+}
+.like-post.liked {
+  color: #dc2626;
+}

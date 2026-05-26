@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import "./AddPost.css";
 import {
   AtSign,
@@ -8,6 +9,9 @@ import {
   Send,
   X,
 } from "lucide-react";
+import { useReducer, useState } from "react";
+import { useAddPost } from "../../../hooks/usePosts";
+import RequiredWarning from "./RequiredWarning";
 
 const postAttachments = [
   {
@@ -23,7 +27,50 @@ const postAttachments = [
     icon: <Link />,
   },
 ];
+const postData = {
+  author_name: "",
+  author_badge: "",
+  content: "",
+  img_url: "",
+};
+
+function postReducer(state, action) {
+  switch (action.type) {
+    case "ADD_CONTENT":
+      return { ...state, content: action.payload };
+    case "ADD_IMAGE":
+      return { ...state, img_url: action.payload };
+
+    case "RESET":
+      return postData;
+
+    default:
+      return state;
+  }
+}
+
 function AddPost({ handlePostModal }) {
+  const { groupId } = useParams();
+  console.log(groupId);
+  const [newPost, dispatch] = useReducer(postReducer, postData);
+  const { mutate: addPost } = useAddPost();
+  const [fillWarning, setFillWarning] = useState(false);
+
+  function handleSubmit() {
+    if (!newPost.content) {
+      setFillWarning(true);
+      return;
+    }
+    addPost({
+      group_id: groupId,
+      author_name: "Ayman Hardy", // need Auth: newPost.author_name
+      author_badge: "member", // need Auth: newPost.author_badge
+      content: newPost.content,
+      img_url: newPost.img_url,
+    });
+    dispatch({ type: "RESET" });
+    handlePostModal();
+  }
   return (
     <div className="add-post-overlay">
       <div className="add-post-modal">
@@ -49,10 +96,14 @@ function AddPost({ handlePostModal }) {
 
           <div className="post-text-area">
             <textarea
-              name="postText"
-              id="postText"
               rows={4}
+              id="postText"
+              name="postText"
+              value={newPost.content}
               placeholder="Share Something with Your Groupmates! :)"
+              onChange={(e) => {
+                dispatch({ type: "ADD_CONTENT", payload: e.target.value });
+              }}
             ></textarea>
           </div>
         </div>
@@ -78,13 +129,15 @@ function AddPost({ handlePostModal }) {
           </div>
         </div>
 
+        {fillWarning && <RequiredWarning />}
+
         <div className="post-footer">
           <div className="count-char">0/500 characters</div>
           <div className="buttons">
             <button onClick={handlePostModal} className="cancel-post-btn">
               Cancel
             </button>
-            <button className="publish-post-btn">
+            <button className="publish-post-btn" onClick={handleSubmit}>
               <Send />
               Post
             </button>
