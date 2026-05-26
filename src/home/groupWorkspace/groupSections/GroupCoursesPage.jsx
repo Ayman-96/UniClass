@@ -4,6 +4,7 @@ import {
   DoorOpen,
   Files,
   LibraryBig,
+  Trash2,
   UserStar,
 } from "lucide-react";
 import "./GroupCoursesPage.css";
@@ -14,6 +15,7 @@ import { useCourses } from "../../../hooks/useCourses";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
 import { courseIcons } from "../../../data/addCourseData";
+import { useDeleteCourse } from "../../../hooks/useCourses";
 function GroupCoursesPage() {
   const { groupId } = useParams();
 
@@ -25,6 +27,7 @@ function GroupCoursesPage() {
   function handleCourseModal() {
     setCourseModal((prev) => !prev);
   }
+
   return (
     // OUTELT
     <div className="courses-page">
@@ -51,6 +54,8 @@ function GroupCoursesPage() {
   );
 }
 function CourseCard({ course }) {
+  const { mutate: deleteCourse, isPending } = useDeleteCourse();
+  const [confirmDelete, setConfirmDelete] = useState(false);
   return (
     <div className="course-card-container">
       <div style={{ height: "5px", background: course.color || "#1a9e6e" }} />
@@ -79,6 +84,31 @@ function CourseCard({ course }) {
         <div>
           <Files /> * leactures
         </div>
+        {!confirmDelete && (
+          <div
+            onClick={() => setConfirmDelete(true)}
+            style={{ color: "#aa1e12" }}
+          >
+            <Trash2 size={14} />
+          </div>
+        )}
+        {confirmDelete && (
+          <div className="delete-confirm-row">
+            <button
+              className="confirm-yes"
+              onClick={() => deleteCourse(course.id)}
+              disabled={isPending}
+            >
+              {isPending ? "..." : "Delete"}
+            </button>
+            <button
+              className="confirm-no"
+              onClick={() => setConfirmDelete(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
         <div>
           <DoorOpen />
         </div>

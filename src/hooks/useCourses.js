@@ -37,3 +37,23 @@ export function useAddCourse() {
     },
   });
 }
+
+export function useDeleteCourse() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (courseId) => {
+      const { error } = await supabase
+        .from("courses")
+        .delete()
+        .eq("id", courseId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
+    },
+    onError: (error) => {
+      console.log("❌ Failed to delete:", error.message);
+    },
+  });
+}

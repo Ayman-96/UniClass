@@ -159,3 +159,43 @@
   width: 14px;
   height: 14px;
 }
+
+/* REMOVE IT LATER*/
+.delete-confirm-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.confirm-yes {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: none;
+  background: #fee2e2;
+  color: #dc2626;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+}
+.confirm-yes:hover {
+  background: #fecaca;
+}
+.confirm-yes:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.confirm-no {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 0.5px solid #e5e4df;
+  background: transparent;
+  color: #888780;
+  cursor: pointer;
+  font-family: inherit;
+}
+.confirm-no:hover {
+  background: #f4f3ef;
+}
