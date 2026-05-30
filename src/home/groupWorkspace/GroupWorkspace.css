@@ -16,6 +16,6 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
   /* padding-left: 40px; */
 }

@@ -23,9 +23,17 @@ export function useAddPost() {
 
   return useMutation({
     mutationFn: async (newPost) => {
+      console.log("imageFile:", newPost.imageFile); // ← what does this show?
+      console.log("type:", typeof newPost.imageFile);
+      // 1. if there's an image file, upload it first
+      let img_url = null;
+      if (newPost.imageFile) {
+        img_url = await uploadImage(newPost.imageFile); // URL saved here
+      }
+      // 2. save the post with the URL (or null if no image)
       const { data, error } = await supabase
         .from("posts")
-        .insert(newPost)
+        .insert({ ...newPost, img_url, imageFile: undefined }) // we dont have imageFile prop, so remove it
         .select()
         .single();
       if (error) throw error;
@@ -60,4 +68,19 @@ export function useDeletePost() {
       console.error("❌ Failed to delete:", error.message);
     },
   });
+}
+async function uploadImage(file) {
+  console.log("uploading file:", file);
+  const fileName = `${Date.now()}-${file.name}`; // create a unique name
+  const { data, error } = await supabase.storage
+    .from("post-images")
+    .upload(fileName, file);
+  console.log("upload result:", data, error);
+  if (error) throw error;
+
+  const { data: urlData } = supabase.storage
+    .from("post-images")
+    .getPublicUrl(fileName);
+
+  return urlData.publicUrl;
 }

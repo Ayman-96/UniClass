@@ -31,7 +31,7 @@ const postData = {
   author_name: "",
   author_badge: "",
   content: "",
-  img_url: "",
+  imageFile: null,
 };
 
 function postReducer(state, action) {
@@ -39,7 +39,7 @@ function postReducer(state, action) {
     case "ADD_CONTENT":
       return { ...state, content: action.payload };
     case "ADD_IMAGE":
-      return { ...state, img_url: action.payload };
+      return { ...state, imageFile: action.payload };
 
     case "RESET":
       return postData;
@@ -48,10 +48,9 @@ function postReducer(state, action) {
       return state;
   }
 }
-
 function AddPost({ handlePostModal }) {
   const { groupId } = useParams();
-  console.log(groupId);
+
   const [newPost, dispatch] = useReducer(postReducer, postData);
   const { mutate: addPost } = useAddPost();
   const [fillWarning, setFillWarning] = useState(false);
@@ -66,11 +65,12 @@ function AddPost({ handlePostModal }) {
       author_name: "Ayman Hardy", // need Auth: newPost.author_name
       author_badge: "member", // need Auth: newPost.author_badge
       content: newPost.content,
-      img_url: newPost.img_url,
+      imageFile: newPost.imageFile,
     });
     dispatch({ type: "RESET" });
     handlePostModal();
   }
+
   return (
     <div className="add-post-overlay">
       <div className="add-post-modal">
@@ -109,7 +109,22 @@ function AddPost({ handlePostModal }) {
         </div>
 
         <div className="post-attachments-area">
-          <div className="post-img">
+          <div
+            className="upload-img-post"
+            onClick={() => document.getElementById("post-images").click()}
+          >
+            <input
+              className="post-img-btn"
+              type="file"
+              multiple
+              accept="image/*"
+              id="post-images"
+              hidden
+              onChange={(e) => {
+                console.log(e.target.files);
+                dispatch({ type: "ADD_IMAGE", payload: e.target.files[0] });
+              }}
+            />
             <ImagePlus />
             <p>Click to upload images</p>
             <p>PNG,JPG up to 5MB each</p>

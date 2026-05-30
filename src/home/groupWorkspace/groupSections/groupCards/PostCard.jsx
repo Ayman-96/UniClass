@@ -6,7 +6,6 @@ import { HeartHandshake, MessageSquareText, Redo2 } from "lucide-react";
 function PostCard({ post }) {
   const { mutate: deletePost, isPending } = useDeletePost();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  console.log("POST ID " + post.id);
   const postedTime = new Date(post.created_at).toLocaleDateString();
   return (
     <div className="post-overylay">
