@@ -19,17 +19,20 @@ export function useAddAnnounce() {
 
   return useMutation({
     mutationFn: async (newAnnouncement) => {
+      let img_url = null;
+      if (newAnnouncement.imageFile) {
+        img_url = await uploadImage(newAnnouncement.imageFile); // URL saved here
+      }
       // I passed addCourse here from AddCourse.jsx
       const { data, error } = await supabase
         .from("announcements") // go to the "courses" table
-        .insert(newAnnouncement) // INSERT this object as a new row
+        .insert({ ...newAnnouncement, img_url, imageFile: undefined }) // INSERT this object as a new row
         .select() // return the inserted row back to us
         .single(); // expect exactly 1 row back, not an array
       if (error) throw error;
       return data;
     },
     onSuccess: (data) => {
-      console.log("✅ announcement created:", data);
       queryClient.invalidateQueries({
         queryKey: ["announcements", data.group_id],
       });
@@ -58,4 +61,18 @@ export function useDeleteAnnounce() {
       console.log("❌ Failed to delete:", error.message);
     },
   });
+}
+async function uploadImage(file) {
+  const fileName = `${Date.now()}-${file.name}`; // create a unique name
+  const { data, error } = await supabase.storage
+    .from("announcement-images")
+    .upload(fileName, file); // store FileName to DB first
+
+  if (error) throw error;
+
+  const { data: urlData } = supabase.storage
+    .from("announcement-images")
+    .getPublicUrl(fileName); // get the fileName from DB now
+
+  return urlData.publicUrl;
 }

@@ -5,6 +5,7 @@ import {
   HeartHandshake,
   MessageCircleQuestionMark,
   ThumbsDown,
+  Trash2,
 } from "lucide-react";
 import { useDeleteAnnounce } from "../../../../hooks/useAnnounce";
 const announcementButtons = [
@@ -39,11 +40,19 @@ function AnnounceCard({ announce }) {
             </div>
           </div>
         </div>
+        {!confirmDelete && (
+          <div
+            onClick={() => setConfirmDelete(true)}
+            style={{ color: "#aa1e12" }}
+          >
+            <Trash2 size={14} />
+          </div>
+        )}
         {confirmDelete && (
           <div className="delete-confirm-row">
             <button
               className="confirm-yes"
-              onClick={() => deleteAnnounce({ announceId: announce.id })}
+              onClick={() => deleteAnnounce(announce.id)}
               disabled={isPending}
             >
               {isPending ? "Almost" : "Delete"}
@@ -62,6 +71,13 @@ function AnnounceCard({ announce }) {
       <div className="announcement-body">
         <div className="announce-title">{announce.title}</div>
         <div className="announce-content">{announce.content}</div>
+        {announce.img_url && (
+          <img
+            src={announce.img_url}
+            alt="post attachment"
+            className="announce-img"
+          />
+        )}
       </div>
 
       <div className="announcement-footer">

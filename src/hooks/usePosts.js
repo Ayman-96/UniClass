@@ -23,8 +23,6 @@ export function useAddPost() {
 
   return useMutation({
     mutationFn: async (newPost) => {
-      console.log("imageFile:", newPost.imageFile); // ← what does this show?
-      console.log("type:", typeof newPost.imageFile);
       // 1. if there's an image file, upload it first
       let img_url = null;
       if (newPost.imageFile) {
@@ -70,12 +68,10 @@ export function useDeletePost() {
   });
 }
 async function uploadImage(file) {
-  console.log("uploading file:", file);
   const fileName = `${Date.now()}-${file.name}`; // create a unique name
   const { data, error } = await supabase.storage
     .from("post-images")
     .upload(fileName, file);
-  console.log("upload result:", data, error);
   if (error) throw error;
 
   const { data: urlData } = supabase.storage

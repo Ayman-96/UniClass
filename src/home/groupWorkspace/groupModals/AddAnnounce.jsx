@@ -4,6 +4,7 @@ import {
   CalendarFold,
   CalendarSync,
   FileUp,
+  ImagePlus,
   Info,
   Link,
   Megaphone,
@@ -37,6 +38,7 @@ const announceData = {
   title: "",
   icon: "",
   content: "",
+  imageFile: null,
 };
 function announceReducer(state, action) {
   switch (action.type) {
@@ -46,6 +48,8 @@ function announceReducer(state, action) {
       return { ...state, icon: action.payload };
     case "SET_CONTENT":
       return { ...state, content: action.payload };
+    case "ADD_IMAGE":
+      return { ...state, imageFile: action.payload };
     case "RESET":
       return announceData;
 
@@ -69,6 +73,7 @@ function AddAnnounce({ handleAnnounceModal }) {
       title: newAnnounce.title,
       content: newAnnounce.content,
       icon: newAnnounce.icon,
+      imageFile: newAnnounce.imageFile,
     });
     dispatch({ type: "RESET" });
     handleAnnounceModal();
@@ -140,6 +145,27 @@ function AddAnnounce({ handleAnnounceModal }) {
                 dispatch({ type: "SET_CONTENT", payload: e.target.value });
               }}
             />
+
+            <div
+              className="upload-img-announce"
+              onClick={() => document.getElementById("announce-images").click()}
+            >
+              <input
+                className="announce-img-btn"
+                type="file"
+                multiple
+                accept="image/*"
+                id="announce-images"
+                hidden
+                onChange={(e) => {
+                  console.log(e.target.files);
+                  dispatch({ type: "ADD_IMAGE", payload: e.target.files[0] });
+                }}
+              />
+              <ImagePlus />
+              <p>Click to Add Images</p>
+              <p>PNG,JPG up to xMB each</p>
+            </div>
           </div>
 
           <div className="announce-hint">
@@ -168,7 +194,7 @@ function AddAnnounce({ handleAnnounceModal }) {
             <button onClick={handleAnnounceModal}>Cancel</button>
             <button onClick={handleSubmit}>
               <Megaphone />
-              Post
+              Announce
             </button>
           </div>
         </div>
