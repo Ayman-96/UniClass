@@ -4,10 +4,10 @@ import Welcome from "./welcomePage/Welcome";
 import { Route, Routes } from "react-router-dom";
 import GroupWorkSpace from "./home/groupWorkspace/GroupWorkspace";
 import UserDashboard from "./home/menuContents/dashboard/UserDashboard";
-import GroupPostsPage from "./home/groupWorkspace/groupSections/GroupPostsPage";
-import GroupCoursesPage from "./home/groupWorkspace/groupSections/GroupCoursesPage";
-import GroupMembersPage from "./home/groupWorkspace/groupSections/GroupMembersPage";
-import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/GroupAnnouncementsPage";
+import GroupPostsPage from "./home/groupWorkspace/groupSections/groupPages/GroupPostsPage";
+import GroupCoursesPage from "./home/groupWorkspace/groupSections/groupPages/GroupCoursesPage";
+import GroupMembersPage from "./home/groupWorkspace/groupSections/groupPages/GroupMembersPage";
+import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/groupPages/GroupAnnouncementsPage";
 function App() {
   return (
     <div>

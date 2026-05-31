@@ -1,12 +1,12 @@
 import "./GroupPostsPage.css";
 import { useState } from "react";
-import PostCard from "./groupCards/PostCard";
+import PostCard from "../groupCards/PostCard";
 import { useParams } from "react-router-dom";
-import AddPost from "../groupModals/AddPost";
-import { usePosts } from "../../../hooks/usePosts";
-import GroupPageHeader from "../GroupWorkspaceHeader";
+import AddPost from "../../groupModals/AddPost";
+import { usePosts } from "../../../../hooks/usePosts";
+import GroupPageHeader from "../../GroupWorkspaceHeader";
 import { MessageSquareText, MessageSquarePlus } from "lucide-react";
-import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
+import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner";
 
 function GroupPostsPage() {
   const { groupId } = useParams();
