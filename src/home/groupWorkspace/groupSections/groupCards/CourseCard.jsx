@@ -2,68 +2,71 @@ import "./CourseCard.css";
 import { useState } from "react";
 import { DoorOpen, Files, LibraryBig, Trash2, UserStar } from "lucide-react";
 import { useDeleteCourse } from "../../../../hooks/useCourses";
+import { Link } from "react-router-dom";
 
 function CourseCard({ course }) {
   const { mutate: deleteCourse, isPending } = useDeleteCourse();
   const [confirmDelete, setConfirmDelete] = useState(false);
   return (
-    <div className="course-card-container">
-      <div style={{ height: "5px", background: course.color || "#1a9e6e" }} />
-      <div className="course-card-header">
-        {/* {courseIcons[course.icon] || <LibraryBig />} */}
-        <LibraryBig />
-        <div
-          className="course-season-badge"
-          style={{
-            backgroundColor: course.color + "22", // ← hex opacity (13%)
-            color: course.color,
-          }}
-        >
-          {course.season} • {course.year}
-        </div>
-      </div>
-
-      <div className="course-card-body">
-        <p>{course.name}</p>
-        <div>
-          <UserStar /> <span>{course.lecturer}</span>
-        </div>
-      </div>
-
-      <div className="course-card-footer">
-        <div>
-          <Files /> * leactures
-        </div>
-        {!confirmDelete && (
+    <Link to={`${course.id}`} className="course-card-link">
+      <div className="course-card-container">
+        <div style={{ height: "5px", background: course.color || "#1a9e6e" }} />
+        <div className="course-card-header">
+          {/* {courseIcons[course.icon] || <LibraryBig />} */}
+          <LibraryBig />
           <div
-            onClick={() => setConfirmDelete(true)}
-            style={{ color: "#aa1e12" }}
+            className="course-season-badge"
+            style={{
+              backgroundColor: course.color + "22", // ← hex opacity (13%)
+              color: course.color,
+            }}
           >
-            <Trash2 size={14} />
+            {course.season} • {course.year}
           </div>
-        )}
-        {confirmDelete && (
-          <div className="delete-confirm-row">
-            <button
-              className="confirm-yes"
-              onClick={() => deleteCourse(course.id)}
-              disabled={isPending}
-            >
-              {isPending ? "..." : "Delete"}
-            </button>
-            <button
-              className="confirm-no"
-              onClick={() => setConfirmDelete(false)}
-            >
-              Cancel
-            </button>
+        </div>
+
+        <div className="course-card-body">
+          <p>{course.name}</p>
+          <div>
+            <UserStar /> <span>{course.lecturer}</span>
           </div>
-        )}
-        <div>
-          <DoorOpen />
+        </div>
+
+        <div className="course-card-footer">
+          <div>
+            <Files /> * leactures
+          </div>
+          {!confirmDelete && (
+            <div
+              onClick={() => setConfirmDelete(true)}
+              style={{ color: "#aa1e12" }}
+            >
+              <Trash2 size={14} />
+            </div>
+          )}
+          {confirmDelete && (
+            <div className="delete-confirm-row">
+              <button
+                className="confirm-yes"
+                onClick={() => deleteCourse(course.id)}
+                disabled={isPending}
+              >
+                {isPending ? "..." : "Delete"}
+              </button>
+              <button
+                className="confirm-no"
+                onClick={() => setConfirmDelete(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+          <div>
+            <DoorOpen />
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 export default CourseCard;

@@ -1,4 +1,9 @@
 /* ── Course card ── */
+.course-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
 .course-card-container {
   background: #ffffff;
   border: 0.5px solid #e5e4df;

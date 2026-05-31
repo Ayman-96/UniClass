@@ -1,0 +1,206 @@
+/* ── Lecture Sidebar ── */
+.lecture-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  height: 100%;
+  background: #edeade;
+  border-right: 0.5px solid #d6d9d0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Head ── */
+.lec-nav-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 14px;
+  border-bottom: 0.5px solid #d6d9d0;
+}
+
+.course-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #e8f5f1;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.course-icon svg {
+  width: 20px;
+  height: 20px;
+  color: #0f6e56;
+}
+
+.course-detail p:first-child {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1f1c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-detail p:last-child {
+  font-size: 11px;
+  color: #7a8078;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+/* ── Body ── */
+.lec-nav-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 10px 8px;
+  gap: 4px;
+}
+
+/* ── Lectures heading row ── */
+.lecs-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+  margin-bottom: 4px;
+}
+
+.lecs-head p {
+  font-size: 11px;
+  font-weight: 500;
+  color: #7a8078;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.add-lecture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0f6e56;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  padding: 4px 6px;
+  border-radius: var(--border-radius-md);
+}
+
+.add-lecture:hover {
+  background: #e8f5f1;
+}
+
+.add-lecture svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ── Lecture list ── */
+.lectures-nav-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.lectures-nav-list:hover {
+  background: #e2e5dd;
+}
+
+.lectures-nav-list.active {
+  background: #ffffff;
+}
+
+.lec-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--color-background-primary, #ffffff);
+  border: 0.5px solid #d6d9d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lec-icon svg {
+  width: 15px;
+  height: 15px;
+  color: #7a8078;
+}
+
+.lectures-nav-list.active .lec-icon {
+  background: #e8f5f1;
+  border-color: #9fe1cb;
+}
+
+.lectures-nav-list.active .lec-icon svg {
+  color: #0f6e56;
+}
+
+.lec-details p:first-child {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1a1f1c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lec-details p:last-child {
+  font-size: 10px;
+  color: #7a8078;
+  margin-top: 1px;
+}
+
+.lectures-nav-list.active .lec-details p:first-child {
+  color: #0f6e56;
+}
+
+/* ── Add lecture button (bottom) ── */
+.lec-nav-body > .add-lecture {
+  margin-top: 4px;
+  padding: 8px;
+  border: 0.5px dashed #d6d9d0;
+  border-radius: var(--border-radius-md);
+  width: 100%;
+  justify-content: center;
+  color: #7a8078;
+}
+
+.lec-nav-body > .add-lecture:hover {
+  border-color: #0f6e56;
+  color: #0f6e56;
+  background: #e8f5f1;
+}
+
+/* ── Rep only notice ── */
+.lec-nav-body > p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #7a8078;
+  padding: 0 4px;
+  margin-top: 4px;
+}
+
+.lec-nav-body > p svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}

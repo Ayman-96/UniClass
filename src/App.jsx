@@ -8,6 +8,7 @@ import GroupPostsPage from "./home/groupWorkspace/groupSections/groupPages/Group
 import GroupCoursesPage from "./home/groupWorkspace/groupSections/groupPages/GroupCoursesPage";
 import GroupMembersPage from "./home/groupWorkspace/groupSections/groupPages/GroupMembersPage";
 import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/groupPages/GroupAnnouncementsPage";
+import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/CourseWorkspace";
 function App() {
   return (
     <div>
@@ -26,6 +27,11 @@ function App() {
             <Route path="posts" element={<GroupPostsPage />} />
             <Route path="members" element={<GroupMembersPage />} />
             <Route path="announcements" element={<GroupAnnouncementsPage />} />
+
+            <Route // Flat - compeletely separate
+              path="group/:groupId/courses/:courseId"
+              element={<CourseWorkspace />}
+            />
           </Route>
         </Route>
       </Routes>
