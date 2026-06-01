@@ -1,9 +1,5 @@
 import "./LectureView.css";
-import { useRef, useState } from "react";
-import useLectureStore from "../../../../../store/useLectureStore";
-import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
+import { toast } from "sonner";
 import {
   ChevronLeft,
   ChevronRight,
@@ -13,18 +9,25 @@ import {
   PlusIcon,
   Shrink,
 } from "lucide-react";
+import { useRef, useState } from "react";
+import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import { Document, Page, pdfjs } from "react-pdf";
 import { Logo } from "../../../../../welcomePage/Welcome";
-
+import useLectureStore from "../../../../../store/useLectureStore";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
 function LectureView() {
   const BASE_SCALE = 0.8;
   const pdfRef = useRef(null);
-  const [fullScreen, setFullScreen] = useState(false);
   const { selectedLecture } = useLectureStore();
   const [numPages, setNumPages] = useState(null);
   const [scale, setScale] = useState(BASE_SCALE);
   const [pageNumber, setPageNumber] = useState(1);
+  const [fullScreen, setFullScreen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const displayZoom = Math.round((scale / BASE_SCALE) * 100);
+
   const handleFullScreen = async () => {
     if (pdfRef.current && !document.fullscreenElement) {
       await pdfRef.current.requestFullscreen();
@@ -37,6 +40,26 @@ function LectureView() {
   const onLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };
+
+  async function handleDownload(pdfUrl, title) {
+    setIsDownloading(true);
+    try {
+      const response = await fetch(pdfUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${title}-UniClass.pdf`;
+      link.click();
+      toast.success("Lecture downloaded!");
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+      toast.error("Download failed. Try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  }
 
   if (!selectedLecture)
     return (
@@ -81,7 +104,12 @@ function LectureView() {
         </div>
 
         <div className="pdf-download-view">
-          <button className="download-pdf-btn">
+          <button
+            className="download-pdf-btn"
+            onClick={() =>
+              handleDownload(selectedLecture.pdf_url, selectedLecture.title)
+            }
+          >
             <Download />
           </button>
           <button className="full-screen-btn" onClick={handleFullScreen}>
@@ -89,7 +117,6 @@ function LectureView() {
           </button>
         </div>
       </div>
-
       <div className="pdf-document-wrapper" ref={pdfRef}>
         {fullScreen && (
           <button className="shrink-screen-btn" onClick={handleFullScreen}>
@@ -117,7 +144,6 @@ function LectureView() {
           <ChevronRight />
         </button>
       </div>
-
       <div className="pdf-footer">
         <Logo />
         <p>
