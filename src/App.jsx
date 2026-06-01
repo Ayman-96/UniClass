@@ -27,13 +27,12 @@ function App() {
             <Route path="posts" element={<GroupPostsPage />} />
             <Route path="members" element={<GroupMembersPage />} />
             <Route path="announcements" element={<GroupAnnouncementsPage />} />
-
-            <Route // Flat - compeletely separate
-              path="group/:groupId/courses/:courseId"
-              element={<CourseWorkspace />}
-            />
           </Route>
         </Route>
+        <Route // Flat - compeletely separate
+          path="/home/group/:groupId/courses/:courseId"
+          element={<CourseWorkspace />}
+        />
       </Routes>
     </div>
   );

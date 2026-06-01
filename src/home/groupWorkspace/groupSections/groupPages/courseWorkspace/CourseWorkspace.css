@@ -1,0 +1,22 @@
+.course-workspace {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #fafaf8;
+}
+
+.course-main {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.course-comments {
+  width: 280px;
+  flex-shrink: 0;
+  height: 100%;
+  border-left: 0.5px solid #e5e4df;
+  background: #ffffff;
+}

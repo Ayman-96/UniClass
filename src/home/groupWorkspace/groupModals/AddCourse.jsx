@@ -44,7 +44,6 @@ function courseReducer(state, action) {
 }
 function AddCourse({ handleCourseModal }) {
   const { groupId } = useParams();
-  console.log(groupId);
   const [newCourse, dispatch] = useReducer(courseReducer, courseData);
   const { mutate: addCourse } = useAddCourse();
   // For Requirment Filling

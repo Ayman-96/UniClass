@@ -69,7 +69,7 @@ export function useDeletePost() {
 }
 async function uploadImage(file) {
   const fileName = `${Date.now()}-${file.name}`; // create a unique name
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from("post-images")
     .upload(fileName, file);
   if (error) throw error;

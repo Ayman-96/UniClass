@@ -1,0 +1,110 @@
+import "./LectureView.css";
+import { useState } from "react";
+import useLectureStore from "../../../../../store/useLectureStore";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Expand,
+  MinusIcon,
+  PlusIcon,
+} from "lucide-react";
+import { Logo } from "../../../../../welcomePage/Welcome";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+function LectureView() {
+  const BASE_SCALE = 0.8;
+  const { selectedLecture } = useLectureStore();
+  const [numPages, setNumPages] = useState(null);
+  const [scale, setScale] = useState(BASE_SCALE);
+  const [pageNumber, setPageNumber] = useState(1);
+  const displayZoom = Math.round((scale / BASE_SCALE) * 100);
+  const onLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
+  if (!selectedLecture)
+    return (
+      <div className="no-lecture-selected">
+        Select a lecture from the sidebar
+      </div>
+    );
+
+  return (
+    <div className="pdf-view">
+      <div className="pdf-header">
+        <div className="slide-counter">
+          <input
+            type="number"
+            max={numPages}
+            value={pageNumber}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              if (!value) return;
+              setPageNumber(Math.min(Math.max(value, 1), numPages));
+            }}
+          />
+          <span>/{numPages}</span>
+        </div>
+
+        <div className="pdf-zoom">
+          <button
+            onClick={() =>
+              setScale((prev) => Math.max(prev - 0.1 * BASE_SCALE, 0.4))
+            }
+          >
+            <MinusIcon />
+          </button>
+          {displayZoom}%
+          <button
+            onClick={() =>
+              setScale((prev) => Math.min(prev + 0.1 * BASE_SCALE, 3.0))
+            }
+          >
+            <PlusIcon />
+          </button>
+        </div>
+
+        <div className="pdf-download-view">
+          <button className="download-pdf-btn">
+            <Download />
+          </button>
+          <button className="full-screen-btn">
+            <Expand />
+          </button>
+        </div>
+      </div>
+
+      <div className="pdf-document-wrapper">
+        <button
+          className="pdf-nav-arrow left-arrow"
+          onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
+          disabled={pageNumber <= 1}
+        >
+          <ChevronLeft />
+        </button>
+        <Document file={selectedLecture.pdf_url} onLoadSuccess={onLoadSuccess}>
+          <Page pageNumber={pageNumber} scale={scale} width={1000} />
+        </Document>
+        <button
+          className="pdf-nav-arrow right-arrow"
+          onClick={() => setPageNumber((prev) => Math.min(prev + 1, numPages))}
+          disabled={pageNumber >= numPages}
+        >
+          <ChevronRight />
+        </button>
+      </div>
+
+      <div className="pdf-footer">
+        <Logo />
+        <p>
+          {pageNumber} / {numPages}
+        </p>
+      </div>
+    </div>
+  );
+}
+export default LectureView;
