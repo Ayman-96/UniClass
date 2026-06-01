@@ -1,0 +1,306 @@
+/* ── Main Container ── */
+.comment-note-overlay {
+  width: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-left: 1px solid #ebebeb;
+  font-family: "DM Sans", sans-serif;
+  color: #1a1a1a;
+  position: relative;
+
+  /* 🟢 Header Hack: Styles the bare "Discussion & Notes" text */
+  font-size: 16px;
+  font-weight: 600;
+  padding-top: 18px;
+  text-indent: 44px; /* Pushes the bare text right so the icon can fit */
+}
+
+/* Reset font properties for the inner div containers */
+.comment-note-overlay > div {
+  font-size: 14px;
+  font-weight: 400;
+  text-indent: 0;
+}
+
+/* ── 1. The Header Elements ── */
+/* Targets the first MessagesSquare icon */
+.comment-note-overlay > svg:first-child {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  color: #1a9e78;
+  width: 20px;
+  height: 20px;
+}
+
+/* Targets the "Slide #" badge */
+.comment-note-overlay > span {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: #f4f4f4;
+  color: #555;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  text-indent: 0;
+  line-height: 1.2;
+}
+
+/* ── 2. Discussion Tabs ── */
+.discussion-buttons {
+  display: flex;
+  gap: 12px;
+  padding: 16px 16px 12px 16px;
+  border-bottom: 1px solid #ebebeb;
+  margin-top: 8px; /* Gives space from the header text */
+}
+
+.discuss-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.discuss-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Active Tab State */
+.discuss-btn.activated-panel {
+  border: 2px solid #333;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* ── 3. Discussion Body & Cards ── */
+.discussion-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #fafafa;
+}
+
+.discuss-card {
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.discuss-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.user-avatar-discussion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #e6f5f1;
+  color: #0f6e56;
+  padding: 4px 10px 4px 6px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.user-avatar-discussion span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.discussion-type {
+  font-size: 12px;
+  font-weight: 500;
+  background: #f4f4f4;
+  color: #666;
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Hides the type pill cleanly if it is empty (on the Comments tab) */
+.discussion-type:empty {
+  display: none;
+}
+
+.discussion-type svg {
+  width: 12px;
+  height: 12px;
+}
+
+.shared-time {
+  margin-left: auto;
+  font-size: 12px;
+  color: #888;
+}
+
+.discuss-content {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  margin: 0 0 16px 0;
+}
+
+/* ── 4. Card Reactions ── */
+.discuss-reaction {
+  display: flex;
+  gap: 10px;
+}
+
+.discuss-reaction button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+}
+
+.discuss-reaction button:hover {
+  background: #f9f9f8;
+}
+
+.discuss-reaction button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.discuss-reaction .delete-note {
+  margin-left: auto;
+  color: #666;
+}
+
+.discuss-reaction .delete-note:hover {
+  color: #a32d2d;
+  border-color: #fcebeb;
+}
+
+/* ── 5. Footer / Composer Area ── */
+.discussion-footer {
+  padding: 16px;
+  background: #ffffff;
+  border-top: 1px solid #ebebeb;
+}
+
+.comment-types {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.comnt-type {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #333 !important;
+}
+
+.comnt-type.activated-type {
+  border-color: #bbb;
+  font-weight: 600;
+}
+
+.comnt-type svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Textarea ── */
+#discussion {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: none;
+  outline: none;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+#discussion:focus {
+  border-color: #1a9e78;
+}
+
+/* ── Bottom Submit Row ── */
+.comment-note > div,
+.comment-note > p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.comment-note span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #666;
+}
+
+.comment-note span svg {
+  width: 14px;
+  height: 14px;
+}
+
+.comment-note button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+
+.comment-note button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.comment-note button:hover {
+  background: #f9f9f8;
+}

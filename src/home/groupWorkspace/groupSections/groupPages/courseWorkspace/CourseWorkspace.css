@@ -20,3 +20,46 @@
   border-left: 0.5px solid #e5e4df;
   background: #ffffff;
 }
+/* Base style rules applied to both states */
+.discussion-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s ease-in-out; /* Animates the transition between states */
+}
+.is-closed .discussion-toggle-btn {
+  height: 7rem;
+  position: fixed;
+  right: 0;
+  top: 47%;
+  transform: translateY(-50%);
+  padding: 14px 8px;
+  border-radius: 8px 0 0 8px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.is-closed .discussion-toggle-btn:hover {
+  background: #f9f9f8;
+  color: #1a9e78;
+}
+
+.is-open .discussion-toggle-btn {
+  height: 7rem;
+  position: fixed;
+  right: 420px;
+  top: 19rem;
+  transform: translateX(55%);
+  background: #f9f9f8;
+  color: #1a9e78;
+  padding: 6px;
+  border-radius: 8px 0 0 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.is-open .discussion-toggle-btn:hover {
+  background: #f9f9f8;
+  color: black;
+}

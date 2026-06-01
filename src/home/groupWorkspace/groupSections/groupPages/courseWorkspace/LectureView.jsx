@@ -1,5 +1,5 @@
 import "./LectureView.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import useLectureStore from "../../../../../store/useLectureStore";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -11,17 +11,29 @@ import {
   Expand,
   MinusIcon,
   PlusIcon,
+  Shrink,
 } from "lucide-react";
 import { Logo } from "../../../../../welcomePage/Welcome";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 function LectureView() {
   const BASE_SCALE = 0.8;
+  const pdfRef = useRef(null);
+  const [fullScreen, setFullScreen] = useState(false);
   const { selectedLecture } = useLectureStore();
   const [numPages, setNumPages] = useState(null);
   const [scale, setScale] = useState(BASE_SCALE);
   const [pageNumber, setPageNumber] = useState(1);
   const displayZoom = Math.round((scale / BASE_SCALE) * 100);
+  const handleFullScreen = async () => {
+    if (pdfRef.current && !document.fullscreenElement) {
+      await pdfRef.current.requestFullscreen();
+      setFullScreen(true);
+    } else {
+      await document.exitFullscreen();
+      setFullScreen(false);
+    }
+  };
   const onLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };
@@ -72,13 +84,19 @@ function LectureView() {
           <button className="download-pdf-btn">
             <Download />
           </button>
-          <button className="full-screen-btn">
+          <button className="full-screen-btn" onClick={handleFullScreen}>
             <Expand />
           </button>
         </div>
       </div>
 
-      <div className="pdf-document-wrapper">
+      <div className="pdf-document-wrapper" ref={pdfRef}>
+        {fullScreen && (
+          <button className="shrink-screen-btn" onClick={handleFullScreen}>
+            <Shrink />
+          </button>
+        )}
+
         <button
           className="pdf-nav-arrow left-arrow"
           onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
@@ -86,9 +104,11 @@ function LectureView() {
         >
           <ChevronLeft />
         </button>
+
         <Document file={selectedLecture.pdf_url} onLoadSuccess={onLoadSuccess}>
           <Page pageNumber={pageNumber} scale={scale} width={1000} />
         </Document>
+
         <button
           className="pdf-nav-arrow right-arrow"
           onClick={() => setPageNumber((prev) => Math.min(prev + 1, numPages))}

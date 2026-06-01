@@ -248,30 +248,67 @@
 
 /* ===== NAVIGATION ARROWS ===== */
 
-.pdf-nav-arrow {
+/* Fullscreen shrink button */
+.shrink-screen-btn {
   position: absolute;
+  top: 18px;
+  right: 18px;
 
-  top: 50%;
-  transform: translateY(-50%);
-
-  width: 54px;
-  height: 54px;
+  width: 46px;
+  height: 46px;
 
   border: none;
-  outline: none;
-
-  border-radius: 50%;
-
-  background: rgba(76, 141, 94, 0.9);
+  border-radius: 12px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  background: rgba(193, 193, 193, 0.75);
+  backdrop-filter: blur(10px);
+
+  color: white;
   cursor: pointer;
 
-  z-index: 20;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    opacity 0.2s ease;
 
+  z-index: 999;
+}
+
+/* Hover */
+.shrink-screen-btn:hover {
+  background: rgba(40, 40, 40, 0.95);
+  transform: scale(1.08);
+}
+
+/* Click effect */
+.shrink-screen-btn:active {
+  transform: scale(0.95);
+}
+
+/* Icon size */
+.shrink-screen-btn svg {
+  width: 22px;
+  height: 22px;
+}
+.pdf-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-55%);
+  width: 60px;
+  height: 60px;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  background: rgba(76, 141, 94, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
   transition: 0.2s ease;
 }
 
@@ -287,16 +324,15 @@
 .pdf-nav-arrow svg {
   width: 22px;
   height: 22px;
-
   color: white;
 }
 
 .left-arrow {
-  left: 1.5rem;
+  left: 3.1rem;
 }
 
 .right-arrow {
-  right: 1.5rem;
+  right: 3.1rem;
 }
 
 /* ===== FOOTER ===== */
