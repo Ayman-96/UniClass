@@ -1,6 +1,6 @@
 import "./CourseSidebar.css";
-import { useParams } from "react-router-dom";
-import { FileIcon, LockIcon, Plus } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import { BookCopy, FileIcon, House, LockIcon, Plus } from "lucide-react";
 import { useCourses } from "../../../../../hooks/useCourses";
 import useLectureStore from "../../../../../store/useLectureStore";
 import { useAddLectures, useLectures } from "../../../../../hooks/useLectures";
@@ -36,10 +36,19 @@ function CourseSidebar() {
 
   return (
     <div className="lecture-sidebar">
+      <div className="return-home">
+        <Link to="/home/dashboard">
+          <House />
+        </Link>
+        <Link to={`/home/group/${groupId}`}>
+          <BookCopy />
+        </Link>
+      </div>
       <div className="lec-nav-head">
         <div className="course-icon"></div>
         <div className="course-detail">
           <p>{courseDetails?.name}</p>
+
           <p>
             {courseDetails?.season} {courseDetails?.year} • # members
           </p>
