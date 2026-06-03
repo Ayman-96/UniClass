@@ -69,16 +69,16 @@ export function useEditNote(lectureId, slideNumber) {
     },
   });
 }
-
-export function useDeleteNote({ userId, lectureId, slideNumber }) {
+// userId,
+export function useDeleteNote(lectureId, slideNumber) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (noteId) => {
       const { data, error } = await supabase
         .from("notes")
         .delete()
-        .eq("id", noteId)
-        .eq("user_id", userId);
+        .eq("id", noteId);
+      // .eq("user_id", userId);
 
       if (error) throw error;
       return data;

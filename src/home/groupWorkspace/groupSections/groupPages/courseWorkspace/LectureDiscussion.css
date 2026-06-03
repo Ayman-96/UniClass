@@ -304,3 +304,8 @@
 .comment-note button:hover {
   background: #f9f9f8;
 }
+.my-comnt-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}

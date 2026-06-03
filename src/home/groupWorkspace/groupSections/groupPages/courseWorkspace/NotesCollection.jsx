@@ -7,15 +7,16 @@ function NotesCollection({
   commentTypes,
   setIsEditing,
   handleEditNote,
+  deleteNote,
 }) {
   return (
     <>
-      {storedNotes?.map((note, i) => {
+      {storedNotes?.map((note) => {
         const color = commentTypes.find(
           (t) => t.name.toLowerCase() === note.type,
         ).color;
         return (
-          <div key={i} className="discuss-card">
+          <div key={note.id} className="discuss-card">
             <div className="discuss-header">
               <div className="user-avatar-discussion">
                 SK <span>username</span>
@@ -48,7 +49,7 @@ function NotesCollection({
                   <SquarePen />
                 </button>
 
-                <button>
+                <button onClick={() => deleteNote(note.id)}>
                   <Trash2 />
                 </button>
               </div>

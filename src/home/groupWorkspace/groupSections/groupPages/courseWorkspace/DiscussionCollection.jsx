@@ -8,6 +8,7 @@ function DiscussionCollection({
   toggleLike,
   setIsEditing,
   handleEditComment,
+  deleteComment,
 }) {
   return (
     <>
@@ -56,7 +57,7 @@ function DiscussionCollection({
                   <SquarePen />
                 </button>
 
-                <button>
+                <button onClick={() => deleteComment(comment.id)}>
                   <Trash2 />
                 </button>
               </div>

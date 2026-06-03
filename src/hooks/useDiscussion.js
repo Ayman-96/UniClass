@@ -41,8 +41,8 @@ export function useAddComment(lectureId, slideNumber) {
     },
   });
 }
-
-export function useDeleteComment(userId, lectureId, slideNumber) {
+//userId,
+export function useDeleteComment(lectureId, slideNumber) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -50,8 +50,8 @@ export function useDeleteComment(userId, lectureId, slideNumber) {
       const { data, error } = await supabase
         .from("discussions")
         .delete()
-        .eq("id", commentId)
-        .eq("user_id", userId);
+        .eq("id", commentId);
+      // .eq("user_id", userId);
       if (error) throw error;
       return data;
     },

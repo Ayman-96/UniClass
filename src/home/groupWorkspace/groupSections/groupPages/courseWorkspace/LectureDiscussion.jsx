@@ -13,6 +13,7 @@ import {
 import { useState } from "react";
 import {
   useAddComment,
+  useDeleteComment,
   useDiscussion,
   useEditComment,
   useToggleLike,
@@ -24,6 +25,7 @@ import useLectureStore from "../../../../../store/useLectureStore";
 import useCommentStore from "../../../../../store/useCommentStore";
 import {
   useAddNote,
+  useDeleteNote,
   useEditNote,
   useNotes,
 } from "../../../../../hooks/useNotes";
@@ -85,6 +87,14 @@ function LectureDiscussion({ selectedLecture }) {
   );
   const { mutate: editNote } = useEditNote(selectedLecture.id, currentSlide);
   const { mutate: addNote } = useAddNote(selectedLecture.id, currentSlide);
+  const { mutate: deleteNote } = useDeleteNote(
+    selectedLecture.id,
+    currentSlide,
+  );
+  const { mutate: deleteComment } = useDeleteComment(
+    selectedLecture.id,
+    currentSlide,
+  );
 
   // needs userId after Auth
   const { data: storedNotes } = useNotes(selectedLecture.id, currentSlide);
@@ -167,6 +177,7 @@ function LectureDiscussion({ selectedLecture }) {
             toggleLike={toggleLike}
             setIsEditing={setIsEditing}
             handleEditComment={handleEditComment}
+            deleteComment={deleteComment}
           />
         ) : (
           <NotesCollection
@@ -174,6 +185,7 @@ function LectureDiscussion({ selectedLecture }) {
             commentTypes={commentTypes}
             setIsEditing={setIsEditing}
             handleEditNote={handleEditNote}
+            deleteNote={deleteNote}
           />
         )}
       </div>
