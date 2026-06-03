@@ -8,9 +8,7 @@ import {
   Pencil,
   Siren,
   SquarePen,
-  ThumbsUp,
   Trash2,
-  Undo2,
   Users,
 } from "lucide-react";
 
@@ -20,9 +18,11 @@ import {
   useDiscussion,
 } from "../../../../../hooks/useDiscussion";
 import { useParams } from "react-router-dom";
-import { formatDistanceToNow } from "date-fns";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
 import useLectureStore from "../../../../../store/useLectureStore";
+import DiscussionCollection from "./DiscussionCOllection";
+import NotesCollection from "./NotesCollection";
+import { useAddNote, useNotes } from "../../../../../hooks/useNotes";
 const discussBtns = [
   {
     name: "Comments",
@@ -51,16 +51,7 @@ const commentTypes = [
     color: "rgba(255, 27, 27, 0.69)",
   },
 ];
-const discussReply = [
-  {
-    name: "Reply",
-    icon: <Undo2 />,
-  },
-  {
-    name: "Like",
-    icon: <ThumbsUp />,
-  },
-];
+
 const myCommentBtns = [
   {
     icon: <Trash2 />,
@@ -81,12 +72,29 @@ function LectureDiscussion({ selectedLecture }) {
   } = useDiscussion(selectedLecture.id, currentSlide);
   const [activeTab, setActiveTab] = useState("Comments");
   const [commentContent, setCommentContent] = useState("");
+  const [noteContent, setNoteContent] = useState("");
   const [activeType, setActiveType] = useState(commentTypes[0]);
   const { mutate: addComment } = useAddComment(
     selectedLecture.id,
     currentSlide,
   );
 
+  // needs userId after Auth
+  const { data: storedNotes } = useNotes(selectedLecture.id, currentSlide);
+  const { mutate: addNote } = useAddNote(selectedLecture.id, currentSlide);
+  function handleAddNote() {
+    if (!noteContent) return;
+
+    addNote({
+      user_id: null,
+      slide_number: currentSlide,
+      content: noteContent,
+      type: activeType.name.toLowerCase(),
+      lecture_id: selectedLecture.id,
+    });
+
+    setNoteContent("");
+  }
   function handleAddComment() {
     if (!commentContent) return;
 
@@ -101,7 +109,6 @@ function LectureDiscussion({ selectedLecture }) {
 
     setCommentContent("");
   }
-
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error... try again</div>;
 
@@ -122,59 +129,20 @@ function LectureDiscussion({ selectedLecture }) {
         })}
       </div>
       <div className="discussion-body">
-        {storedComments.map((comment, i) => {
-          return (
-            <div key={i} className="discuss-card">
-              <div className="discuss-header">
-                <div className="user-avatar-discussion">
-                  SK <span>username</span>
-                </div>
-                <div className="discussion-type">
-                  {activeTab === "Comments" ? (
-                    ""
-                  ) : (
-                    <p>
-                      <LockKeyholeIcon /> private note
-                    </p>
-                  )}
-                </div>
-                <div className="shared-time">
-                  {" "}
-                  {formatDistanceToNow(new Date(comment.created_at), {
-                    addSuffix: true,
-                  })}
-                </div>
-              </div>
-
-              <p className="discuss-content">{comment.content}</p>
-
-              <div className="discuss-reaction">
-                {activeTab === "Comments" ? (
-                  discussReply.map((btn) => {
-                    return (
-                      <button key={btn.name}>
-                        {btn.icon} {btn.name}
-                      </button>
-                    );
-                  })
-                ) : (
-                  <button>
-                    <SquarePen /> Edit
-                  </button>
-                )}
-
-                {comment.user_id === "my_id" &&
-                  myCommentBtns.map((btn) => {
-                    return (
-                      <div className="my-comnt-btns">
-                        <button onClick={btn.onClick}>{btn.icon}</button>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-          );
-        })}
+        {activeTab === "Comments" ? (
+          <DiscussionCollection
+            storedComments={storedComments}
+            activeTab={activeTab}
+            commentTypes={commentTypes}
+            myCommentBtns={myCommentBtns}
+          />
+        ) : (
+          <NotesCollection
+            storedNotes={storedNotes}
+            myCommentBtns={myCommentBtns}
+            commentTypes={commentTypes}
+          />
+        )}
       </div>
       <div className="discussion-footer">
         <div className="comment-types">
@@ -197,8 +165,12 @@ function LectureDiscussion({ selectedLecture }) {
         <textarea
           name={activeTab === "Comments" ? "slideComment" : "privateNote"}
           id="discussion"
-          value={commentContent}
-          onChange={(e) => setCommentContent(e.target.value)}
+          value={activeTab === "Comments" ? commentContent : noteContent}
+          onChange={(e) => {
+            activeTab === "Comments"
+              ? setCommentContent(e.target.value)
+              : setNoteContent(e.target.value);
+          }}
           placeholder={
             activeTab === "Comments"
               ? "Add a Comment to Slide #"
@@ -225,7 +197,10 @@ function LectureDiscussion({ selectedLecture }) {
                 <LockKeyholeIcon />
                 Only Visible to You
               </span>
-              <button>
+              <button
+                onClick={handleAddNote}
+                style={{ backgroundColor: activeType.color }}
+              >
                 <NotebookPen /> Save
               </button>
             </p>

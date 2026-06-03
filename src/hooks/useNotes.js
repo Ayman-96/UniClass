@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
-
-export function useNotes(lectureId, slideNumber, userId) {
+// add userId in param
+export function useNotes(lectureId, slideNumber) {
   return useQuery({
     queryKey: ["notes", lectureId, slideNumber],
     queryFn: async () => {
@@ -10,7 +10,7 @@ export function useNotes(lectureId, slideNumber, userId) {
         .select("*")
         .eq("lecture_id", lectureId)
         .eq("slide_number", slideNumber)
-        .eq("user_id", userId)
+        // .eq("user_id", userId)
         .order("created_at", { ascending: true });
 
       if (error) throw error;
@@ -38,7 +38,8 @@ export function useAddNote(lectureId, slideNumber) {
       });
     },
     onError: (error) => {
-      console.log("Error from Notes : " + error);
+      console.log("Error from Notes : ");
+      console.log(error);
     },
   });
 }
