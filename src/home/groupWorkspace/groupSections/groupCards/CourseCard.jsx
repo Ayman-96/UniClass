@@ -9,7 +9,7 @@ function CourseCard({ course }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   console.log("Course Id : " + course.id);
   return (
-    <Link to={`courses/${course.id}`} className="course-card-link">
+    <Link to={`${course.id}`} className="course-card-link">
       <div className="course-card-container">
         <div style={{ height: "5px", background: course.color || "#1a9e6e" }} />
         <div className="course-card-header">
