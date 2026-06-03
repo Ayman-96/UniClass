@@ -3,7 +3,7 @@ import { supabase } from "../supabase";
 
 export function useDiscussion(lectureId, slideNumber) {
   return useQuery({
-    queryKey: ["discussoions", lectureId, slideNumber],
+    queryKey: ["discussions", lectureId, slideNumber],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("discussions")

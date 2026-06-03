@@ -13,7 +13,16 @@ import {
   Undo2,
   Users,
 } from "lucide-react";
+
 import { useState } from "react";
+import {
+  useAddComment,
+  useDiscussion,
+} from "../../../../../hooks/useDiscussion";
+import { useParams } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
+import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
+import useLectureStore from "../../../../../store/useLectureStore";
 const discussBtns = [
   {
     name: "Comments",
@@ -52,13 +61,53 @@ const discussReply = [
     icon: <ThumbsUp />,
   },
 ];
-function LectureDiscussion() {
-  const [activeType, setActiveType] = useState("Note");
+const myCommentBtns = [
+  {
+    icon: <Trash2 />,
+    onClick: "",
+  },
+  {
+    icon: <SquarePen />,
+    onClick: "",
+  },
+];
+function LectureDiscussion({ selectedLecture }) {
+  const { courseId } = useParams();
+  const { currentSlide } = useLectureStore();
+  const {
+    data: storedComments,
+    isLoading,
+    isError,
+  } = useDiscussion(selectedLecture.id, currentSlide);
   const [activeTab, setActiveTab] = useState("Comments");
+  const [commentContent, setCommentContent] = useState("");
+  const [activeType, setActiveType] = useState(commentTypes[0]);
+  const { mutate: addComment } = useAddComment(
+    selectedLecture.id,
+    currentSlide,
+  );
+
+  function handleAddComment() {
+    if (!commentContent) return;
+
+    addComment({
+      user_id: null, // still dont have auth
+      slide_number: currentSlide,
+      content: commentContent,
+      type: activeType.name.toLowerCase(),
+      lecture_id: selectedLecture.id,
+      course_id: courseId,
+    });
+
+    setCommentContent("");
+  }
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <div>Error... try again</div>;
 
   return (
     <div className="comment-note-overlay">
-      <MessagesSquare /> Discussion & Notes <span>Slide #</span>
+      <MessagesSquare /> Discussion & Notes <span>Slide {currentSlide}</span>
       <div className="discussion-buttons">
         {discussBtns.map((btn, i) => {
           return (
@@ -73,45 +122,59 @@ function LectureDiscussion() {
         })}
       </div>
       <div className="discussion-body">
-        <div className="discuss-card">
-          <div className="discuss-header">
-            <div className="user-avatar-discussion">
-              SK <span>username</span>
-            </div>
-            <div className="discussion-type">
-              {activeTab === "Comments" ? (
-                ""
-              ) : (
-                <p>
-                  <LockKeyholeIcon /> private note
-                </p>
-              )}
-            </div>
-            <div className="shared-time">2h ago</div>
-          </div>
+        {storedComments.map((comment, i) => {
+          return (
+            <div key={i} className="discuss-card">
+              <div className="discuss-header">
+                <div className="user-avatar-discussion">
+                  SK <span>username</span>
+                </div>
+                <div className="discussion-type">
+                  {activeTab === "Comments" ? (
+                    ""
+                  ) : (
+                    <p>
+                      <LockKeyholeIcon /> private note
+                    </p>
+                  )}
+                </div>
+                <div className="shared-time">
+                  {" "}
+                  {formatDistanceToNow(new Date(comment.created_at), {
+                    addSuffix: true,
+                  })}
+                </div>
+              </div>
 
-          <p className="discuss-content"> Hello</p>
+              <p className="discuss-content">{comment.content}</p>
 
-          <div className="discuss-reaction">
-            {activeTab === "Comments" ? (
-              discussReply.map((btn) => {
-                return (
-                  <button key={btn.name}>
-                    {btn.icon} {btn.name}
+              <div className="discuss-reaction">
+                {activeTab === "Comments" ? (
+                  discussReply.map((btn) => {
+                    return (
+                      <button key={btn.name}>
+                        {btn.icon} {btn.name}
+                      </button>
+                    );
+                  })
+                ) : (
+                  <button>
+                    <SquarePen /> Edit
                   </button>
-                );
-              })
-            ) : (
-              <button>
-                <SquarePen /> Edit
-              </button>
-            )}
+                )}
 
-            <button className="delete-note">
-              <Trash2 />
-            </button>
-          </div>
-        </div>
+                {comment.user_id === "my_id" &&
+                  myCommentBtns.map((btn) => {
+                    return (
+                      <div className="my-comnt-btns">
+                        <button onClick={btn.onClick}>{btn.icon}</button>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          );
+        })}
       </div>
       <div className="discussion-footer">
         <div className="comment-types">
@@ -134,6 +197,8 @@ function LectureDiscussion() {
         <textarea
           name={activeTab === "Comments" ? "slideComment" : "privateNote"}
           id="discussion"
+          value={commentContent}
+          onChange={(e) => setCommentContent(e.target.value)}
           placeholder={
             activeTab === "Comments"
               ? "Add a Comment to Slide #"
@@ -147,7 +212,10 @@ function LectureDiscussion() {
               <span>
                 <Users /> Visible to CLassmates
               </span>
-              <button style={{ backgroundColor: activeType.color }}>
+              <button
+                onClick={handleAddComment}
+                style={{ backgroundColor: activeType.color }}
+              >
                 <MessageSquareShare /> Share
               </button>
             </div>

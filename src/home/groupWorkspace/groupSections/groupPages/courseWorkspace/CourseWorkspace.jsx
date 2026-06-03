@@ -38,7 +38,9 @@ function CourseWorkspace() {
             {!isOpenDiscussion ? <PanelRightOpen /> : <PanelLeftOpen />}
           </button>
         )}
-        {isOpenDiscussion && <LectureDiscussion />}
+        {isOpenDiscussion && (
+          <LectureDiscussion selectedLecture={selectedLecture} />
+        )}
       </div>
     </div>
   );

@@ -101,14 +101,15 @@
   flex-direction: column;
   gap: 6px;
 }
-.return-home svg {
+.return-home a {
   width: 22px;
   height: 22px;
+  color: #51ad8b;
 }
-.return-home svg:first-child:hover {
-  color: #7e11b9;
+.return-home a:first-child:hover {
+  color: #b91111;
 }
-.return-home svg:nth-child(2):hover {
+.return-home a:nth-child(2):hover {
   color: #e19702;
 }
 /* ── Lectures list ── */

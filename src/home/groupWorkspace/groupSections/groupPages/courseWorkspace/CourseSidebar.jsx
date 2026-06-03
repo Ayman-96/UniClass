@@ -20,7 +20,9 @@ function CourseSidebar() {
 
   function handleAddLecture(e) {
     const file = e.target.files[0];
+
     if (!file) return;
+
     addLecture({
       course_id: courseId,
       group_id: groupId,

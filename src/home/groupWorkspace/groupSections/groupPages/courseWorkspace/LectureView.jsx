@@ -9,7 +9,7 @@ import {
   PlusIcon,
   Shrink,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -20,6 +20,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 function LectureView() {
   const BASE_SCALE = 0.8;
   const pdfRef = useRef(null);
+  const { setCurrentSlide } = useLectureStore();
   const { selectedLecture } = useLectureStore();
   const [numPages, setNumPages] = useState(null);
   const [scale, setScale] = useState(BASE_SCALE);
@@ -60,6 +61,10 @@ function LectureView() {
       setIsDownloading(false);
     }
   }
+
+  useEffect(() => {
+    setCurrentSlide(pageNumber);
+  }, [pageNumber, setCurrentSlide]);
 
   if (!selectedLecture)
     return (
@@ -122,6 +127,25 @@ function LectureView() {
           <button className="shrink-screen-btn" onClick={handleFullScreen}>
             <Shrink />
           </button>
+        )}
+        {fullScreen && (
+          <div className="pdf-zoom fullscreen-zoom">
+            <button
+              onClick={() =>
+                setScale((prev) => Math.max(prev - 0.1 * BASE_SCALE, 0.4))
+              }
+            >
+              <MinusIcon />
+            </button>
+            {displayZoom}%
+            <button
+              onClick={() =>
+                setScale((prev) => Math.min(prev + 0.1 * BASE_SCALE, 3.0))
+              }
+            >
+              <PlusIcon />
+            </button>
+          </div>
         )}
 
         <button
