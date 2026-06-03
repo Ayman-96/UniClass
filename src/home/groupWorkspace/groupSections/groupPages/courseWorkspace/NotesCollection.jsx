@@ -1,8 +1,13 @@
 import "./LectureDiscussion.css";
 import { formatDistanceToNow } from "date-fns";
-import { LockKeyholeIcon } from "lucide-react";
+import { LockKeyholeIcon, SquarePen, Trash2 } from "lucide-react";
 
-function NotesCollection({ storedNotes, myCommentBtns, commentTypes }) {
+function NotesCollection({
+  storedNotes,
+  commentTypes,
+  setIsEditing,
+  handleEditNote,
+}) {
   return (
     <>
       {storedNotes?.map((note, i) => {
@@ -33,14 +38,20 @@ function NotesCollection({ storedNotes, myCommentBtns, commentTypes }) {
             <p className="discuss-content">{note.content}</p>
 
             <div className="discuss-reaction">
-              {note.user_id === "my_id" &&
-                myCommentBtns.map((btn) => {
-                  return (
-                    <div className="my-comnt-btns">
-                      <button onClick={btn.onClick}>{btn.icon}</button>
-                    </div>
-                  );
-                })}
+              <div className="my-comnt-btns">
+                <button
+                  onClick={() => {
+                    setIsEditing(true);
+                    handleEditNote(note.id, note.content);
+                  }}
+                >
+                  <SquarePen />
+                </button>
+
+                <button>
+                  <Trash2 />
+                </button>
+              </div>
             </div>
           </div>
         );

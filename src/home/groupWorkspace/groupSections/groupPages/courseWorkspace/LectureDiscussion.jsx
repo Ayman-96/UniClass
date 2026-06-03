@@ -7,8 +7,6 @@ import {
   NotebookPen,
   Pencil,
   Siren,
-  SquarePen,
-  Trash2,
   Users,
 } from "lucide-react";
 
@@ -24,7 +22,11 @@ import NotesCollection from "./NotesCollection";
 import DiscussionCollection from "./DiscussionCOllection";
 import useLectureStore from "../../../../../store/useLectureStore";
 import useCommentStore from "../../../../../store/useCommentStore";
-import { useAddNote, useNotes } from "../../../../../hooks/useNotes";
+import {
+  useAddNote,
+  useEditNote,
+  useNotes,
+} from "../../../../../hooks/useNotes";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
 const discussBtns = [
   {
@@ -54,20 +56,10 @@ const commentTypes = [
     color: "rgba(255, 27, 27, 0.69)",
   },
 ];
-const myCommentBtns = [
-  {
-    icon: <Trash2 />,
-    onClick: "",
-  },
-  {
-    icon: <SquarePen />,
-    onClick: "",
-  },
-];
 function LectureDiscussion({ selectedLecture }) {
   const { courseId } = useParams();
   const { currentSlide } = useLectureStore();
-  const { commentId } = useCommentStore();
+  const { setCommentId, commentId, setNoteId, noteId } = useCommentStore();
   const [noteContent, setNoteContent] = useState("");
   const {
     data: storedComments,
@@ -91,22 +83,11 @@ function LectureDiscussion({ selectedLecture }) {
     selectedLecture.id,
     currentSlide,
   );
+  const { mutate: editNote } = useEditNote(selectedLecture.id, currentSlide);
   const { mutate: addNote } = useAddNote(selectedLecture.id, currentSlide);
 
   // needs userId after Auth
   const { data: storedNotes } = useNotes(selectedLecture.id, currentSlide);
-  function handleAddNote() {
-    if (!noteContent) return;
-
-    addNote({
-      user_id: null,
-      slide_number: currentSlide,
-      content: noteContent,
-      type: activeType.name.toLowerCase(),
-      lecture_id: selectedLecture.id,
-    });
-    setNoteContent("");
-  }
   function handleAddComment() {
     if (!commentContent) return;
 
@@ -126,7 +107,34 @@ function LectureDiscussion({ selectedLecture }) {
     });
     setCommentContent("");
   }
+  function handleAddNote() {
+    if (!noteContent) return;
 
+    if (isEditing) {
+      console.log("noteId:", noteId);
+      editNote({ noteId: noteId, newContent: noteContent });
+      setNoteContent("");
+      setIsEditing(false);
+      return;
+    }
+    addNote({
+      user_id: null,
+      slide_number: currentSlide,
+      content: noteContent,
+      type: activeType.name.toLowerCase(),
+      lecture_id: selectedLecture.id,
+    });
+    setNoteContent("");
+  }
+  function handleEditComment(commentId, currentContent) {
+    setCommentContent(currentContent);
+    setCommentId(commentId);
+  }
+  function handleEditNote(noteId, currentContent) {
+    setNoteContent(currentContent);
+    setNoteId(noteId);
+  }
+  console.log(isEditing);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error... try again</div>;
 
@@ -138,7 +146,12 @@ function LectureDiscussion({ selectedLecture }) {
           return (
             <button
               key={i}
-              onClick={() => setActiveTab(btn.name)}
+              onClick={() => {
+                setActiveTab(btn.name);
+                setNoteContent("");
+                setCommentContent("");
+                setIsEditing(false);
+              }}
               className={`discuss-btn ${activeTab === btn.name && "activated-panel"}`}
             >
               {btn.icon} {btn.name}
@@ -152,16 +165,15 @@ function LectureDiscussion({ selectedLecture }) {
             storedComments={storedComments}
             commentTypes={commentTypes}
             toggleLike={toggleLike}
-            editComment={editComment}
-            setCommentContent={setCommentContent}
-            // commentContent={commentContent}
             setIsEditing={setIsEditing}
+            handleEditComment={handleEditComment}
           />
         ) : (
           <NotesCollection
             storedNotes={storedNotes}
-            myCommentBtns={myCommentBtns}
             commentTypes={commentTypes}
+            setIsEditing={setIsEditing}
+            handleEditNote={handleEditNote}
           />
         )}
       </div>

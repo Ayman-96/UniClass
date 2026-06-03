@@ -1,21 +1,14 @@
 import "./LectureDiscussion.css";
 import { formatDistanceToNow } from "date-fns";
 import { SquarePen, ThumbsUp, Trash2, Undo2 } from "lucide-react";
-import useCommentStore from "../../../../../store/useCommentStore";
 
 function DiscussionCollection({
   storedComments,
   commentTypes,
   toggleLike,
   setIsEditing,
-  setCommentContent,
+  handleEditComment,
 }) {
-  const { setCommentId } = useCommentStore();
-  function handleEditComment(commentId, currentContent) {
-    setCommentContent(currentContent);
-    setCommentId(commentId);
-  }
-
   return (
     <>
       {storedComments?.map((comment) => {

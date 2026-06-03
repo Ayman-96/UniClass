@@ -39,19 +39,20 @@ export function useAddNote(lectureId, slideNumber) {
     },
     onError: (error) => {
       console.log("Error from Notes : ");
-      console.log(error);
+      console.error(error);
     },
   });
 }
-export function useEditNote(userId, lectureId, slideNumber) {
+//userId
+export function useEditNote(lectureId, slideNumber) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ newContent, noteId }) => {
+    mutationFn: async ({ noteId, newContent }) => {
       const { data, error } = await supabase
         .from("notes")
         .update({ content: newContent })
         .eq("id", noteId)
-        .eq("user_id", userId)
+        // .eq("user_id", userId)
         .select()
         .single();
 
@@ -64,7 +65,7 @@ export function useEditNote(userId, lectureId, slideNumber) {
       });
     },
     onError: (error) => {
-      console.log("Error from  edit notes : " + error);
+      console.error(error);
     },
   });
 }
