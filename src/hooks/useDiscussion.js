@@ -65,8 +65,8 @@ export function useDeleteComment(userId, lectureId, slideNumber) {
     },
   });
 }
-
-export function useEditeComment(userId, lectureId, slideNumber) {
+// userId
+export function useEditComment(lectureId, slideNumber) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -75,9 +75,9 @@ export function useEditeComment(userId, lectureId, slideNumber) {
         .from("discussions")
         .update({ content: newContent }) // column content = new content
         .eq("id", commentId)
-        .eq("user_id", userId)
+        // .eq("user_id", userId)
         .select()
-        .single();
+        .maybeSingle();
       if (error) throw error;
       return data;
     },
@@ -87,12 +87,13 @@ export function useEditeComment(userId, lectureId, slideNumber) {
       });
     },
     onError: (error) => {
-      console.log("Error from discussions : " + error);
+      console.error("Error from discussions : " + error);
     },
   });
 }
 
-export function useToggleLike({ userId, lectureId, slideNumber }) {
+//pass userId
+export function useToggleLike(lectureId, slideNumber) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -101,8 +102,8 @@ export function useToggleLike({ userId, lectureId, slideNumber }) {
         .from("discussion_like")
         .select("id")
         .eq("discussion_id", discussionId)
-        .eq("user_id", userId)
-        .single();
+        // .eq("user_id", userId)
+        .maybeSingle();
 
       if (existingLike) {
         const { data, error } = await supabase
@@ -114,7 +115,7 @@ export function useToggleLike({ userId, lectureId, slideNumber }) {
       } else {
         const { data, error } = await supabase
           .from("discussion_like")
-          .insert({ discussion_id: discussionId, user_id: userId })
+          .insert({ discussion_id: discussionId }) // add , user_id: userId
           .select()
           .single();
         if (error) throw error;

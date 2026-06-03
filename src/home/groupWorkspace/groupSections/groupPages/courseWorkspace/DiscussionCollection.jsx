@@ -1,18 +1,20 @@
 import "./LectureDiscussion.css";
 import { formatDistanceToNow } from "date-fns";
-import { ThumbsUp, Undo2 } from "lucide-react";
-const discussReply = [
-  {
-    name: "Reply",
-    icon: <Undo2 />,
-  },
-  {
-    name: "Like",
-    icon: <ThumbsUp />,
-  },
-];
-function DiscussionCollection({ storedComments, commentTypes, myCommentBtns }) {
-  if (!storedComments) return null;
+import { SquarePen, ThumbsUp, Trash2, Undo2 } from "lucide-react";
+import useCommentStore from "../../../../../store/useCommentStore";
+
+function DiscussionCollection({
+  storedComments,
+  commentTypes,
+  toggleLike,
+  setIsEditing,
+  setCommentContent,
+}) {
+  const { setCommentId } = useCommentStore();
+  function handleEditComment(commentId, currentContent) {
+    setCommentContent(currentContent);
+    setCommentId(commentId);
+  }
 
   return (
     <>
@@ -43,22 +45,28 @@ function DiscussionCollection({ storedComments, commentTypes, myCommentBtns }) {
             <p className="discuss-content">{comment.content}</p>
 
             <div className="discuss-reaction">
-              {discussReply.map((btn) => {
-                return (
-                  <button key={btn.name}>
-                    {btn.icon} {btn.name}
-                  </button>
-                );
-              })}
+              <button>
+                <Undo2 /> Reply
+              </button>
+              <button onClick={() => toggleLike({ discussionId: comment.id })}>
+                <ThumbsUp /> {comment.discussion_like?.[0]?.count ?? 0}
+                {/*if anything above is undefined or null, default to 0 */}
+              </button>
 
-              {comment.user_id === "my_id" &&
-                myCommentBtns.map((btn) => {
-                  return (
-                    <div className="my-comnt-btns">
-                      <button onClick={btn.onClick}>{btn.icon}</button>
-                    </div>
-                  );
-                })}
+              <div className="my-comnt-btns">
+                <button
+                  onClick={() => {
+                    setIsEditing(true);
+                    handleEditComment(comment.id, comment.content);
+                  }}
+                >
+                  <SquarePen />
+                </button>
+
+                <button>
+                  <Trash2 />
+                </button>
+              </div>
             </div>
           </div>
         );

@@ -16,13 +16,16 @@ import { useState } from "react";
 import {
   useAddComment,
   useDiscussion,
+  useEditComment,
+  useToggleLike,
 } from "../../../../../hooks/useDiscussion";
 import { useParams } from "react-router-dom";
-import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
-import useLectureStore from "../../../../../store/useLectureStore";
-import DiscussionCollection from "./DiscussionCOllection";
 import NotesCollection from "./NotesCollection";
+import DiscussionCollection from "./DiscussionCOllection";
+import useLectureStore from "../../../../../store/useLectureStore";
+import useCommentStore from "../../../../../store/useCommentStore";
 import { useAddNote, useNotes } from "../../../../../hooks/useNotes";
+import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
 const discussBtns = [
   {
     name: "Comments",
@@ -51,7 +54,6 @@ const commentTypes = [
     color: "rgba(255, 27, 27, 0.69)",
   },
 ];
-
 const myCommentBtns = [
   {
     icon: <Trash2 />,
@@ -65,23 +67,34 @@ const myCommentBtns = [
 function LectureDiscussion({ selectedLecture }) {
   const { courseId } = useParams();
   const { currentSlide } = useLectureStore();
+  const { commentId } = useCommentStore();
+  const [noteContent, setNoteContent] = useState("");
   const {
     data: storedComments,
     isLoading,
     isError,
   } = useDiscussion(selectedLecture.id, currentSlide);
+  const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState("Comments");
   const [commentContent, setCommentContent] = useState("");
-  const [noteContent, setNoteContent] = useState("");
   const [activeType, setActiveType] = useState(commentTypes[0]);
+
   const { mutate: addComment } = useAddComment(
     selectedLecture.id,
     currentSlide,
   );
+  const { mutate: toggleLike } = useToggleLike(
+    selectedLecture.id,
+    currentSlide,
+  );
+  const { mutate: editComment } = useEditComment(
+    selectedLecture.id,
+    currentSlide,
+  );
+  const { mutate: addNote } = useAddNote(selectedLecture.id, currentSlide);
 
   // needs userId after Auth
   const { data: storedNotes } = useNotes(selectedLecture.id, currentSlide);
-  const { mutate: addNote } = useAddNote(selectedLecture.id, currentSlide);
   function handleAddNote() {
     if (!noteContent) return;
 
@@ -92,12 +105,17 @@ function LectureDiscussion({ selectedLecture }) {
       type: activeType.name.toLowerCase(),
       lecture_id: selectedLecture.id,
     });
-
     setNoteContent("");
   }
   function handleAddComment() {
     if (!commentContent) return;
 
+    if (isEditing) {
+      editComment({ commentId: commentId, newContent: commentContent });
+      setCommentContent("");
+      setIsEditing(false);
+      return;
+    }
     addComment({
       user_id: null, // still dont have auth
       slide_number: currentSlide,
@@ -106,9 +124,9 @@ function LectureDiscussion({ selectedLecture }) {
       lecture_id: selectedLecture.id,
       course_id: courseId,
     });
-
     setCommentContent("");
   }
+
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error... try again</div>;
 
@@ -132,9 +150,12 @@ function LectureDiscussion({ selectedLecture }) {
         {activeTab === "Comments" ? (
           <DiscussionCollection
             storedComments={storedComments}
-            activeTab={activeTab}
             commentTypes={commentTypes}
-            myCommentBtns={myCommentBtns}
+            toggleLike={toggleLike}
+            editComment={editComment}
+            setCommentContent={setCommentContent}
+            // commentContent={commentContent}
+            setIsEditing={setIsEditing}
           />
         ) : (
           <NotesCollection

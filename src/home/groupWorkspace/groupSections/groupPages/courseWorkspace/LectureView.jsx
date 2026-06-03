@@ -26,7 +26,6 @@ function LectureView() {
   const [scale, setScale] = useState(BASE_SCALE);
   const [pageNumber, setPageNumber] = useState(1);
   const [fullScreen, setFullScreen] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
   const displayZoom = Math.round((scale / BASE_SCALE) * 100);
 
   const handleFullScreen = async () => {
@@ -43,7 +42,6 @@ function LectureView() {
   };
 
   async function handleDownload(pdfUrl, title) {
-    setIsDownloading(true);
     try {
       const response = await fetch(pdfUrl);
       const blob = await response.blob();
@@ -57,8 +55,6 @@ function LectureView() {
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Download failed. Try again.");
-    } finally {
-      setIsDownloading(false);
     }
   }
 
