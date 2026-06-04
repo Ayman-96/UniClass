@@ -1,7 +1,10 @@
 import "./App.css";
 import Homepage from "./home/Homepage";
+import SignUp from "./signingPages/SignUp";
+import SignIn from "./signingPages/SignIn";
 import Welcome from "./welcomePage/Welcome";
 import { Route, Routes } from "react-router-dom";
+import ResetPassword from "./signingPages/ResetPassword";
 import GroupWorkSpace from "./home/groupWorkspace/GroupWorkspace";
 import UserDashboard from "./home/menuContents/dashboard/UserDashboard";
 import GroupPostsPage from "./home/groupWorkspace/groupSections/groupPages/GroupPostsPage";
@@ -9,8 +12,6 @@ import GroupCoursesPage from "./home/groupWorkspace/groupSections/groupPages/Gro
 import GroupMembersPage from "./home/groupWorkspace/groupSections/groupPages/GroupMembersPage";
 import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/groupPages/GroupAnnouncementsPage";
 import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/CourseWorkspace";
-import SignIn from "./signingPages/SignIn";
-import ResetPassword from "./signingPages/ResetPassword";
 function App() {
   return (
     <div>
@@ -18,6 +19,8 @@ function App() {
         <Route path="/" element={<Welcome />} />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
+        <Route path="/signUp" element={<SignUp />} />
+
         <Route path="/home" element={<Homepage />}>
           {/* Nested routes for the outlet */}
           <Route index element={<UserDashboard />} />

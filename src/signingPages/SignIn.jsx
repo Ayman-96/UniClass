@@ -5,7 +5,9 @@ import { Eye, EyeOff, Key, Mail } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import "./SignIn.css";
 import { Link, NavLink } from "react-router-dom";
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 function SignIn() {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -25,6 +27,7 @@ function SignIn() {
       return;
     }
     // Set session persistence based on remember me
+    setLoading(true);
     await supabase.auth.setSession({
       persistSession: rememberMe, // true = stay logged in, false = session only
     });
@@ -32,7 +35,14 @@ function SignIn() {
       email,
       password,
     });
-    if (error) setError(error.message);
+    setLoading(false);
+    if (error) {
+      if (error.message === "Invalid login credentials") {
+        setError("Wrong email or password");
+      } else {
+        setError(error.message);
+      }
+    }
   };
 
   return (
@@ -47,7 +57,7 @@ function SignIn() {
 
       <div className="signin-body">
         <div className="email-input email">
-          <label htmlFor="email">University Email</label>
+          <label htmlFor="email">Email</label>
           <Mail className="icon mail-icon" />
           <input
             type="email"
@@ -59,15 +69,15 @@ function SignIn() {
         </div>
 
         <div className="email-input password">
-          <label htmlFor="password"></label>
+          <label htmlFor="password">Password</label>
           <Key className="icon pass-icon" />
           <input
-            type="password"
+            type={showPass ? "text" : "password"}
             placeholder="password***"
             onChange={(e) => setPassword(e.target.value)}
           />
           <button className="eye-btn" onClick={() => setShowPass((p) => !p)}>
-            {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+            {showPass ? <Eye size={16} /> : <EyeOff size={16} />}
           </button>
         </div>
       </div>
@@ -87,10 +97,13 @@ function SignIn() {
             Forgot Password?
           </Link>
         </div>
-        {error && <p className="error-message">{error}</p>}
+
+        <div className="absolute-loading">{loading && <LoadingSpinner />}</div>
+
+        {error && <p className="signup-error">{error}</p>}
         <div className="sign-btns">
           <button className="sign-with-email" onClick={signInWithEmail}>
-            Sign in
+            {loading ? "Checking..." : "Sign in"}
           </button>
 
           <p>or continue with</p>
@@ -100,8 +113,7 @@ function SignIn() {
           </button>
 
           <div className="no-acc-signup">
-            Don't have an account?{" "}
-            <NavLink to="/home/signUp">Sign up here!</NavLink>
+            Don't have an account? <NavLink to="/signUp">Sign up here!</NavLink>
           </div>
         </div>
       </div>

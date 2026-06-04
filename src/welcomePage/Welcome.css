@@ -396,6 +396,7 @@ body {
 }
 
 .join-btn {
+  text-decoration: none;
   background-color: transparent;
   color: var(--text-dark);
   border: 1px solid var(--border-color);

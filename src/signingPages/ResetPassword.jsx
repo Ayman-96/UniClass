@@ -1,3 +1,4 @@
+import "./ResetPassword.css";
 import { useState } from "react";
 import { supabase } from "../supabase";
 import { Logo } from "../welcomePage/Welcome";

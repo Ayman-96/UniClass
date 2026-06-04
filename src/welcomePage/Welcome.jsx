@@ -1,5 +1,5 @@
 import "./Welcome.css";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { GraduationCap } from "lucide-react";
 import { previewCards, previewFetures } from "../data/welcome";
 
@@ -57,8 +57,8 @@ function Mainpage({ previewCards, previewFetures }) {
             before.
           </p>
           <div className="upp-lf-btns">
-            <NavLink to="/sign-up">Create Account</NavLink>
-            <NavLink to="">Join with Code</NavLink>
+            <Link to="/signUp">Create Account</Link>
+            {/* <Link to="">Join with Code</Link> */}
           </div>
         </div>
         <div className="upper-right">
@@ -140,9 +140,9 @@ function JoinClass() {
         </p>
         <form className="join-form">
           <input placeholder="Enter class code" />
-          <button type="submit" className="join-btn">
+          <Link to="/signIn" className="join-btn">
             Join &rarr;
-          </button>{" "}
+          </Link>{" "}
         </form>
       </div>
     </div>
