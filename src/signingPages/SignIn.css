@@ -1,0 +1,297 @@
+.sign-in-modal {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  padding: 2.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-family: "DM Sans", sans-serif;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+/* ── header ── */
+
+.signin-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signin-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.4px;
+  margin-top: 10px;
+}
+
+.signin-header p {
+  font-size: 14px;
+  color: #999;
+  line-height: 1.5;
+}
+
+/* ── body (inputs) ── */
+
+.signin-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.email-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.email-input label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+}
+
+.email-input input {
+  height: 42px;
+  border: 1px solid #ebebeb;
+  border-radius: 9px;
+  padding: 0 13px 0 40px;
+  font-size: 14px;
+  font-family: "DM Sans", sans-serif;
+  color: #1a1a1a;
+  background: #fafafa;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
+}
+
+.email-input input:focus {
+  border-color: #1a9e78;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(26, 158, 120, 0.1);
+}
+
+.email-input input::placeholder {
+  color: #bbb;
+}
+
+.icon {
+  position: absolute;
+  bottom: 13px;
+  left: 13px;
+  color: #bbb;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.eye-btn {
+  position: absolute;
+  bottom: 11px;
+  right: 11px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: #bbb;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.eye-btn:hover {
+  color: #555;
+}
+
+/* ── actions ── */
+
+.signin-action {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.signin-rememberance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.signin-rememberance > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* custom checkbox */
+.signin-rememberance input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  flex-shrink: 0;
+}
+
+.signin-rememberance input[type="checkbox"]:checked {
+  background: #1a9e78;
+  border-color: #1a9e78;
+}
+
+.signin-rememberance input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1.5px;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.signin-rememberance label {
+  font-size: 13px;
+  color: #666;
+  cursor: pointer;
+  user-select: none;
+}
+
+.forget-pass {
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  color: #1a9e78;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.forget-pass:hover {
+  text-decoration: underline;
+}
+
+/* ── buttons ── */
+
+.sign-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sign-with-email {
+  width: 100%;
+  height: 44px;
+  background: #1a9e78;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  letter-spacing: -0.2px;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+
+.sign-with-email:hover {
+  background: #168f6b;
+}
+
+.sign-with-email:active {
+  transform: scale(0.985);
+}
+
+.sign-btns > p {
+  font-size: 12px;
+  color: #bbb;
+  margin: 0;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.sign-btns > p::before,
+.sign-btns > p::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 38%;
+  height: 1px;
+  background: #ebebeb;
+}
+
+.sign-btns > p::before {
+  left: 0;
+}
+.sign-btns > p::after {
+  right: 0;
+}
+
+.sign-with-google {
+  width: 100%;
+  height: 42px;
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  color: #444;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.sign-with-google:hover {
+  background: #fafafa;
+  border-color: #d5d5d5;
+}
+
+/* ── sign up row ── */
+
+.no-acc-signup {
+  font-size: 13px;
+  color: #999;
+}
+
+.no-acc-signup a {
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  color: #1a9e78;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.no-acc-signup a:hover {
+  text-decoration: underline;
+}
