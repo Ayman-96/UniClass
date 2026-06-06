@@ -3,7 +3,7 @@ import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import { Logo } from "../welcomePage/Welcome";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "../supabase";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 function SignUp() {
@@ -15,14 +15,14 @@ function SignUp() {
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   const signInWithGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/home` },
+      options: { redirectTo: `${window.location.origin}/setup` },
     });
   };
+
   const signUp = async () => {
     if (!email || !password || !confirmPassword) {
       setError("Please fill in all fields");
@@ -51,7 +51,7 @@ function SignUp() {
       setError("Wrong email or password");
     } else if (data?.user?.identities?.length === 0) {
       setError("An account with this email already exists");
-    } else navigate("/signIn");
+    } else await supabase.auth.signInWithPassword({ email, password });
   };
   return (
     <div className="sign-up-modal">

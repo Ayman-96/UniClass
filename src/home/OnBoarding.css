@@ -1,0 +1,475 @@
+/* onboarding.css */
+
+.onboarding-overlay {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: radial-gradient(
+    ellipse at top left,
+    #d4ede5 0%,
+    #f4f4f2 50%,
+    #e8f7f2 100%
+  );
+  padding: 2rem;
+  gap: 2rem;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* ── header ── */
+
+.onboarding-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 520px;
+}
+
+.steps-bar {
+  width: 100%;
+  height: 3px;
+  background: #ebebeb;
+  border-radius: 99px;
+  position: relative;
+  overflow: hidden;
+}
+
+.steps-bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #1a9e78;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+  width: var(--progress, 33%);
+}
+
+.steps-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: #bbb;
+  letter-spacing: 0.3px;
+}
+
+.step-title {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.step-title h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+
+.step-title p {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── body card ── */
+
+.onboarding-body {
+  width: 100%;
+  max-width: 520px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  padding: 2rem;
+}
+
+/* ── shared input style ── */
+
+.user-input {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+}
+
+.user-input label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+}
+
+.user-input input,
+.user-input select {
+  height: 42px;
+  border: 1px solid #ebebeb;
+  border-radius: 9px;
+  padding: 0 13px 0 40px;
+  font-size: 14px;
+  font-family: "DM Sans", sans-serif;
+  color: #1a1a1a;
+  background: #fafafa;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
+}
+
+.user-input input:focus,
+.user-input select:focus {
+  border-color: #1a9e78;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(26, 158, 120, 0.1);
+}
+
+.user-input input::placeholder {
+  color: #bbb;
+}
+
+.input-icon {
+  position: absolute;
+  bottom: 13px;
+  left: 13px;
+  width: 16px;
+  height: 16px;
+  color: #bbb;
+  pointer-events: none;
+}
+
+/* ── step 1: personal ── */
+
+.where-study-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* gender buttons */
+.user-input:has(button) {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-input button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  border: 1px solid #ebebeb;
+  border-radius: 9px;
+  background: #fafafa;
+  font-size: 14px;
+  font-family: "DM Sans", sans-serif;
+  color: #888;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
+}
+
+.user-input button:hover {
+  border-color: #c0e6da;
+  background: #f0faf6;
+  color: #1a9e78;
+}
+
+/* selected gender — your className logic produces "true selected-gender" or "false selected-gender" */
+.user-input button.selected-gender.true,
+.user-input button[class*="true"] {
+  border-color: #1a9e78;
+  background: #f0faf6;
+  color: #1a9e78;
+  font-weight: 500;
+}
+
+/* gender row side by side */
+.user-input:has(button) > div:not(label) {
+  display: flex;
+  gap: 10px;
+}
+
+.user-input button {
+  flex: 1;
+}
+
+/* ── step 2: academic ── */
+
+.academic-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* select chevron */
+.user-input select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23bbb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+/* ── step 3: all set ── */
+
+.allset-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.allset-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+.check-set {
+  width: 56px;
+  height: 56px;
+  background: #f0faf6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a9e78;
+}
+
+.check-set svg {
+  width: 28px;
+  height: 28px;
+}
+
+.allset-header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.allset-header p {
+  font-size: 13.5px;
+  color: #999;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.allset-collection {
+  background: #f8fdf9;
+  border: 1px solid #d4ede5;
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.set-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #e8f0ee;
+}
+
+.set-info:last-child {
+  border-bottom: none;
+}
+
+.set-info > div:first-child {
+  color: #999;
+}
+
+.set-info > div:last-child {
+  color: #1a1a1a;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* ── footer ── */
+
+.oboarding-footer {
+  width: 100%;
+  max-width: 520px;
+}
+
+.onboarding-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.onboarding-btns > button:first-child:not(:last-child) {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.onboarding-btns > button:first-child:not(:last-child):hover {
+  background: #f4f4f2;
+  border-color: #d5d5d5;
+}
+
+.onboarding-btns > button:last-child {
+  flex: 1;
+  height: 44px;
+  background: #1a9e78;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  letter-spacing: -0.2px;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+
+.onboarding-btns > button:last-child:hover {
+  background: #168f6b;
+}
+.onboarding-btns > button:last-child:active {
+  transform: scale(0.985);
+}
+.required-fil {
+  color: #9e1a1a;
+  font-size: medium;
+}
+/* ── error ── */
+
+.error-msg {
+  font-size: 13px;
+  color: #e05252;
+  background: #fff1f1;
+  border: 1px solid #f5c4c4;
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin: 0;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+.gender-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  flex: 1;
+  border: 1px solid #ebebeb;
+  border-radius: 9px;
+  background: #fafafa;
+  font-size: 14px;
+  font-family: "DM Sans", sans-serif;
+  color: #888;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
+}
+
+.ob-gender-btn.male-selected {
+  border-color: #4a90d9;
+  background: #f0f6fd;
+  color: #4a90d9;
+  font-weight: 500;
+}
+
+.ob-gender-btn.female-selected {
+  border-color: #e07aaa;
+  background: #fdf0f6;
+  color: #e07aaa;
+  font-weight: 500;
+}
+.gender-r {
+  display: flex;
+  gap: 10px;
+}
+/* hide native input */
+.avatar-upload input[type="file"] {
+  display: none;
+}
+
+.avatar-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  border: 1.5px dashed #d0d0d0;
+  border-radius: 9px;
+  padding: 0 14px;
+  cursor: pointer;
+  background: #fafafa;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.avatar-upload:hover {
+  border-color: #1a9e78;
+  background: #f0faf6;
+}
+
+.avatar-upload-icon {
+  color: #bbb;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.avatar-upload:hover .avatar-upload-icon {
+  color: #1a9e78;
+}
+
+.avatar-upload-text {
+  font-size: 13.5px;
+  color: #bbb;
+  transition: color 0.15s;
+}
+
+.avatar-upload:hover .avatar-upload-text {
+  color: #1a9e78;
+}
+.avatar-preview {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.allset-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #1a9e78;
+}

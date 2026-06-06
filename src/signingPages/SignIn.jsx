@@ -39,8 +39,10 @@ function SignIn() {
     if (error) {
       if (error.message === "Invalid login credentials") {
         setError("Wrong email or password");
+        return;
       } else {
         setError(error.message);
+        return;
       }
     }
   };

@@ -3,6 +3,7 @@ import Homepage from "./home/Homepage";
 import SignUp from "./signingPages/SignUp";
 import SignIn from "./signingPages/SignIn";
 import Welcome from "./welcomePage/Welcome";
+import OnBoarding from "./home/OnBoarding";
 import { Route, Routes } from "react-router-dom";
 import ResetPassword from "./signingPages/ResetPassword";
 import GroupWorkSpace from "./home/groupWorkspace/GroupWorkspace";
@@ -20,7 +21,7 @@ function App() {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/signUp" element={<SignUp />} />
-
+        <Route path="/setup" element={<OnBoarding />} />
         <Route path="/home" element={<Homepage />}>
           {/* Nested routes for the outlet */}
           <Route index element={<UserDashboard />} />
