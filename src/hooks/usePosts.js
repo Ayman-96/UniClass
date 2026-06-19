@@ -1,4 +1,5 @@
 import { supabase } from "../supabase";
+import { useAuth } from "../AuthContext.jsx";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 // Fetch all posts for a specific group
@@ -79,4 +80,55 @@ async function uploadImage(file) {
     .getPublicUrl(fileName);
 
   return urlData.publicUrl;
+}
+
+// LIKES
+
+export function useToggleLike() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async ({ postId, isCurrentlyLiked }) => {
+      if (isCurrentlyLiked) {
+        const { error } = await supabase
+          .from("post_likes")
+          .delete()
+          .eq("post_id", postId)
+          .eq("user_id", user.id);
+
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("post_likes")
+          .insert({ post_id: postId, user_id: user.id });
+
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["post-likes"] });
+    },
+  });
+}
+
+// read- fetch liked
+export function usePostLikes(postIds) {
+  return useQuery({
+    queryKey: ["post-likes", postIds],
+    queryFn: async () => {
+      if (!postIds || postIds.length === 0) return [];
+
+      const { data, error } = await supabase
+        .from("post_likes")
+        .select("post_id, user_id")
+        .in("post_id", postIds);
+
+      if (error) throw error;
+
+      return data;
+    },
+    enabled: !!postIds && postIds.length > 0,
+    // don't even run this query if there are no posts loaded yet
+  });
 }

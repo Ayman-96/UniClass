@@ -4,10 +4,16 @@ import AddAnnounce from "../../groupModals/AddAnnounce";
 import GroupPageHeader from "../../GroupWorkspaceHeader";
 import { MegaphoneIcon, BellPlusIcon } from "lucide-react";
 import { useParams } from "react-router-dom";
-import { useAnnounces } from "../../../../hooks/useAnnounce";
+import {
+  useAnnouncementLikes,
+  useAnnounces,
+  useToggleAnnouncementLike,
+} from "../../../../hooks/useAnnounce";
 import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
 import AnnounceCard from "../groupCards/AnnounceCard";
+import { useAuth } from "../../../../AuthContext";
 function GroupAnnouncementsPage() {
+  const { user } = useAuth();
   const { groupId } = useParams();
   const {
     data: storedAnnouncements,
@@ -19,6 +25,11 @@ function GroupAnnouncementsPage() {
   function handleAnnounceModal() {
     setAnnounceModal((prev) => !prev);
   }
+  const announcementIds = storedAnnouncements?.map(
+    (announcement) => announcement.id,
+  );
+  const { data: likes } = useAnnouncementLikes(announcementIds);
+  const { mutate: toggleLike } = useToggleAnnouncementLike();
 
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Errrrorrr</div>;
@@ -43,7 +54,27 @@ function GroupAnnouncementsPage() {
 
       <div className="storedAnnouncements-cards">
         {storedAnnouncements.map((announce) => {
-          return <AnnounceCard announce={announce} key={announce.id} />;
+          const announceLikes =
+            likes?.filter((l) => l.announcement_id === announce.id) ?? [];
+          const myVote =
+            announceLikes.find((l) => l.user_id === user.id)?.type ?? null;
+          const likeCount = announceLikes.filter(
+            (l) => l.type === "like",
+          ).length;
+          const dislikeCount = announceLikes.filter(
+            (l) => l.type === "dislike",
+          ).length;
+
+          return (
+            <AnnounceCard
+              key={announce.id}
+              announce={announce}
+              myVote={myVote}
+              likeCount={likeCount}
+              dislikeCount={dislikeCount}
+              toggleLike={toggleLike}
+            />
+          );
         })}
       </div>
     </div>

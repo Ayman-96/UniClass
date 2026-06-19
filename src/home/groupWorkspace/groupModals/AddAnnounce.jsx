@@ -16,6 +16,7 @@ import {
 import { useReducer, useState } from "react";
 import { useAddAnnounce } from "../../../hooks/useAnnounce";
 import RequiredWarning from "./RequiredWarning";
+import { useAuth } from "../../../AuthContext";
 const announceAttachments = [
   {
     text: "File",
@@ -58,6 +59,7 @@ function announceReducer(state, action) {
   }
 }
 function AddAnnounce({ handleAnnounceModal }) {
+  const { user } = useAuth();
   const { groupId } = useParams();
   const [newAnnounce, dispatch] = useReducer(announceReducer, announceData);
   const { mutate: addAnnounce } = useAddAnnounce();
@@ -70,6 +72,8 @@ function AddAnnounce({ handleAnnounceModal }) {
     }
     addAnnounce({
       group_id: groupId,
+      rep_id: user.id,
+      rep_name: user.user_metadata.username,
       title: newAnnounce.title,
       content: newAnnounce.content,
       icon: newAnnounce.icon,

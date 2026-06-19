@@ -20,6 +20,7 @@ import {
 } from "../../../../../hooks/useDiscussion";
 import { useParams } from "react-router-dom";
 import NotesCollection from "./NotesCollection";
+import { useAuth } from "../../../../../AuthContext";
 import DiscussionCollection from "./DiscussionCOllection";
 import useLectureStore from "../../../../../store/useLectureStore";
 import useCommentStore from "../../../../../store/useCommentStore";
@@ -59,6 +60,9 @@ const commentTypes = [
   },
 ];
 function LectureDiscussion({ selectedLecture }) {
+  const { user } = useAuth();
+  console.log(user);
+
   const { courseId } = useParams();
   const { currentSlide } = useLectureStore();
   const { setCommentId, commentId, setNoteId, noteId } = useCommentStore();
@@ -92,6 +96,7 @@ function LectureDiscussion({ selectedLecture }) {
     currentSlide,
   );
   const { mutate: deleteComment } = useDeleteComment(
+    user.id,
     selectedLecture.id,
     currentSlide,
   );
@@ -108,7 +113,7 @@ function LectureDiscussion({ selectedLecture }) {
       return;
     }
     addComment({
-      user_id: null, // still dont have auth
+      user_id: user.id, // still dont have auth
       slide_number: currentSlide,
       content: commentContent,
       type: activeType.name.toLowerCase(),

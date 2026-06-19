@@ -1,6 +1,7 @@
 import "./LectureDiscussion.css";
 import { formatDistanceToNow } from "date-fns";
 import { SquarePen, ThumbsUp, Trash2, Undo2 } from "lucide-react";
+import { useAuth } from "../../../../../AuthContext";
 
 function DiscussionCollection({
   storedComments,
@@ -10,6 +11,8 @@ function DiscussionCollection({
   handleEditComment,
   deleteComment,
 }) {
+  const { user } = useAuth();
+  console.log(user);
   return (
     <>
       {storedComments?.map((comment) => {
@@ -20,7 +23,7 @@ function DiscussionCollection({
           <div key={comment.id} className="discuss-card">
             <div className="discuss-header">
               <div className="user-avatar-discussion">
-                SK <span>username</span>
+                SK <span>{user.user_metadata.username}</span>
               </div>
               <div
                 className="discussion-type"

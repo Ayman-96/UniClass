@@ -12,7 +12,7 @@ import {
 import { useReducer, useState } from "react";
 import { useAddPost } from "../../../hooks/usePosts";
 import RequiredWarning from "./RequiredWarning";
-
+import { useAuth } from "../../../AuthContext.jsx";
 const postAttachments = [
   {
     text: "Attach File",
@@ -49,6 +49,7 @@ function postReducer(state, action) {
   }
 }
 function AddPost({ handlePostModal }) {
+  const { user } = useAuth();
   const { groupId } = useParams();
 
   const [newPost, dispatch] = useReducer(postReducer, postData);
@@ -62,8 +63,8 @@ function AddPost({ handlePostModal }) {
     }
     addPost({
       group_id: groupId,
-      author_name: "Ayman Hardy", // need Auth: newPost.author_name
-      author_badge: "member", // need Auth: newPost.author_badge
+      author_id: user.id,
+      author_name: user.user_metadata.username,
       content: newPost.content,
       imageFile: newPost.imageFile,
     });

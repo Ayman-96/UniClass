@@ -2,6 +2,7 @@ import "./UserDashboard.css";
 import DashboardBody from "./DashboardBody";
 import { useState, useReducer } from "react";
 import DashboardHeader from "./DashboardHeader";
+import { useAuth } from "../../../AuthContext.jsx";
 import NewGroupForm from "../newGroup/NewGroupForm";
 import { useGroups, useAddGroup } from "../../../hooks/useGroups";
 import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
@@ -38,6 +39,7 @@ function groupReducer(state, action) {
   }
 }
 function UserDashboard() {
+  const { user } = useAuth();
   const [popNewGroup, setPopNewGroup] = useState(false);
   const [fillWarning, setFillWarning] = useState(false);
   // const [storedGroups, setStoredGroups] = StoreGroups([], "storeGroup");
@@ -59,7 +61,7 @@ function UserDashboard() {
       group_code: newGroup.groupId,
       description: newGroup.description,
       color: newGroup.color,
-      rep_id: null,
+      rep_id: user.id,
     });
     // setStoredGroups([...storedGroups, newGroup]); replaced by addGroup(...) which saves to Supabase
     // localStorage.setItem("storeGroup", newGroup);  Supabase is the storage now,

@@ -6,7 +6,6 @@ import {
   CircleArrowLeft,
   GraduationCap,
   Mars,
-  Pen,
   PersonStanding,
   University,
   User,

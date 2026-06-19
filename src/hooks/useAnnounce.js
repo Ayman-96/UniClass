@@ -1,3 +1,4 @@
+import { useAuth } from "../AuthContext";
 import { supabase } from "../supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 export function useAnnounces(groupId) {
@@ -7,7 +8,8 @@ export function useAnnounces(groupId) {
       const { data, error } = await supabase
         .from("announcements")
         .select("*")
-        .eq("group_id", groupId);
+        .eq("group_id", groupId)
+        .order("created_at", { ascending: false }); // newest first
       if (error) throw error;
       return data;
     },
@@ -64,7 +66,7 @@ export function useDeleteAnnounce() {
 }
 async function uploadImage(file) {
   const fileName = `${Date.now()}-${file.name}`; // create a unique name
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from("announcement-images")
     .upload(fileName, file); // store FileName to DB first
 
@@ -75,4 +77,66 @@ async function uploadImage(file) {
     .getPublicUrl(fileName); // get the fileName from DB now
 
   return urlData.publicUrl;
+}
+
+// ANNOUNCEMENT LIKES/DISLIKES
+
+export function useAnnouncementLikes(announcementIds) {
+  return useQuery({
+    queryKey: ["announcement_likes", announcementIds],
+    queryFn: async () => {
+      if (!announcementIds || announcementIds.length === 0) return [];
+
+      const { data, error } = await supabase
+        .from("announcement_likes")
+        .select("announcement_id, user_id, type")
+        .in("announcement_id", announcementIds);
+
+      if (error) throw error;
+
+      return data;
+    },
+    enabled: !!announcementIds && announcementIds.length > 0,
+  });
+}
+
+export function useToggleAnnouncementLike() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ announcementId, currentVote, newType }) => {
+      if (currentVote === newType) {
+        // clicking the same button again removes the vote
+        const { error } = await supabase
+          .from("announcement_likes")
+          .delete()
+          .eq("announcement_id", announcementId)
+          .eq("user_id", user.id);
+
+        if (error) throw error;
+      } else if (currentVote) {
+        // switching from like to dislike or vice versa
+        const { error } = await supabase
+          .from("announcement_likes")
+          .update({ type: newType })
+          .eq("announcement_id", announcementId)
+          .eq("user_id", user.id);
+
+        if (error) throw error;
+      } else {
+        // no existing vote, insert new one
+        const { error } = await supabase.from("announcement_likes").insert({
+          announcement_id: announcementId,
+          user_id: user.id,
+          type: newType,
+        });
+
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["announcement_likes"] });
+    },
+  });
 }

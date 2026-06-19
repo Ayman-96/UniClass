@@ -8,24 +8,41 @@ import {
   Trash2,
 } from "lucide-react";
 import { useDeleteAnnounce } from "../../../../hooks/useAnnounce";
-const announcementButtons = [
-  { name: "comment", icon: <MessageCircleQuestionMark />, ammount: 0 },
-  {
-    name: "like",
-    icon: <HeartHandshake />,
-    ammount: 0,
-  },
-  {
-    name: "unlike",
-    icon: <ThumbsDown />,
-    ammount: 0,
-  },
-];
-function AnnounceCard({ announce }) {
+function AnnounceCard({
+  announce,
+  myVote,
+  likeCount,
+  dislikeCount,
+  toggleLike,
+}) {
+  const announcementButtons = [
+    {
+      name: "like",
+      icon: <HeartHandshake />,
+      amount: likeCount,
+      onCLick: () =>
+        toggleLike({
+          announcementId: announce.id,
+          currentVote: myVote,
+          newType: "like",
+        }),
+    },
+    {
+      name: "dislike",
+      icon: <ThumbsDown />,
+      amount: dislikeCount,
+      onCLick: () =>
+        toggleLike({
+          announcementId: announce.id,
+          currentVote: myVote,
+          newType: "dislike",
+        }),
+    },
+    { name: "comment", icon: <MessageCircleQuestionMark />, amount: 0 },
+  ];
   const { mutate: deleteAnnounce, isPending } = useDeleteAnnounce();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const postedTime = new Date(announce.created_at).toLocaleDateString();
-
   return (
     <div className="announce-overylay">
       <div className="announce-card">
@@ -87,8 +104,12 @@ function AnnounceCard({ announce }) {
         <div className="announced-buttons">
           {announcementButtons.map((button) => {
             return (
-              <button key={button.name} className={button.name}>
-                {button.ammount}
+              <button
+                key={button.name}
+                className={`announce-btn ${myVote === button.name ? button.name : ""}`}
+                onClick={button.onCLick}
+              >
+                {button.amount}
                 {button.icon}
               </button>
             );

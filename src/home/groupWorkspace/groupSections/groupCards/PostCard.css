@@ -187,7 +187,7 @@
 
 .post-interactions button:hover {
   background: #f4f3ef;
-  color: #1a1916;
+  color: #dc2626;
 }
 
 .post-interactions button svg {
@@ -195,9 +195,7 @@
   height: 17px;
 }
 
-.like-post:hover {
-  color: #dc2626;
-}
-.like-post.liked {
+.like-post.liked,
+.like-post.liked svg {
   color: #dc2626;
 }

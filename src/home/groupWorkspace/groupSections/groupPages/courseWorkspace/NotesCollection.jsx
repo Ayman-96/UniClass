@@ -19,7 +19,7 @@ function NotesCollection({
           <div key={note.id} className="discuss-card">
             <div className="discuss-header">
               <div className="user-avatar-discussion">
-                SK <span>username</span>
+                SK <span>profilename</span>
               </div>
               <div
                 className="discussion-type"

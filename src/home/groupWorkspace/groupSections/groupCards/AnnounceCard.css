@@ -287,6 +287,22 @@
     font-size: 13px;
   }
 }
+.announce-btn.like,
+.announce-btn.like svg {
+  color: #d97706;
+  font-weight: bold;
+  border: 1px solid #d97706;
+}
+.announce-btn.dislike,
+.announce-btn.dislike svg {
+  color: #d90606;
+  font-weight: bold;
+  border: 1px solid #d90606;
+}
+.announce-btn.dislike svg,
+.announce-btn.like svg {
+  border: none;
+}
 
 @media (max-width: 480px) {
   .storedAnnouncements-cards {

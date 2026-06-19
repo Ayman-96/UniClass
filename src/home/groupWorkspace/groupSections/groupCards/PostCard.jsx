@@ -2,11 +2,14 @@ import "./PostCard.css";
 import { useState } from "react";
 import { useDeletePost } from "../../../../hooks/usePosts";
 import { HeartHandshake, MessageSquareText, Redo2 } from "lucide-react";
+import { useAuth } from "../../../../AuthContext";
 
-function PostCard({ post }) {
+function PostCard({ post, isLiked, likeCount, toggleLike }) {
+  const { user } = useAuth();
   const { mutate: deletePost, isPending } = useDeletePost();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const postedTime = new Date(post.created_at).toLocaleDateString();
+
   return (
     <div className="post-overylay">
       <div className="post-card">
@@ -57,8 +60,13 @@ function PostCard({ post }) {
         </div>
 
         <div className="post-interactions">
-          <button className="like-post">
-            <HeartHandshake /> 12
+          <button
+            className={`like-post ${isLiked ? "liked" : ""}`}
+            onClick={() =>
+              toggleLike({ postId: post.id, isCurrentlyLiked: isLiked })
+            }
+          >
+            <HeartHandshake /> {likeCount}
           </button>
           <button className="comment-post">
             <MessageSquareText /> 6
