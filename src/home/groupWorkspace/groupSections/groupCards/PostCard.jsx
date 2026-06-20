@@ -1,15 +1,18 @@
 import "./PostCard.css";
 import { useState } from "react";
-import { useDeletePost } from "../../../../hooks/usePosts";
+import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
 import { HeartHandshake, MessageSquareText, Redo2 } from "lucide-react";
-import { useAuth } from "../../../../AuthContext";
-
+import PostComments from "../groupPages/PostComments";
+import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
 function PostCard({ post, isLiked, likeCount, toggleLike }) {
-  const { user } = useAuth();
-  const { mutate: deletePost, isPending } = useDeletePost();
+  const [openComments, setOpenComments] = useState(false);
+  const { mutate: deletePost, isPending, isError } = useDeletePost();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const postedTime = new Date(post.created_at).toLocaleDateString();
+  const { data: storedComments } = usePostComments(post.id);
 
+  if (isPending) return <LoadingSpinner />;
+  if (isError) return <div>Error Occured...</div>;
   return (
     <div className="post-overylay">
       <div className="post-card">
@@ -68,13 +71,26 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
           >
             <HeartHandshake /> {likeCount}
           </button>
-          <button className="comment-post">
-            <MessageSquareText /> 6
+          <button
+            className="comment-post"
+            onClick={() => setOpenComments(true)}
+          >
+            <MessageSquareText /> {storedComments?.length}
           </button>
           <button className="share-post">
             <Redo2 />
           </button>
         </div>
+      </div>
+
+      <div className="post-comments">
+        {openComments && (
+          <PostComments
+            setOpenComments={setOpenComments}
+            storedComments={storedComments}
+            postId={post.id}
+          />
+        )}
       </div>
     </div>
   );

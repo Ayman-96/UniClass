@@ -7,7 +7,11 @@ import {
   ThumbsDown,
   Trash2,
 } from "lucide-react";
-import { useDeleteAnnounce } from "../../../../hooks/useAnnounce";
+import {
+  useDeleteAnnounce,
+  useAnnouncementComments,
+} from "../../../../hooks/useAnnounce";
+import AnnounceComments from "../groupPages/AnnounceComments";
 function AnnounceCard({
   announce,
   myVote,
@@ -15,6 +19,11 @@ function AnnounceCard({
   dislikeCount,
   toggleLike,
 }) {
+  const [openComments, setOpenComments] = useState(false);
+  const { data: storedComments } = useAnnouncementComments(announce.id);
+  const { mutate: deleteAnnounce, isPending } = useDeleteAnnounce();
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const postedTime = new Date(announce.created_at).toLocaleDateString();
   const announcementButtons = [
     {
       name: "like",
@@ -38,11 +47,14 @@ function AnnounceCard({
           newType: "dislike",
         }),
     },
-    { name: "comment", icon: <MessageCircleQuestionMark />, amount: 0 },
+    {
+      name: "comment",
+      icon: <MessageCircleQuestionMark />,
+      amount: storedComments?.length,
+      onCLick: () => setOpenComments(true),
+    },
   ];
-  const { mutate: deleteAnnounce, isPending } = useDeleteAnnounce();
-  const [confirmDelete, setConfirmDelete] = useState(false);
-  const postedTime = new Date(announce.created_at).toLocaleDateString();
+
   return (
     <div className="announce-overylay">
       <div className="announce-card">
@@ -115,6 +127,15 @@ function AnnounceCard({
             );
           })}
         </div>
+      </div>
+      <div className="post-comments">
+        {openComments && (
+          <AnnounceComments
+            setOpenComments={setOpenComments}
+            storedComments={storedComments}
+            announceId={announce.id}
+          />
+        )}
       </div>
     </div>
   );

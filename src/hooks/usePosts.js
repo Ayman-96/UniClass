@@ -132,3 +132,65 @@ export function usePostLikes(postIds) {
     // don't even run this query if there are no posts loaded yet
   });
 }
+
+// POST COMMENTS //
+
+export function usePostComments(postId) {
+  return useQuery({
+    queryKey: ["post-comments", postId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("post_comments")
+        .select(
+          "id, post_id, user_id, content, parent_comment_id, created_at, image, profiles(username, avatar_url)",
+        )
+        .eq("post_id", postId)
+        .order("created_at", { ascending: true });
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!postId,
+  });
+}
+
+export function useAddComment() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  return useMutation({
+    mutationFn: async ({ postId, content, parentCommentId = null }) => {
+      const { error } = await supabase.from("post_comments").insert({
+        post_id: postId,
+        user_id: user.id,
+        content,
+        parent_comment_id: parentCommentId,
+      });
+
+      if (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    onSuccess: (_, { postId }) => {
+      queryClient.invalidateQueries({ queryKey: ["post-comments", postId] });
+    },
+  });
+}
+
+export function useDeleteComment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ commentId }) => {
+      const { error } = await supabase
+        .from("post_comments")
+        .delete()
+        .eq("id", commentId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["post-comments"] });
+    },
+  });
+}

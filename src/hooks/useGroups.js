@@ -34,6 +34,18 @@ export function useAddGroup() {
         .single(); // .single() means expect one object, not array
 
       if (error) throw error;
+
+      // Step 2: add the creator as a member with the "rep" role
+      const { error: memberError } = await supabase
+        .from("group_members")
+        .insert({
+          group_id: data.id,
+          user_id: data.rep_id,
+          role: "rep",
+        });
+
+      if (memberError) throw memberError;
+
       return data;
     },
     // TanStack Query automatically updates UI

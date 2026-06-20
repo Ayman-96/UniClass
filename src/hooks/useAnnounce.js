@@ -140,3 +140,65 @@ export function useToggleAnnouncementLike() {
     },
   });
 }
+
+// ANNOUNCEMENT COMMENTS
+
+export function useAnnouncementComments(announceId) {
+  return useQuery({
+    queryKey: ["announcement_comments", announceId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("announcement_comments")
+        .select(
+          "id, announcement_id, user_id, content, parent_comment_id, created_at, image, profiles(username, avatar_url)",
+        )
+        .eq("announcement_id", announceId)
+        .order("created_at", { ascending: true });
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!announceId,
+  });
+}
+
+export function useAddComment() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async ({ announceId, content, parentCommentId = null }) => {
+      const { error } = await supabase.from("announcement_comments").insert({
+        announcement_id: announceId,
+        user_id: user.id,
+        content,
+        parent_comment_id: parentCommentId,
+      });
+
+      if (error) throw error;
+    },
+    onSuccess: (_, { announceId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ["announcement_comments", announceId],
+      });
+    },
+  });
+}
+
+export function useDeleteComment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ commentId }) => {
+      const { error } = await supabase
+        .from("announcement_comments")
+        .delete()
+        .eq("id", commentId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["announcement_comments"] });
+    },
+  });
+}
