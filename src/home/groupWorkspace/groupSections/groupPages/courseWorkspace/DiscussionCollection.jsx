@@ -2,6 +2,8 @@ import "./LectureDiscussion.css";
 import { formatDistanceToNow } from "date-fns";
 import { SquarePen, ThumbsUp, Trash2, Undo2 } from "lucide-react";
 import { useAuth } from "../../../../../AuthContext";
+import { useParams } from "react-router-dom";
+import { useIsRep } from "../../../../../hooks/useIsRep";
 
 function DiscussionCollection({
   storedComments,
@@ -12,10 +14,15 @@ function DiscussionCollection({
   deleteComment,
 }) {
   const { user } = useAuth();
-  console.log(user);
+  const { groupId } = useParams();
+  const { data: isRep } = useIsRep(groupId);
+
   return (
     <>
       {storedComments?.map((comment) => {
+        const likedByMe = comment.discussion_like?.some(
+          (l) => l.user_id === user.id,
+        );
         const type = commentTypes.find(
           (t) => t.name.toLowerCase() === comment.type,
         );
@@ -23,7 +30,7 @@ function DiscussionCollection({
           <div key={comment.id} className="discuss-card">
             <div className="discuss-header">
               <div className="user-avatar-discussion">
-                SK <span>{user.user_metadata.username}</span>
+                SK <span>{comment.profiles?.username}</span>
               </div>
               <div
                 className="discussion-type"
@@ -46,23 +53,34 @@ function DiscussionCollection({
                 <Undo2 /> Reply
               </button>
               <button onClick={() => toggleLike({ discussionId: comment.id })}>
-                <ThumbsUp /> {comment.discussion_like?.[0]?.count ?? 0}
+                <ThumbsUp
+                  fill={likedByMe ? "#ff0000" : "none"}
+                  stroke={likedByMe ? "#9e1a1a" : "currentColor"}
+                />
+                <span style={{ color: likedByMe ? "#ef0303" : undefined }}>
+                  {comment.discussion_like?.length ?? 0}
+                </span>
                 {/*if anything above is undefined or null, default to 0 */}
               </button>
 
               <div className="my-comnt-btns">
-                <button
-                  onClick={() => {
-                    setIsEditing(true);
-                    handleEditComment(comment.id, comment.content);
-                  }}
-                >
-                  <SquarePen />
-                </button>
+                {user.id === comment.user_id && (
+                  <button
+                    onClick={() => {
+                      setIsEditing(true);
+                      handleEditComment(comment.id, comment.content);
+                    }}
+                  >
+                    <SquarePen />
+                  </button>
+                )}
 
-                <button onClick={() => deleteComment(comment.id)}>
-                  <Trash2 />
-                </button>
+                {user.id === comment.user_id ||
+                  (isRep && (
+                    <button onClick={() => deleteComment(comment.id)}>
+                      <Trash2 />
+                    </button>
+                  ))}
               </div>
             </div>
           </div>

@@ -68,7 +68,9 @@ export function useDeleteLecture() {
 }
 
 async function UploadPDF(file) {
-  const fileName = `${Date.now()}-${file.name}`;
+  const sanitizedName = file.name.normalize("NFKD").replace(/[^\w.\-]+/g, "_");
+  const fileName = `${Date.now()}-${sanitizedName}`;
+
   const { error } = await supabase.storage
     .from("lecture-pdfs")
     .upload(fileName, file);

@@ -61,7 +61,6 @@ const commentTypes = [
 ];
 function LectureDiscussion({ selectedLecture }) {
   const { user } = useAuth();
-  console.log(user);
 
   const { courseId } = useParams();
   const { currentSlide } = useLectureStore();
@@ -89,6 +88,9 @@ function LectureDiscussion({ selectedLecture }) {
     selectedLecture.id,
     currentSlide,
   );
+
+  // NOTE
+
   const { mutate: editNote } = useEditNote(selectedLecture.id, currentSlide);
   const { mutate: addNote } = useAddNote(selectedLecture.id, currentSlide);
   const { mutate: deleteNote } = useDeleteNote(
@@ -109,11 +111,13 @@ function LectureDiscussion({ selectedLecture }) {
     if (isEditing) {
       editComment({ commentId: commentId, newContent: commentContent });
       setCommentContent("");
+      console.log(commentContent);
+      console.log(commentId);
       setIsEditing(false);
       return;
     }
     addComment({
-      user_id: user.id, // still dont have auth
+      user_id: user.id,
       slide_number: currentSlide,
       content: commentContent,
       type: activeType.name.toLowerCase(),
@@ -133,7 +137,7 @@ function LectureDiscussion({ selectedLecture }) {
       return;
     }
     addNote({
-      user_id: null,
+      user_id: user.id,
       slide_number: currentSlide,
       content: noteContent,
       type: activeType.name.toLowerCase(),

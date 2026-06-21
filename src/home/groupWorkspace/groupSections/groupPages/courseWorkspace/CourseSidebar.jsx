@@ -5,9 +5,12 @@ import { useCourses } from "../../../../../hooks/useCourses";
 import useLectureStore from "../../../../../store/useLectureStore";
 import { useAddLectures, useLectures } from "../../../../../hooks/useLectures";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
+import { useIsRep } from "../../../../../hooks/useIsRep";
 
 function CourseSidebar() {
   const { courseId, groupId } = useParams();
+  const { data: isRep } = useIsRep(groupId);
+
   const { mutate: addLecture } = useAddLectures();
   const { data: storedCourses } = useCourses(groupId);
   const { selectedLectureId, selectedLecture, setSelectedLecture } =
@@ -60,12 +63,14 @@ function CourseSidebar() {
       <div className="lec-nav-body">
         <div className="lecs-head">
           <p>Lectures</p>
-          <button
-            className="add-lecture"
-            onClick={() => document.getElementById("upload-pdf").click()}
-          >
-            <Plus />
-          </button>
+          {isRep && (
+            <button
+              className="add-lecture"
+              onClick={() => document.getElementById("upload-pdf").click()}
+            >
+              <Plus />
+            </button>
+          )}
         </div>
 
         <div className="lectures-nav-list">
@@ -91,12 +96,14 @@ function CourseSidebar() {
             </div>
           ))}
           <div className="lecture-nav-foote">
-            <button
-              className="add-lecture-btn"
-              onClick={() => document.getElementById("upload-pdf").click()}
-            >
-              <Plus /> Add Lecture
-            </button>
+            {isRep && (
+              <button
+                className="add-lecture-btn"
+                onClick={() => document.getElementById("upload-pdf").click()}
+              >
+                <Plus /> Add Lecture
+              </button>
+            )}
             <p className="rep-only-note">
               <LockIcon /> Only Group Representative can add lectures
             </p>

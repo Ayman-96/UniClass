@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
+import { useAuth } from "../AuthContext";
 
 export function useDiscussion(lectureId, slideNumber) {
   return useQuery({
@@ -7,7 +8,7 @@ export function useDiscussion(lectureId, slideNumber) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("discussions")
-        .select(`*,discussion_like(count)`) // JOIN disscussion_like, return just the count.
+        .select(`*, discussion_like(*), profiles(username)`)
         .eq("lecture_id", lectureId)
         .eq("slide_number", slideNumber)
         .order("created_at", { ascending: true });
@@ -41,7 +42,6 @@ export function useAddComment(lectureId, slideNumber) {
     },
   });
 }
-//userId,
 export function useDeleteComment(userId, lectureId, slideNumber) {
   const queryClient = useQueryClient();
 
@@ -65,8 +65,8 @@ export function useDeleteComment(userId, lectureId, slideNumber) {
     },
   });
 }
-// userId
 export function useEditComment(lectureId, slideNumber) {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -75,7 +75,7 @@ export function useEditComment(lectureId, slideNumber) {
         .from("discussions")
         .update({ content: newContent }) // column content = new content
         .eq("id", commentId)
-        // .eq("user_id", userId)
+        .eq("user_id", user.id)
         .select()
         .maybeSingle();
       if (error) throw error;
@@ -92,8 +92,8 @@ export function useEditComment(lectureId, slideNumber) {
   });
 }
 
-//pass userId
 export function useToggleLike(lectureId, slideNumber) {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -102,7 +102,7 @@ export function useToggleLike(lectureId, slideNumber) {
         .from("discussion_like")
         .select("id")
         .eq("discussion_id", discussionId)
-        // .eq("user_id", userId)
+        .eq("user_id", user.id)
         .maybeSingle();
 
       if (existingLike) {
@@ -115,7 +115,8 @@ export function useToggleLike(lectureId, slideNumber) {
       } else {
         const { data, error } = await supabase
           .from("discussion_like")
-          .insert({ discussion_id: discussionId }) // add , user_id: userId
+          .insert({ discussion_id: discussionId, user_id: user.id })
+          .eq("user_id", user.id)
           .select()
           .single();
         if (error) throw error;
