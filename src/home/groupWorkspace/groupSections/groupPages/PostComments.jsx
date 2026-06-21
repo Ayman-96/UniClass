@@ -15,6 +15,7 @@ import { useAuth } from "../../../../AuthContext.jsx";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
 import { useParams } from "react-router-dom";
 import TextCollapser from "../../../../components/loadingSpinner/TextExpnder.jsx";
+import { useLikeComments } from "../../../../hooks/useLikeComments.js";
 
 const initialState = {
   content: "",
@@ -41,9 +42,7 @@ function commentReducer(state, action) {
 
 function PostComments({ setOpenComments, storedComments, postId }) {
   const { groupId } = useParams();
-  const { user } = useAuth();
   const { mutate: addComment, isPending, isError } = useAddComment();
-  const { mutate: deleteComment } = useDeleteComment();
   const [newComment, dispatch] = useReducer(commentReducer, initialState);
 
   const { data: isRep } = useIsRep(groupId);
@@ -58,6 +57,7 @@ function PostComments({ setOpenComments, storedComments, postId }) {
     });
     dispatch({ type: "RESET" });
   }
+
   if (isError) return <div>Error Occured...</div>;
   return (
     <div className="post-comment-section">
@@ -69,59 +69,15 @@ function PostComments({ setOpenComments, storedComments, postId }) {
           </button>
         </div>
         <div className="comments-list">
-          {storedComments?.map((comment) => {
-            return (
-              <div className="comment-container" key={comment.id}>
-                <div className="user-comment">
-                  <img
-                    className="user-pro"
-                    src={comment.profiles?.avatar_url || null}
-                  />
-                  <div className="user-comm">
-                    <div className="comm-head">
-                      {comment.profiles?.username}
-                      <span>
-                        {formatDistanceToNow(new Date(comment.created_at), {
-                          addSuffix: true,
-                        })}
-                      </span>
-                    </div>
-                    <div className="comm-content">
-                      <TextCollapser color="#1a9e78">
-                        {comment.content}
-                      </TextCollapser>
-                      {comment.image && <img src={comment.image} />}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comm-interactions">
-                  <div className="act-comnt">
-                    <button className="like-comment">
-                      <Heart /> #
-                    </button>
-                    <button
-                      className="reply-button"
-                      onClick={() =>
-                        dispatch({
-                          type: "SET_REPLY_TO",
-                          payload: comment.id,
-                        })
-                      }
-                    >
-                      <CornerDownLeft /> Reply
-                    </button>
-                  </div>
-                  <button
-                    className="delete-comnt"
-                    onClick={() => deleteComment({ commentId: comment.id })}
-                  >
-                    {(user.id === comment.user_id || isRep) && <Trash2 />}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+          {storedComments?.map((comment) => (
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              postId={postId}
+              isRep={isRep}
+              dispatch={dispatch}
+            />
+          ))}
         </div>
 
         {isPending && <LoadingSpinner />}
@@ -171,6 +127,73 @@ function PostComments({ setOpenComments, storedComments, postId }) {
             )}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+function CommentItem({ comment, postId, isRep, dispatch }) {
+  const { user } = useAuth();
+  const { mutate: deleteComment } = useDeleteComment();
+  const { mutate: toggleLike } = useLikeComments({
+    table: "post_comment_likes",
+    idColumn: "comment_id",
+    id: comment.id,
+    queryKey: ["post-comments", postId],
+  });
+
+  const likedByMe = comment.post_comment_likes?.some(
+    (l) => l.user_id === user.id,
+  );
+
+  return (
+    <div className="comment-container" key={comment.id}>
+      <div className="user-comment">
+        <img className="user-pro" src={comment.profiles?.avatar_url || null} />
+        <div className="user-comm">
+          <div className="comm-head">
+            {comment.profiles?.username}
+            <span>
+              {formatDistanceToNow(new Date(comment.created_at), {
+                addSuffix: true,
+              })}
+            </span>
+          </div>
+          <div className="comm-content">
+            <TextCollapser color="#1a9e78">{comment.content}</TextCollapser>
+            {comment.image && <img src={comment.image} />}
+          </div>
+        </div>
+      </div>
+
+      <div className="comm-interactions">
+        <div className="act-comnt">
+          <button className="like-comment" onClick={() => toggleLike()}>
+            <Heart
+              fill={likedByMe ? "red" : "none"}
+              stroke={likedByMe ? "red" : "currentColor"}
+            />{" "}
+            <span style={{ color: likedByMe ? "red" : undefined }}>
+              {comment.post_comment_likes?.length ?? 0}
+            </span>
+          </button>
+          <button
+            className="reply-button"
+            onClick={() =>
+              dispatch({
+                type: "SET_REPLY_TO",
+                payload: comment.id,
+              })
+            }
+          >
+            <CornerDownLeft /> Reply
+          </button>
+        </div>
+        <button
+          className="delete-comnt"
+          onClick={() => deleteComment({ commentId: comment.id })}
+        >
+          {(user.id === comment.user_id || isRep) && <Trash2 />}
+        </button>
       </div>
     </div>
   );

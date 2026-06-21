@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
-// add userId in param
+import { useAuth } from "../AuthContext";
 export function useNotes(lectureId, slideNumber) {
+  const { user } = useAuth();
   return useQuery({
     queryKey: ["notes", lectureId, slideNumber],
     queryFn: async () => {
@@ -10,7 +11,7 @@ export function useNotes(lectureId, slideNumber) {
         .select("*")
         .eq("lecture_id", lectureId)
         .eq("slide_number", slideNumber)
-        // .eq("user_id", userId)
+        .eq("user_id", user.id)
         .order("created_at", { ascending: true });
 
       if (error) throw error;
@@ -20,12 +21,14 @@ export function useNotes(lectureId, slideNumber) {
 }
 
 export function useAddNote(lectureId, slideNumber) {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (newNote) => {
       const { data, error } = await supabase
         .from("notes")
         .insert(newNote)
+        .eq("user_id", user.id)
         .select()
         .single();
 
@@ -43,8 +46,8 @@ export function useAddNote(lectureId, slideNumber) {
     },
   });
 }
-//userId
 export function useEditNote(lectureId, slideNumber) {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ noteId, newContent }) => {
@@ -52,7 +55,7 @@ export function useEditNote(lectureId, slideNumber) {
         .from("notes")
         .update({ content: newContent })
         .eq("id", noteId)
-        // .eq("user_id", userId)
+        .eq("user_id", user.id)
         .select()
         .single();
 
@@ -69,16 +72,16 @@ export function useEditNote(lectureId, slideNumber) {
     },
   });
 }
-// userId,
 export function useDeleteNote(lectureId, slideNumber) {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (noteId) => {
       const { data, error } = await supabase
         .from("notes")
         .delete()
-        .eq("id", noteId);
-      // .eq("user_id", userId);
+        .eq("id", noteId)
+        .eq("user_id", user.id);
 
       if (error) throw error;
       return data;

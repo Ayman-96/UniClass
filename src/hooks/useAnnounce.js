@@ -151,7 +151,7 @@ export function useAnnouncementComments(announceId) {
       const { data, error } = await supabase
         .from("announcement_comments")
         .select(
-          "id, announcement_id, user_id, content, parent_comment_id, created_at, image, profiles(username, avatar_url)",
+          "id, announcement_id, user_id, content, parent_comment_id, created_at, image, profiles(username, avatar_url), announcement_comment_likes(user_id)",
         )
         .eq("announcement_id", announceId)
         .order("created_at", { ascending: true });

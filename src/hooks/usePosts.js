@@ -143,7 +143,7 @@ export function usePostComments(postId) {
       const { data, error } = await supabase
         .from("post_comments")
         .select(
-          "id, post_id, user_id, content, parent_comment_id, created_at, image, profiles(username, avatar_url)",
+          "id, post_id, user_id, content, parent_comment_id, created_at, image, profiles(username, avatar_url), post_comment_likes(user_id)",
         )
         .eq("post_id", postId)
         .order("created_at", { ascending: true });
