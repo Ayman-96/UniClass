@@ -1,6 +1,7 @@
 import { useAuth } from "../AuthContext";
 import { supabase } from "../supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { uploadCommentImage } from "./useUploadImage";
 export function useAnnounces(groupId) {
   return useQuery({
     queryKey: ["announcements", groupId], // ← groupId (filter) makes it unique per group
@@ -167,12 +168,27 @@ export function useAddComment() {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async ({ announceId, content, parentCommentId = null }) => {
+    mutationFn: async ({
+      announceId,
+      content,
+      parentCommentId = null,
+      file,
+    }) => {
+      let imageUrl = null;
+
+      if (file) {
+        imageUrl = await uploadCommentImage(
+          file,
+          "post-comment-images",
+          user.id,
+        );
+      }
       const { error } = await supabase.from("announcement_comments").insert({
         announcement_id: announceId,
         user_id: user.id,
         content,
         parent_comment_id: parentCommentId,
+        image: imageUrl,
       });
 
       if (error) throw error;

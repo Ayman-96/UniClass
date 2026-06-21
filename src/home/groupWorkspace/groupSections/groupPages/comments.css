@@ -53,8 +53,8 @@
   }
 
   .comment-sheet {
-    height: 75vh;
-    max-height: 75vh;
+    height: 95vh;
+    max-height: 100vh;
     border-radius: var(--pc-radius-lg);
   }
 }
@@ -162,17 +162,18 @@
 .comm-content img,
 .comm-content image {
   display: block;
-  max-width: 200px;
-  max-height: 160px;
-  width: auto;
   height: auto;
-  border-radius: 8px;
   border: 1px solid var(--pc-border);
-  margin-top: 8px;
   object-fit: cover;
   background: var(--pc-border);
 }
-
+.comm-content img {
+  max-width: 100%;
+  width: auto;
+  max-height: 350px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
 .comm-interactions {
   display: flex;
   align-items: center;
@@ -316,7 +317,9 @@
 .commenting input[type="text"]:focus {
   border-color: var(--pc-green);
 }
-
+.commenting input[type="text"].ann-input:focus {
+  border-color: #b7521c;
+}
 .add-img-btn,
 .post-comment {
   display: flex;

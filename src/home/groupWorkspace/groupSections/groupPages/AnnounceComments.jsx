@@ -17,6 +17,7 @@ import { useReducer } from "react";
 import { useAuth } from "../../../../AuthContext.jsx";
 import { useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
+import TextCollapser from "../../../../components/loadingSpinner/TextExpnder.jsx";
 
 const initialState = {
   content: "",
@@ -50,12 +51,13 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
   const [newComment, dispatch] = useReducer(commentReducer, initialState);
 
   function handleAddComment() {
-    if (!newComment.content) return;
+    if (!newComment.content && !newComment.image) return;
 
     addComment({
       announceId: announceId,
       content: newComment.content,
       parentCommentId: newComment.replyTo,
+      file: newComment.image,
     });
     dispatch({ type: "RESET" });
   }
@@ -88,7 +90,9 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
                       </span>
                     </div>
                     <div className="comm-content">
-                      <p>{comment.content}</p>
+                      <TextCollapser color="#b7521c">
+                        {comment.content}
+                      </TextCollapser>
                       <img src={comment.image} />
                     </div>
                   </div>
@@ -141,6 +145,7 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
             <img />
             <input
               type="text"
+              className="ann-input"
               value={newComment.content}
               placeholder="Write a comment..."
               onChange={(e) => {
@@ -163,8 +168,12 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
                 dispatch({ type: "SET_IMAGE", payload: e.target.files[0] })
               }
             />
-            {newComment.content && (
-              <button className="post-comment" onClick={handleAddComment}>
+            {(newComment.content || !newComment.image) && (
+              <button
+                className="post-comment"
+                onClick={handleAddComment}
+                style={{ backgroundColor: "#b7521c" }}
+              >
                 <SendHorizonal />
               </button>
             )}

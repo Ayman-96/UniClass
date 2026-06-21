@@ -1,6 +1,7 @@
 import { supabase } from "../supabase";
 import { useAuth } from "../AuthContext.jsx";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { uploadCommentImage } from "./useUploadImage.js";
 
 // Fetch all posts for a specific group
 export function usePosts(groupId) {
@@ -158,16 +159,26 @@ export function useAddComment() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   return useMutation({
-    mutationFn: async ({ postId, content, parentCommentId = null }) => {
+    mutationFn: async ({ postId, content, parentCommentId = null, file }) => {
+      let imageUrl = null;
+
+      if (file) {
+        imageUrl = await uploadCommentImage(
+          file,
+          "post-comment-images",
+          user.id,
+        );
+      }
+
       const { error } = await supabase.from("post_comments").insert({
         post_id: postId,
         user_id: user.id,
         content,
         parent_comment_id: parentCommentId,
+        image: imageUrl,
       });
 
       if (error) {
-        console.log(error);
         throw error;
       }
     },

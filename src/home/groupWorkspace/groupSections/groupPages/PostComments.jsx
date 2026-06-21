@@ -14,6 +14,7 @@ import { useReducer } from "react";
 import { useAuth } from "../../../../AuthContext.jsx";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
 import { useParams } from "react-router-dom";
+import TextCollapser from "../../../../components/loadingSpinner/TextExpnder.jsx";
 
 const initialState = {
   content: "",
@@ -47,12 +48,13 @@ function PostComments({ setOpenComments, storedComments, postId }) {
 
   const { data: isRep } = useIsRep(groupId);
   function handleAddComment() {
-    if (!newComment.content) return;
+    if (!newComment.content && !newComment.image) return;
 
     addComment({
       postId: postId,
       content: newComment.content,
       parentCommentId: newComment.replyTo,
+      file: newComment.image,
     });
     dispatch({ type: "RESET" });
   }
@@ -85,8 +87,10 @@ function PostComments({ setOpenComments, storedComments, postId }) {
                       </span>
                     </div>
                     <div className="comm-content">
-                      <p>{comment.content}</p>
-                      <img></img>
+                      <TextCollapser color="#1a9e78">
+                        {comment.content}
+                      </TextCollapser>
+                      {comment.image && <img src={comment.image} />}
                     </div>
                   </div>
                 </div>
@@ -160,7 +164,7 @@ function PostComments({ setOpenComments, storedComments, postId }) {
                 dispatch({ type: "SET_IMAGE", payload: e.target.files[0] })
               }
             />
-            {newComment.content && (
+            {(newComment.content || newComment.image) && (
               <button className="post-comment" onClick={handleAddComment}>
                 <SendHorizonal />
               </button>
