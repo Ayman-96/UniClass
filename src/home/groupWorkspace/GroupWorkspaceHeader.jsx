@@ -1,3 +1,5 @@
+import { useParams } from "react-router-dom";
+import { useIsRep } from "../../hooks/useIsRep";
 import "./GroupWorkspaceHeader.css";
 function GroupWorkspaceHeader({
   titleIcon,
@@ -5,14 +7,38 @@ function GroupWorkspaceHeader({
   btnIcon,
   btnTitle,
   onButtonClick,
+  requiredRep,
 }) {
+  const { groupId } = useParams();
+  const { data: isRep } = useIsRep(groupId);
+
   return (
     <div className="gsr-header">
       <p>
         {titleIcon} <span>{title}</span>
       </p>
-      <button className="group-header-btn" onClick={onButtonClick}>
-        {btnIcon} {btnTitle}
+      <button
+        className="group-header-btn"
+        onClick={() => {
+          requiredRep ? isRep && onButtonClick() : onButtonClick();
+        }}
+      >
+        {requiredRep ? (
+          isRep ? (
+            <div>
+              {btnIcon} {btnTitle}
+            </div>
+          ) : (
+            <div>
+              {" "}
+              Only rep can {btnTitle} {btnIcon}
+            </div>
+          )
+        ) : (
+          <div>
+            {btnIcon} {btnTitle}
+          </div>
+        )}
       </button>
     </div>
   );

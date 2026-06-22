@@ -1,6 +1,7 @@
 import "./AnnounceCard.css";
 import { useState } from "react";
 import {
+  BellIcon,
   Clock,
   HeartHandshake,
   MessageCircleQuestionMark,
@@ -12,6 +13,10 @@ import {
   useAnnouncementComments,
 } from "../../../../hooks/useAnnounce";
 import AnnounceComments from "../groupPages/AnnounceComments";
+import { announceTypes } from "../../../../data/addAnnounceData";
+import { useParams } from "react-router-dom";
+import { useIsRep } from "../../../../hooks/useIsRep";
+import useGroupStore from "../../../../store/useGroupStore";
 function AnnounceCard({
   announce,
   myVote,
@@ -19,7 +24,10 @@ function AnnounceCard({
   dislikeCount,
   toggleLike,
 }) {
+  const { groupId } = useParams();
+  const { data: isRep } = useIsRep(groupId);
   const [openComments, setOpenComments] = useState(false);
+  const currentGroup = useGroupStore((curr) => curr.currentGroup);
   const { data: storedComments } = useAnnouncementComments(announce.id);
   const { mutate: deleteAnnounce, isPending } = useDeleteAnnounce();
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -64,12 +72,12 @@ function AnnounceCard({
             <div className="rep-name">
               <p>Rep Name</p>
               <p>
-                <span>{postedTime}</span> • Group Name
+                <span>{postedTime}</span> • {currentGroup.name}
               </p>
             </div>
           </div>
         </div>
-        {!confirmDelete && (
+        {!confirmDelete && isRep && (
           <div
             onClick={() => setConfirmDelete(true)}
             style={{ color: "#aa1e12" }}
@@ -94,7 +102,9 @@ function AnnounceCard({
             </button>
           </div>
         )}
-        <div className="announce-icon"></div>
+        <div className="announce-icon">
+          {announceTypes[announce.icon] || <BellIcon />}
+        </div>
       </div>
 
       <div className="announcement-body">

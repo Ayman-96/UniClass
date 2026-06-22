@@ -1,39 +1,14 @@
 import { useParams } from "react-router-dom";
 import "./AddAnnounce.css";
-import {
-  CalendarFold,
-  CalendarSync,
-  FileUp,
-  ImagePlus,
-  Info,
-  Link,
-  Megaphone,
-  Paperclip,
-  ShieldCheck,
-  TriangleAlert,
-  X,
-} from "lucide-react";
+import { ImagePlus, Megaphone, ShieldCheck, X } from "lucide-react";
 import { useReducer, useState } from "react";
 import { useAddAnnounce } from "../../../hooks/useAnnounce";
 import RequiredWarning from "./RequiredWarning";
 import { useAuth } from "../../../AuthContext";
-const announceAttachments = [
-  {
-    text: "File",
-    icon: <Paperclip />,
-  },
-  {
-    text: "Link",
-    icon: <Link />,
-  },
-];
-const announceTypes = [
-  { name: "Schedule", component: <CalendarFold /> },
-  { name: "Reschedule", component: <CalendarSync /> },
-  { name: "Assignment", component: <FileUp /> },
-  { name: "Urgnt", component: <TriangleAlert /> },
-  { name: "General", component: <Info /> },
-];
+import {
+  announceAttachments,
+  announceTypes,
+} from "../../../data/addAnnounceData";
 
 const announceData = {
   title: "",
@@ -61,6 +36,7 @@ function announceReducer(state, action) {
 function AddAnnounce({ handleAnnounceModal }) {
   const { user } = useAuth();
   const { groupId } = useParams();
+  const [selectedIcon, setSelectedIcon] = useState(null);
   const [newAnnounce, dispatch] = useReducer(announceReducer, announceData);
   const { mutate: addAnnounce } = useAddAnnounce();
   const [fillWarning, setFillWarning] = useState(false);
@@ -124,13 +100,13 @@ function AddAnnounce({ handleAnnounceModal }) {
                 return (
                   <div
                     key={i}
-                    className="icon-opt"
-                    title={icon.name}
-                    onClick={() =>
-                      dispatch({ type: "SET_ICON", payload: icon.component })
-                    }
+                    className={`icon-opt ${selectedIcon === i ? "selected-icon" : ""}`}
+                    onClick={() => {
+                      (dispatch({ type: "SET_ICON", payload: i }),
+                        setSelectedIcon(i));
+                    }}
                   >
-                    {icon.component}
+                    {icon}
                   </div>
                 );
               })}

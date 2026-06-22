@@ -54,10 +54,10 @@ function DiscussionCollection({
               </button>
               <button onClick={() => toggleLike({ discussionId: comment.id })}>
                 <ThumbsUp
-                  fill={likedByMe ? "#ff0000" : "none"}
-                  stroke={likedByMe ? "#9e1a1a" : "currentColor"}
+                  fill={likedByMe ? "#42aa8d" : "none"}
+                  stroke={likedByMe ? "#42aa8d" : "currentColor"}
                 />
-                <span style={{ color: likedByMe ? "#ef0303" : undefined }}>
+                <span style={{ color: likedByMe ? "#1a9e78" : undefined }}>
                   {comment.discussion_like?.length ?? 0}
                 </span>
                 {/*if anything above is undefined or null, default to 0 */}
@@ -75,12 +75,11 @@ function DiscussionCollection({
                   </button>
                 )}
 
-                {user.id === comment.user_id ||
-                  (isRep && (
-                    <button onClick={() => deleteComment(comment.id)}>
-                      <Trash2 />
-                    </button>
-                  ))}
+                {(user.id === comment.user_id || isRep) && (
+                  <button onClick={() => deleteComment(comment.id)}>
+                    <Trash2 />
+                  </button>
+                )}
               </div>
             </div>
           </div>

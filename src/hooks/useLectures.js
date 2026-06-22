@@ -37,8 +37,8 @@ export function useAddLectures() {
       return data;
     },
     onSuccess: (data) => {
-      console.log("Lecture Added: " + data);
       queryClient.invalidateQueries({ queryKey: ["lectures", data.course_id] });
+      queryClient.invalidateQueries({ queryKey: ["courses", data.group_id] });
     },
     onError: (error) => {
       console.error("❌ Failed:", error.message);

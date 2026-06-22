@@ -44,6 +44,8 @@ function courseReducer(state, action) {
 }
 function AddCourse({ handleCourseModal }) {
   const { groupId } = useParams();
+  const [selectedColor, setSelectedColor] = useState("#00a86b");
+  const [selectedIcon, setSelectedIcon] = useState(null);
   const [newCourse, dispatch] = useReducer(courseReducer, courseData);
   const { mutate: addCourse } = useAddCourse();
   // For Requirment Filling
@@ -151,6 +153,8 @@ function AddCourse({ handleCourseModal }) {
                 id="courseYear"
                 className="course-input"
                 placeholder="e.g. 2025"
+                min={1990}
+                max={2027}
                 onChange={(e) => {
                   dispatch({ type: "SET_YEAR", payload: e.target.value });
                 }}
@@ -159,16 +163,17 @@ function AddCourse({ handleCourseModal }) {
           </div>
 
           <div className="add-course-details">
-            <label htmlFor="courseIcon">Icon </label>
-            <div className="course-icon">
+            <label htmlFor="courseIcon">Icon</label>
+            <div className="course-icons-select">
               {courseIcons.map((icon, i) => {
                 return (
                   <div
                     key={i}
-                    className="icon-opt"
-                    onClick={() =>
-                      dispatch({ type: "SET_ICON", payload: icon })
-                    }
+                    className={`icon-opt ${selectedIcon === i ? "selected-icon" : ""}`}
+                    onClick={() => {
+                      (dispatch({ type: "SET_ICON", payload: i }),
+                        setSelectedIcon(i));
+                    }}
                   >
                     {icon}
                   </div>
@@ -185,11 +190,20 @@ function AddCourse({ handleCourseModal }) {
                 return (
                   <div
                     key={color}
-                    className="color-placeHolder"
-                    style={{ backgroundColor: color }}
-                    onClick={() =>
-                      dispatch({ type: "SET_COLOR", payload: color })
-                    }
+                    className={`color-placeHolder ${selectedColor === color && "selected-color"}`}
+                    style={{
+                      backgroundColor: color,
+                      boxShadow:
+                        selectedColor === color ? `0 0 0 3px ${color}` : "none",
+                      border:
+                        selectedColor === color
+                          ? "2px solid white"
+                          : "2px solid transparent",
+                    }}
+                    onClick={() => {
+                      (dispatch({ type: "SET_COLOR", payload: color }),
+                        setSelectedColor(color));
+                    }}
                   ></div>
                 );
               })}
@@ -214,7 +228,7 @@ function AddCourse({ handleCourseModal }) {
             <span>
               <Info />
             </span>{" "}
-            Only Representatives(You) can Edit the Course Details.
+            Only Representatives Can Edit the Course Details.
           </div>
         </div>
 
@@ -224,7 +238,7 @@ function AddCourse({ handleCourseModal }) {
           <button
             className="cancel-course"
             onClick={() => {
-              handleCourseModal;
+              handleCourseModal();
               dispatch({ type: "RESET" });
             }}
           >

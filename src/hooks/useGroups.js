@@ -12,7 +12,9 @@ export function useGroups() {
   return useQuery({
     queryKey: ["groups"], // TanStack Query stores fetched data under this key.
     queryFn: async () => {
-      const { data, error } = await supabase.from("groups").select("*");
+      const { data, error } = await supabase
+        .from("groups")
+        .select("*, group_members(count), courses(count)");
       // SQL : SELECT * FROM groups
       if (error) throw error;
       return data; // Now data contains all groups.
@@ -27,24 +29,15 @@ export function useAddGroup() {
   // This function runs when you call: addGroupMutation.mutate(...)
   return useMutation({
     mutationFn: async (newGroup) => {
-      const { data, error } = await supabase
-        .from("groups")
-        .insert(newGroup) // insert new row into groups
-        .select() // return inserted row
-        .single(); // .single() means expect one object, not array
-
+      const { data, error } = await supabase.rpc("create_group", {
+        p_name: newGroup.name,
+        p_group_code: newGroup.group_code,
+        p_description: newGroup.description,
+        p_color: newGroup.color,
+        p_rep_id: newGroup.rep_id,
+        p_rep_name: newGroup.rep_name,
+      });
       if (error) throw error;
-
-      // Step 2: add the creator as a member with the "rep" role
-      const { error: memberError } = await supabase
-        .from("group_members")
-        .insert({
-          group_id: data.id,
-          user_id: data.rep_id,
-          role: "rep",
-        });
-
-      if (memberError) throw memberError;
 
       return data;
     },

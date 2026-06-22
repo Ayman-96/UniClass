@@ -1,6 +1,9 @@
 import "./LectureDiscussion.css";
 import { formatDistanceToNow } from "date-fns";
 import { LockKeyholeIcon, SquarePen, Trash2 } from "lucide-react";
+import { useAuth } from "../../../../../AuthContext";
+import { useParams } from "react-router-dom";
+import { useIsRep } from "../../../../../hooks/useIsRep";
 
 function NotesCollection({
   storedNotes,
@@ -9,6 +12,9 @@ function NotesCollection({
   handleEditNote,
   deleteNote,
 }) {
+  const { user } = useAuth();
+  const { groupId } = useParams();
+  const { data: isRep } = useIsRep(groupId);
   return (
     <>
       {storedNotes?.map((note) => {
@@ -48,10 +54,11 @@ function NotesCollection({
                 >
                   <SquarePen />
                 </button>
-
-                <button onClick={() => deleteNote(note.id)}>
-                  <Trash2 />
-                </button>
+                {(user.id === note.user_id || isRep) && (
+                  <button onClick={() => deleteNote(note.id)}>
+                    <Trash2 />
+                  </button>
+                )}
               </div>
             </div>
           </div>

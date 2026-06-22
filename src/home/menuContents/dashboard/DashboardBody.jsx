@@ -26,9 +26,9 @@ function DashboardBody({ storedGroups }) {
 
             <div className="group-title">
               <p className="group-name">{group.name}</p>
-              <p className="rep-name">
+              <div className="rep-name-title">
                 Representative : <span>{group.rep_name}</span>
-              </p>
+              </div>
             </div>
 
             <div className="group-roster-summary">
@@ -36,14 +36,14 @@ function DashboardBody({ storedGroups }) {
                 <Users size={16} /> <span>{group.members_count} members</span>
               </div>
               <div className="courses-count-row">
-                <span>4 Courses</span>
-                <span className="pill-badge alert">12 new</span>
+                <span>{group.courses[0]?.count ?? 0} Courses</span>
+                <span className="pill-badge alert">X new</span>
               </div>
               {/* Add your stack element here */}
             </div>
 
             <div className="group-subtitle">
-              <p className="num-of-lecs"># Leactures : {group.members_count}</p>
+              <p className="num-of-lecs">\</p>
               <div className="group-news">ex: new Leacture</div>
             </div>
           </Link>

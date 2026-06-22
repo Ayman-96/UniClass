@@ -180,7 +180,7 @@
 }
 
 /* ── Icon picker ── */
-.course-icon {
+.course-icons-select {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
@@ -213,16 +213,15 @@
 .icon-opt:hover svg {
   color: #0f6e56;
 }
-
-.icon-opt.selected {
-  border-color: #0f6e56;
-  background: #e8f5f1;
+.icon-opt.selected-icon {
+  border-color: #1a9e78;
+  background: #e6f7f2;
+  box-shadow: 0 0 0 3px #1a9e7840;
 }
 
-.icon-opt.selected svg {
-  color: #0f6e56;
+.icon-opt.selected-icon svg {
+  color: #1a9e78;
 }
-
 /* ── Color picker ── */
 .set-course-color {
   display: flex;
@@ -241,6 +240,10 @@
     transform 0.15s;
 }
 
+.color-placeHolder.selected-color {
+  border: 2px solid white;
+  box-shadow: 0 0 0 3px currentColor;
+}
 .color-placeHolder:hover {
   transform: scale(1.15);
 }

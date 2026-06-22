@@ -4,7 +4,14 @@ import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
 import { HeartHandshake, MessageSquareText, Redo2 } from "lucide-react";
 import PostComments from "../groupPages/PostComments";
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
+import { useParams } from "react-router-dom";
+import { useIsRep } from "../../../../hooks/useIsRep.js";
+import useGroupStore from "../../../../store/useGroupStore.js";
+
 function PostCard({ post, isLiked, likeCount, toggleLike }) {
+  const { groupId } = useParams();
+  const currentGroup = useGroupStore((curr) => curr.currentGroup);
+  const { data: isRep } = useIsRep(groupId);
   const [openComments, setOpenComments] = useState(false);
   const { mutate: deletePost, isPending, isError } = useDeletePost();
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -22,16 +29,18 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
             <div className="author-name">
               <p>My Name</p>
               <p>
-                <span>{postedTime}</span> • Group Name
+                <span>{postedTime}</span> • {currentGroup.name}
               </p>
             </div>
           </div>
-          <button
-            className="post-setting"
-            onClick={() => setConfirmDelete(true)}
-          >
-            •••
-          </button>
+          {isRep && (
+            <button
+              className="post-setting"
+              onClick={() => setConfirmDelete(true)}
+            >
+              •••
+            </button>
+          )}
           {confirmDelete && (
             <div className="delete-confirm-row">
               <button

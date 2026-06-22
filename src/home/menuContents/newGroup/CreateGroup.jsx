@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { RefreshCw, InfoIcon } from "lucide-react";
 
 function CreateGroup({ dispatch, fillWarning }) {
+  const [selectedColor, setSelectedColor] = useState("#00a86b");
   useEffect(() => {
     dispatch({ type: "RESET" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -92,10 +93,11 @@ function CreateGroup({ dispatch, fillWarning }) {
           return (
             <div
               key={color}
-              className="color-placeHolder"
+              className={`color-placeHolder ${selectedColor === color && "selected-color"}`}
               style={{ backgroundColor: color }}
               onClick={() => {
                 dispatch({ type: "SET_COLOR", payload: color });
+                setSelectedColor(color);
               }}
             ></div>
           );

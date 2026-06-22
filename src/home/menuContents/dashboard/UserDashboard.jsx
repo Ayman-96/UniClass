@@ -56,12 +56,14 @@ function UserDashboard() {
       setFillWarning(true);
       return;
     }
+
     addGroup({
       name: newGroup.groupName,
       group_code: newGroup.groupId,
       description: newGroup.description,
       color: newGroup.color,
       rep_id: user.id,
+      rep_name: newGroup.groupRep,
     });
     // setStoredGroups([...storedGroups, newGroup]); replaced by addGroup(...) which saves to Supabase
     // localStorage.setItem("storeGroup", newGroup);  Supabase is the storage now,

@@ -45,7 +45,7 @@ function CourseSidebar() {
         <Link to="/home/dashboard">
           <House />
         </Link>
-        <Link to={`/home/group/${groupId}`}>
+        <Link to={`/home/group/${groupId}/courses`}>
           <BookCopy />
         </Link>
       </div>
@@ -55,7 +55,8 @@ function CourseSidebar() {
           <p>{courseDetails?.name}</p>
 
           <p>
-            {courseDetails?.season} {courseDetails?.year} • # members
+            {courseDetails?.season} {courseDetails?.year} •{" "}
+            {courseDetails?.lectures[0]?.count}
           </p>
         </div>
       </div>

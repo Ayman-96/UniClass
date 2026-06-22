@@ -15,6 +15,7 @@ import { useAuth } from "../../../../AuthContext";
 function GroupAnnouncementsPage() {
   const { user } = useAuth();
   const { groupId } = useParams();
+
   const {
     data: storedAnnouncements,
     isLoading,
@@ -43,6 +44,7 @@ function GroupAnnouncementsPage() {
           btnIcon={<BellPlusIcon />}
           btnTitle="Add Announcement"
           onButtonClick={handleAnnounceModal}
+          requiredRep={true}
         />
       </div>
 

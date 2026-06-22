@@ -30,6 +30,7 @@ function GroupCoursesPage() {
           btnIcon={<BookPlus />}
           btnTitle="Add Course"
           onButtonClick={handleCourseModal}
+          requiredRep={true}
         />
       </div>
 

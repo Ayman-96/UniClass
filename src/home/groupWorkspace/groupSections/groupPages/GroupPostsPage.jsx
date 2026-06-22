@@ -38,6 +38,7 @@ function GroupPostsPage() {
           btnIcon={<MessageSquarePlus />}
           btnTitle="Add Post"
           onButtonClick={handlePostModal}
+          requiredRep={false}
         />
       </div>
 

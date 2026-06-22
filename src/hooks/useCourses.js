@@ -6,7 +6,7 @@ export function useCourses(groupId) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("courses")
-        .select("*")
+        .select("*, lectures(count)")
         .eq("group_id", groupId); //SELECT * FROM courses WHERE group_id = groupId
       if (error) throw error;
       return data;
