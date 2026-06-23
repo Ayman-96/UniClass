@@ -81,7 +81,6 @@ function OnBoarding() {
       setError("Please Fill All The Required Fields");
       return;
     }
-    console.log(" checking profile", newProfile);
     saveProfile(
       {
         full_name: newProfile.fullName,
@@ -92,6 +91,7 @@ function OnBoarding() {
         city: newProfile.city,
         college: newProfile.college,
         department: newProfile.dep,
+        role: newProfile.role,
         stage: newProfile.stage,
       },
       {

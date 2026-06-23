@@ -13,6 +13,7 @@ import GroupCoursesPage from "./home/groupWorkspace/groupSections/groupPages/Gro
 import GroupMembersPage from "./home/groupWorkspace/groupSections/groupPages/GroupMembersPage";
 import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/groupPages/GroupAnnouncementsPage";
 import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/CourseWorkspace";
+import Profile from "./home/Profile";
 function App() {
   return (
     <div>
@@ -26,8 +27,9 @@ function App() {
           {/* Nested routes for the outlet */}
           <Route index element={<UserDashboard />} />
           <Route path="dashboard" element={<UserDashboard />} />
-          <Route path="notifications" element={<UserDashboard />} />
+          <Route path="notifications" element={<Notification />} />
           <Route path="classmates" element={<UserDashboard />} />
+          <Route path="profile" element={<Profile />} />
 
           <Route path="group/:groupId" element={<GroupWorkSpace />}>
             <Route index element={<GroupCoursesPage />} />
@@ -37,6 +39,7 @@ function App() {
             <Route path="announcements" element={<GroupAnnouncementsPage />} />
           </Route>
         </Route>
+        <Route path="/profile/:userId" element={<Profile />} />
         <Route // Flat - compeletely separate
           path="/home/group/:groupId/courses/:courseId"
           element={<CourseWorkspace />}

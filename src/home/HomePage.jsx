@@ -2,7 +2,8 @@ import "./Homepage.css";
 import SideNav from "./SideNav";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { Menu, X, Search, Bell, Settings } from "lucide-react";
+import { Menu, X, Search, Bell, Settings, User2 } from "lucide-react";
+import { useProfile } from "../hooks/useSaveProfile";
 function Homepage() {
   const [isOpenSideBar, setIsOpenSideBar] = useState(false);
 
@@ -29,6 +30,8 @@ function Homepage() {
 }
 
 function HomeHeader({ isOpenSideBar, setIsOpenSideBar }) {
+  const { data: myProfile } = useProfile();
+  console.log(myProfile);
   return (
     <div className="header-container">
       <div className="header-left">
@@ -50,9 +53,11 @@ function HomeHeader({ isOpenSideBar, setIsOpenSideBar }) {
         <NavLink to="" className="settings-btn">
           <Settings />
         </NavLink>
-        <NavLink to="" className="profile-btn">
-          <span className="profile-avatar">AK</span>
-          Ali Karim
+        <NavLink to="profile" className="profile-btn">
+          <span className="profile-avatar">
+            {myProfile?.avatar_utl || <User2 />}
+          </span>
+          {myProfile?.username}
         </NavLink>
       </div>
     </div>

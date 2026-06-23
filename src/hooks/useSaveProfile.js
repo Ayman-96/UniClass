@@ -1,5 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
+import { useAuth } from "../AuthContext";
 
 export function useSaveProfile() {
   return useMutation({
@@ -28,11 +29,50 @@ export function useSaveProfile() {
 
       const { error } = await supabase.from("profiles").insert({
         id: user.id,
+        email: user.email,
         ...profileData,
         avatar_url,
       });
 
       if (error) throw new Error(error.message);
+    },
+  });
+}
+
+export function useProfile(userId) {
+  const { user } = useAuth();
+  const id = userId || user?.id; // if id not passed then its my profiles
+
+  return useQuery({
+    queryKey: ["profile", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!id,
+  });
+}
+
+export function useUpdateProfile() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ userId, updates }) => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .update(updates)
+        .eq("id", userId)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["profile", data.id] });
     },
   });
 }

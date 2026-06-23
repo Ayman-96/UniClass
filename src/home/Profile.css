@@ -1,0 +1,472 @@
+/* ── Profile Page ─────────────────────────────────────────── */
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: #f4f4f2;
+  min-height: 100vh;
+}
+
+/* ── Banner ───────────────────────────────────────────────── */
+.background-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  opacity: 0.18;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Profile Header Card ──────────────────────────────────── */
+.profile-header {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  background: linear-gradient(135deg, #d4f0e7 0%, #e8f8f2 60%, #f0faf6 100%);
+  border: 1px solid #c0e8d8;
+  border-radius: 16px;
+  padding: 32px 28px 24px;
+  overflow: hidden;
+}
+
+/* subtle decorative circles — same vibe as the purple design */
+.profile-header::before,
+.profile-header::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(26, 158, 120, 0.12);
+  pointer-events: none;
+}
+.profile-header::before {
+  width: 220px;
+  height: 220px;
+  top: -60px;
+  right: 80px;
+}
+.profile-header::after {
+  width: 140px;
+  height: 140px;
+  top: -20px;
+  right: -20px;
+  background: rgba(26, 158, 120, 0.08);
+}
+
+/* ── Avatar ───────────────────────────────────────────────── */
+.pro-pic {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.pro-pic button {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 16px rgba(26, 158, 120, 0.25);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: #c0e8d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pro-pic button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Name / username / bio ────────────────────────────────── */
+.user-initials {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.user-initials p:nth-child(1) {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1a2e27;
+  margin: 0;
+}
+
+.user-initials p:nth-child(2) {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a9e78;
+  margin: 0;
+}
+
+.user-initials p:nth-child(3) {
+  font-size: 0.85rem;
+  color: #4a6b5e;
+  margin: 4px 0 0;
+}
+
+/* ── Edit Profile Button ──────────────────────────────────── */
+.edit-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 1.5px solid #1a9e78;
+  border-radius: 8px;
+  background: transparent;
+  color: #1a9e78;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.edit-profile-info:hover {
+  background: #fff;
+  color: #1a9e78;
+}
+
+.edit-profile-info svg {
+  width: 15px;
+  height: 15px;
+}
+.save-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 1.5px solid #1a9e78;
+  border-radius: 8px;
+  background: transparent;
+  color: #1a9e78;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.save-profile-info:hover {
+  background: #fff;
+  color: #1a9e78;
+}
+
+.save-profile-info svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ── Body Card ────────────────────────────────────────────── */
+.profile-body {
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Section Headers row ──────────────────────────────────── */
+.body-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.body-header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a2e27;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e8f8f2;
+}
+
+.body-header > div svg {
+  width: 20px;
+  height: 20px;
+  color: #1a9e78;
+  background: #e8f8f2;
+  padding: 4px;
+  border-radius: 6px;
+  box-sizing: content-box;
+}
+
+/* ── Info Grid ────────────────────────────────────────────── */
+.profile-body-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 24px;
+}
+
+.user-information-table {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.user-contact-table {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.contacts-grid .info-detail {
+  width: 100%;
+  max-width: 200px;
+}
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: #e8f8f2;
+  border-radius: 8px;
+  color: #1a9e78;
+}
+
+.info-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.info-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.info-detail p {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #8a9e97;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.label-warning {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #8a9e97;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+/* ── Shared input style ───────────────────────────────────── */
+.user-detail {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a2e27;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 100%;
+  font-family: inherit;
+  cursor: default;
+}
+
+.user-detail:disabled {
+  opacity: 1;
+  color: #1a2e27;
+}
+.user-detail-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a2e27;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 100%;
+  font-family: inherit;
+  cursor: default;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.user-detail:disabled {
+  opacity: 1;
+  color: #1a2e27;
+}
+.user-detail.not-set {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #8a9e97;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.editing-mode {
+  background: #f0faf6;
+  border: 1.5px solid #1a9e78;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: text;
+}
+.user-bio {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 0.01px;
+  font-weight: 500;
+  width: 100%;
+  width: 900px;
+}
+/* ── Footer sections ──────────────────────────────────────── */
+.profile-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+.bio-counter {
+  color: #1a9e78;
+}
+.about-user,
+.user-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  grid-column: span 2;
+}
+.about-user > div,
+.user-contacts > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a2e27;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e8f8f2;
+}
+.about-user > div {
+  justify-content: space-between;
+}
+.about-align {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.about-user > div svg,
+.user-contacts > div:first-child svg {
+  width: 20px;
+  height: 20px;
+  color: #1a9e78;
+  background: #e8f8f2;
+  padding: 4px;
+  border-radius: 6px;
+  box-sizing: content-box;
+}
+
+.about-user .user-detail {
+  min-height: 140px; /* Increased from 60px to give it a spacious look */
+  line-height: 1.6; /* Adds comfortable breathing room between lines */
+  resize: none;
+  width: 100%; /* Ensures it doesn't push past its grid column */
+  word-break: break-all; /* Forces long unbroken strings ('aaaaa') to wrap */
+  white-space: pre-wrap; /* Preserves spaces and breaks lines naturally */
+}
+.info-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+.about-user .user-detail.editing-mode {
+  min-height: 160px;
+  line-height: 1.6;
+  resize: none;
+  width: 100%;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a2e27;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.info-icon-wrapper:hover .tooltip {
+  opacity: 1;
+}
+.alert-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.alert-wrapper:hover .tooltip {
+  opacity: 1;
+}
+@media (max-width: 768px) {
+  .tooltip {
+    white-space: normal;
+    width: 160px;
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+}
+@media (max-width: 768px) {
+  .about-user {
+    gap: 16px;
+  }
+
+  .about-user .user-detail {
+    min-height: 90px;
+    overflow-y: hidden;
+    word-break: break-word;
+    white-space: pre-wrap;
+    padding: 4px 8px;
+    line-height: 1.5;
+  }
+  .about-user .user-detail.editing-mode {
+    min-height: 145px;
+    overflow-y: auto;
+    word-break: break-all;
+    white-space: pre-wrap;
+    padding: 8px;
+    line-height: 1.5;
+  }
+}

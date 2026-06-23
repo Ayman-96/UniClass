@@ -1,16 +1,17 @@
 import "./SideNav.css";
 import { NavLink } from "react-router-dom";
 import { Logo } from "../welcomePage/Welcome.jsx";
-import { LayoutGrid, Bell, Users, BookOpen } from "lucide-react";
+import { LayoutGrid, Bell, Users, BookOpen, IdCard } from "lucide-react";
 function SideNav() {
   const menuSections = [
     {
       id: 1,
-      title: "dashboard",
+      title: "Dashboard",
       icon: <LayoutGrid className="sidebar-icon" />,
     },
-    { id: 2, title: "notfications", icon: <Bell className="sidebar-icon" /> },
-    { id: 3, title: "classmates", icon: <Users className="sidebar-icon" /> },
+    { id: 2, title: "Notifications", icon: <Bell className="sidebar-icon" /> },
+    { id: 3, title: "Classmates", icon: <Users className="sidebar-icon" /> },
+    { id: 4, title: "Profile", icon: <IdCard className="sidebar-icon" /> },
   ];
   return (
     <nav className="side-nav">
@@ -23,7 +24,11 @@ function SideNav() {
       <div className="sideNav-menu-section">
         {menuSections.map((sec) => {
           return (
-            <NavLink to={sec.title} key={sec.id} className="sidebar-link">
+            <NavLink
+              to={sec.title.toLowerCase()}
+              key={sec.id}
+              className="sidebar-link"
+            >
               <div className="sidebar-link-left">
                 {sec.icon}
                 <span>{sec.title}</span>
