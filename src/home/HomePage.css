@@ -185,21 +185,30 @@
   flex-shrink: 0;
   transition: background 0.15s ease-in-out;
 }
-
-.profile-avatar {
-  width: 38px;
-  height: 38px;
-  background-color: #e2e8f0;
+.my-pro-avatar {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #1a9e78;
+}
+
+.my-pro-no-avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #475569;
-  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e8f8f2;
+  color: #1a9e78;
+  border: 2px solid #1a9e78;
 }
 
+.my-pro-no-avatar svg {
+  width: 18px;
+  height: 18px;
+}
 /* ==========================================================================
    📉 CENTRAL ROUTER OUTLET SHEET SCREEN
    ========================================================================== */

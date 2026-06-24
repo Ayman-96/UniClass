@@ -1,43 +1,159 @@
 import "./Profile.css";
 import {
+  ChevronLeft,
+  CircleX,
   Contact,
   GraduationCap,
   Pencil,
   SearchAlert,
+  Trash2,
   User,
   UserRoundPen,
 } from "lucide-react";
 import { fetchProfile, socialBaseUrls } from "../data/ProfileData";
 import { useProfile, useUpdateProfile } from "../hooks/useSaveProfile";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner.jsx";
+import { uploadCommentImage } from "../hooks/useUploadImage";
 
 function Profile({ userId }) {
+  // HOOKS
   const { data: userInfo } = useProfile(userId);
+  const { mutate: updateProfile, isError, isPending } = useUpdateProfile();
 
-  const { personalInfoTable, userContacts } = fetchProfile(userInfo);
-
-  const [isEditing, setIsEditing] = useState(false);
+  // STATES
   const [changeData, setChangeData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [openRemoveList, setOpenRemoveList] = useState(false);
 
+  // EFFECT
   useEffect(() => {
     if (userInfo) setChangeData(userInfo);
   }, [userInfo]);
 
-  const { mutate: updateProfile } = useUpdateProfile();
+  // DERIVED / COMPUTED
+  const { personalInfoTable, userContacts } = fetchProfile(userInfo);
+  const hasAnyImage = Boolean(
+    userInfo?.avatar_url || userInfo?.background_url || userInfo?.banner_url,
+  );
+
+  // CONSTANT
+  const imagesList = [
+    {
+      name: "Avatar",
+      url: "avatar_url",
+    },
+    {
+      name: "Background",
+      url: "background_url",
+    },
+    {
+      name: "Banner",
+      url: "banner_url",
+    },
+  ];
+
+  // FUNCTIONS
   function handleEditProfile() {
     setIsEditing((prev) => !prev);
   }
   function handleSaveProfile() {
     updateProfile({ userId: userInfo.id, updates: changeData });
   }
+  async function handleAvatar(file) {
+    const avatarUrl = await uploadCommentImage(file, "avatars", userInfo.id);
+    updateProfile({ userId: userInfo.id, updates: { avatar_url: avatarUrl } });
+  }
+  async function handleBackground(file) {
+    const bgUrl = await uploadCommentImage(file, "backgrounds", userInfo.id);
+    updateProfile({ userId: userInfo.id, updates: { background_url: bgUrl } });
+  }
+  async function handleBanner(file) {
+    const bannerUrl = await uploadCommentImage(file, "banners", userInfo.id);
+    updateProfile({ userId: userInfo.id, updates: { banner_url: bannerUrl } });
+  }
+  function handleRemoveImg(imgUrl) {
+    updateProfile({ userId: userInfo.id, updates: { [imgUrl]: null } });
+  }
+
+  if (isError) return <div>Error occured. try again later</div>;
   return (
     <div className="user-profile">
-      <img className="background-img" />
+      {userInfo?.background_url && (
+        <img className="background-img" src={userInfo.background_url} />
+      )}
 
-      <div className="profile-header">
+      <div
+        className="profile-header"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (isEditing) document.getElementById("banner").click();
+        }}
+      >
+        <div
+          className="remove-images"
+          onMouseLeave={() => setOpenRemoveList(false)}
+        >
+          {isEditing &&
+            hasAnyImage &&
+            (!openRemoveList ? (
+              <Trash2 onMouseEnter={() => setOpenRemoveList(true)} />
+            ) : (
+              <div className="remove-list" onClick={(e) => e.stopPropagation()}>
+                {imagesList.map(
+                  (img) =>
+                    userInfo?.[img.url] && (
+                      <button
+                        key={img.name}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveImg(img.url);
+                        }}
+                      >
+                        <div>
+                          Remove {img.name}
+                          <span>
+                            <CircleX />
+                          </span>
+                        </div>
+                      </button>
+                    ),
+                )}
+                <ChevronLeft onClick={() => setOpenRemoveList(false)} />
+              </div>
+            ))}
+        </div>
+        {userInfo?.banner_url && (
+          <img className="banner-img" src={userInfo.banner_url} />
+        )}
+        <input
+          id="banner"
+          type="file"
+          hidden
+          onClick={(e) => e.stopPropagation()}
+          onChange={(e) => {
+            handleBanner(e.target.files[0]);
+          }}
+        />
         <div className="pro-pic">
-          <button>
-            <img />
+          <input
+            id="avatar"
+            type="file"
+            hidden
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => {
+              handleAvatar(e.target.files[0]);
+            }}
+          />
+
+          <button
+            className={`${isEditing && "editing-avatar"}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isEditing) document.getElementById("avatar").click();
+            }}
+          >
+            {userInfo?.avatar_url && <img src={userInfo.avatar_url} />}
           </button>
         </div>
         <div className="user-initials">
@@ -49,18 +165,42 @@ function Profile({ userId }) {
             <Pencil /> Edit Profile
           </button>
         ) : (
-          <button
-            className="save-profile-info"
-            onClick={() => {
-              handleSaveProfile();
-              handleEditProfile();
-            }}
-          >
-            Save Changes
-          </button>
+          <div className="edit-btns">
+            <button
+              className="save-profile-info"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSaveProfile();
+                handleEditProfile();
+              }}
+            >
+              Save Changes
+            </button>
+
+            <button
+              className="change-background-img"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (isEditing) document.getElementById("background").click();
+              }}
+            >
+              Chage Background
+            </button>
+
+            <input
+              id="background"
+              type="file"
+              hidden
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => {
+                handleBackground(e.target.files[0]);
+              }}
+            />
+          </div>
         )}
       </div>
 
+      {isPending && <LoadingSpinner />}
       <div className="profile-body">
         <div className="body-header">
           <div className="left-col">

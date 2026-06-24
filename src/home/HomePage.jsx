@@ -31,7 +31,6 @@ function Homepage() {
 
 function HomeHeader({ isOpenSideBar, setIsOpenSideBar }) {
   const { data: myProfile } = useProfile();
-  console.log(myProfile);
   return (
     <div className="header-container">
       <div className="header-left">
@@ -41,22 +40,30 @@ function HomeHeader({ isOpenSideBar, setIsOpenSideBar }) {
         >
           {isOpenSideBar ? <X /> : <Menu />}
         </button>
+
         <div className="search-bar">
           <Search className="search-icon" />
           <input className="search-input" placeholder="Search" />
         </div>
       </div>
+
       <div className="header-right">
         <button className="notifications-btn">
           <Bell />
         </button>
+
         <NavLink to="" className="settings-btn">
           <Settings />
         </NavLink>
+
         <NavLink to="profile" className="profile-btn">
-          <span className="profile-avatar">
-            {myProfile?.avatar_utl || <User2 />}
-          </span>
+          {myProfile?.avatar_url ? (
+            <img src={myProfile?.avatar_url} className="my-pro-avatar" />
+          ) : (
+            <span className="my-pro-no-avatar">
+              <User2 />
+            </span>
+          )}
           {myProfile?.username}
         </NavLink>
       </div>
