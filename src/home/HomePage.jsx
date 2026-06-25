@@ -64,7 +64,9 @@ function HomeHeader({ isOpenSideBar, setIsOpenSideBar }) {
               <User2 />
             </span>
           )}
-          {myProfile?.username}
+          <p style={{ color: myProfile?.fullname_color }}>
+            {myProfile?.username}
+          </p>
         </NavLink>
       </div>
     </div>

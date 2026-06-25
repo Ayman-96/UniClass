@@ -28,7 +28,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 16px;
-  opacity: 0.5;
+  opacity: 0.8;
   z-index: 0;
 }
 /* ── Profile Header Card ──────────────────────────────────── */
@@ -111,28 +111,58 @@
   gap: 2px;
   position: relative;
   z-index: 1;
+  bottom: 10px;
 }
 
-.user-initials p:nth-child(1) {
-  font-size: 1.35rem;
-  font-weight: 700;
+.initial-fullname,
+.initial-username {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.initial-fullname p {
   color: #1a2e27;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 1.3px;
   margin: 0;
 }
 
-.user-initials p:nth-child(2) {
-  font-size: 0.9rem;
+.initial-username p {
+  color: #1a9e78;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #05622c;
+  letter-spacing: 1.3px;
   margin: 0;
 }
 
-.user-initials p:nth-child(3) {
-  font-size: 0.85rem;
-  color: #4a6b5e;
-  margin: 4px 0 0;
+.initial-fullname input[type="color"],
+.initial-username input[type="color"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(26, 158, 110, 0.4);
+  transition: box-shadow 0.2s;
 }
 
+.initial-fullname input[type="color"]::-webkit-color-swatch-wrapper,
+.initial-username input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 50%;
+}
+
+.initial-fullname input[type="color"]::-webkit-color-swatch,
+.initial-username input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
+}
 /* ── Edit Profile Button ──────────────────────────────────── */
 .edit-profile-info {
   display: flex;
