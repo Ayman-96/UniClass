@@ -69,6 +69,7 @@ function Profile({ userId }) {
       <ProfileHeader
         userInfo={userInfo}
         isEditing={isEditing}
+        isPending={isPending}
         changeData={changeData}
         imagesList={imagesList}
         hasAnyImage={hasAnyImage}

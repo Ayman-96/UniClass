@@ -121,7 +121,6 @@ function CreateGroup({ dispatch, fillWarning }) {
   );
 }
 function RequiredWarning() {
-  console.log("RUNED");
   return (
     <div className="group-warning">
       <span>

@@ -6,8 +6,10 @@ export function useSaveProfile() {
   return useMutation({
     mutationFn: async (profileData) => {
       const {
-        data: { user },
-      } = await supabase.auth.getUser();
+        data: { session },
+      } = await supabase.auth.getSession();
+      const user = session?.user;
+      if (!user) throw new Error("Not authenticated");
 
       let avatar_url = null;
 
@@ -27,10 +29,12 @@ export function useSaveProfile() {
         avatar_url = data.publicUrl;
       }
 
+      const { avatar, ...rest } = profileData;
+
       const { error } = await supabase.from("profiles").insert({
         id: user.id,
         email: user.email,
-        ...profileData,
+        ...rest,
         avatar_url,
       });
 

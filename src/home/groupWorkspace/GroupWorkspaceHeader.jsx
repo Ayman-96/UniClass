@@ -31,7 +31,7 @@ function GroupWorkspaceHeader({
           ) : (
             <div>
               {" "}
-              Only rep can {btnTitle} {btnIcon}
+              Only Rep Can {btnTitle} {btnIcon}
             </div>
           )
         ) : (

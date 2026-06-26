@@ -11,7 +11,7 @@ function ProfileFooter({ userContacts, isEditing, changeData, setChangeData }) {
               <User /> About Me{" "}
             </div>
             <p className="bio-counter">
-              {isEditing && changeData["bio"].length + " / 500"}
+              {isEditing && changeData["bio"]?.length + " / 500"}
             </p>
           </div>
           <textarea

@@ -1,6 +1,7 @@
+import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
 import "./JoinGroup.css";
-import { KeyRound, Info } from "lucide-react";
-function JoinGroup() {
+import { KeyRound, Info, ShieldX } from "lucide-react";
+function JoinGroup({ joinCode, setJoinCode, isPending, isError, error }) {
   return (
     <div className="join-group-details">
       <div className="how-to-join">
@@ -14,21 +15,34 @@ function JoinGroup() {
         <label htmlFor="groupCode" className="groupCode-label">
           Group Code <span>(id)</span>
         </label>
-        <input
-          id="groupCode"
-          type="text"
-          className="groupId-input"
-          placeholder="Enter the Group ID"
-        />
+        {isPending ? (
+          <LoadingSpinner />
+        ) : (
+          <input
+            id="groupCode"
+            type="text"
+            value={joinCode.toUpperCase()}
+            maxLength={15}
+            className="groupId-input"
+            placeholder="Enter the Group Code"
+            onChange={(e) => setJoinCode(e.target.value)}
+          />
+        )}
       </div>
-
-      <div className="group-hint">
-        <span>
-          <Info />
-        </span>{" "}
-        You'll be added as a member. Only the group representative can manage
-        members and courses.
-      </div>
+      {isError ? (
+        <div className="group-hint-error">
+          <ShieldX />
+          <p className="not-found-error">{error.message}</p>
+        </div>
+      ) : (
+        <div className="group-hint">
+          <span>
+            <Info />
+          </span>{" "}
+          You'll be added as a member. Only the group representative can manage
+          members and courses.
+        </div>
+      )}
     </div>
   );
 }

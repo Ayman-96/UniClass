@@ -17,14 +17,26 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
 
       if (_event === "SIGNED_IN" && session?.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("id")
-          .eq("id", session.user.id)
-          .single();
+        try {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("id", session.user.id)
+            .single();
 
-        if (!profile) window.location.href = "/setup";
-        else window.location.href = "/home";
+          if (!profile) window.location.href = "/setup";
+          else if (
+            window.location.pathname === "/" ||
+            window.location.pathname === "/signIn" ||
+            window.location.pathname === "/signUp"
+          ) {
+            window.location.href = "/home";
+          }
+          // if already on /home or elsewhere, don't redirect at all
+        } catch (err) {
+          // network error — do nothing, stay on current page
+          console.error("Auth check failed:", err);
+        }
       }
     });
 

@@ -3,6 +3,7 @@ import { useState } from "react";
 import JoinGroup from "./JoinGroup";
 import CreateGroup from "./CreateGroup";
 import { Plus, X, KeyRound } from "lucide-react";
+import { useJoinGroup } from "../../../hooks/useGroups";
 
 function NewGroupForm({
   dispatch,
@@ -11,6 +12,9 @@ function NewGroupForm({
   handleCreateGroup,
 }) {
   const [activeTab, setActiveTab] = useState("create");
+  const [joinCode, setJoinCode] = useState("");
+
+  const { mutate: joinGroup, isPending, isError, error } = useJoinGroup();
   return (
     <div className="popup-overlay">
       <div className="new-group-popup">
@@ -50,7 +54,13 @@ function NewGroupForm({
           {activeTab === "create" ? (
             <CreateGroup dispatch={dispatch} fillWarning={fillWarning} />
           ) : (
-            <JoinGroup />
+            <JoinGroup
+              joinCode={joinCode}
+              setJoinCode={setJoinCode}
+              isPending={isPending}
+              isError={isError}
+              error={error}
+            />
           )}
         </div>
 
@@ -76,7 +86,16 @@ function NewGroupForm({
               Create Group
             </button>
           ) : (
-            <button className="perform-group-btn">Join Group</button>
+            <button
+              className="perform-group-btn"
+              onClick={() =>
+                joinGroup(joinCode, {
+                  onSuccess: () => handleOpenNewGroup(),
+                })
+              }
+            >
+              Join Group
+            </button>
           )}
         </div>
       </div>

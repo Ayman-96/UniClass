@@ -79,7 +79,7 @@ function SignUp() {
           <LockKeyhole className="icon pass-icon" />
           <input
             type={showPass ? "text" : "password"}
-            placeholder="Repeat password"
+            placeholder="Type a strong password"
             onChange={(e) => setPassword(e.target.value)}
           />
           <button className="eye-btn" onClick={() => setShowPass((p) => !p)}>
@@ -92,7 +92,7 @@ function SignUp() {
           <LockKeyhole className="icon pass-icon" />
           <input
             type={showConfirmPass ? "text" : "password"}
-            placeholder="Repeat password"
+            placeholder="Repeat the password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <button

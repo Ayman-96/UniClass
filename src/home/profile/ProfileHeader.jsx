@@ -4,6 +4,7 @@ import { useState } from "react";
 function ProfileHeader({
   userInfo,
   isEditing,
+  isPending,
   changeData,
   imagesList,
   hasAnyImage,
@@ -142,7 +143,7 @@ function ProfileHeader({
               handleEditProfile();
             }}
           >
-            Save Changes
+            {isPending ? "Hold on..." : " Save Changes"}
           </button>
 
           <button

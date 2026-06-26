@@ -85,7 +85,7 @@ function OnBoarding() {
       {
         full_name: newProfile.fullName,
         username: newProfile.username,
-        avatar_url: newProfile.avatar,
+        avatar: newProfile.avatar,
         gender: newProfile.gender,
         dob: newProfile.dob,
         city: newProfile.city,
@@ -103,6 +103,7 @@ function OnBoarding() {
       },
     );
   }
+  console.log(newProfile.avatar);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error Occured...</div>;
   return (

@@ -1,3 +1,4 @@
+import { useAuth } from "../AuthContext";
 import { supabase } from "../supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 /*
@@ -54,31 +55,28 @@ export function useAddGroup() {
     },
   });
 }
-///////////////////
-/*
-Fetch groups : 
-Component
-  ↓
-useGroups()
-  ↓
-TanStack Query cache
-  ↓
-Supabase
-  ↓
-Database
- */
-///////////////////
-/*
- Add group ?
-mutate(newGroup)
-  ↓
-Supabase insert
-  ↓
-success
-  ↓
-invalidate "groups"
-  ↓
-auto refetch
-  ↓
-UI updates
- */
+
+export function useJoinGroup() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async (code) => {
+      const { error } = await supabase.rpc("join_group_by_code", {
+        p_code: code,
+        p_user_id: user.id,
+      });
+
+      if (error) {
+        if (error.message.includes("Group not found"))
+          throw new Error("Group not found. Check the code and try again.");
+        if (error.message.includes("Already a member"))
+          throw new Error("You are already a member of this group.");
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["groups"] });
+    },
+  });
+}

@@ -112,3 +112,28 @@
   height: 16px;
   color: #16a34a;
 }
+.group-hint-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff5f5;
+  border: 1px solid #ffcdd2;
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #c0392b;
+}
+
+.group-hint-error svg {
+  width: 18px;
+  height: 18px;
+  color: #e74c3c;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.not-found-error {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0;
+  color: #c0392b;
+}

@@ -5,7 +5,6 @@ function DashboardBody({ storedGroups }) {
   return (
     <div className="groups">
       {storedGroups.map((group) => {
-        console.log(group.group_code);
         return (
           <Link
             to={`/home/group/${group.id}/courses`}
@@ -33,13 +32,13 @@ function DashboardBody({ storedGroups }) {
 
             <div className="group-roster-summary">
               <div className="member-count-row">
-                <Users size={16} /> <span>{group.members_count} members</span>
+                <Users size={16} />{" "}
+                <span>{group.group_members[0].count} members</span>
               </div>
               <div className="courses-count-row">
                 <span>{group.courses[0]?.count ?? 0} Courses</span>
                 <span className="pill-badge alert">X new</span>
               </div>
-              {/* Add your stack element here */}
             </div>
 
             <div className="group-subtitle">
