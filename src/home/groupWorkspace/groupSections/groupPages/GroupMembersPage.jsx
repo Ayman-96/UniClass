@@ -2,6 +2,7 @@ import { useState } from "react";
 import AddMember from "../../groupModals/AddMember";
 import GroupPageHeader from "../../GroupWorkspaceHeader";
 import { UsersRound, UserPlus } from "lucide-react";
+import MembersCard from "../groupCards/groupMembers/MembersCard";
 function GroupMembersPage() {
   const [memberModal, setMemberModal] = useState(false);
   function handleMemberModal() {
@@ -18,8 +19,13 @@ function GroupMembersPage() {
           onButtonClick={handleMemberModal}
         />
       </div>
+
       <div className="posts-body">
         {memberModal && <AddMember handleMemberModal={handleMemberModal} />}
+      </div>
+
+      <div>
+        <MembersCard />
       </div>
     </div>
   );

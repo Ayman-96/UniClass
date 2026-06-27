@@ -19,7 +19,7 @@ function SignUp() {
   const signInWithGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/setup` },
+      options: { redirectTo: `${window.location.origin}/home` },
     });
   };
 
@@ -50,6 +50,7 @@ function SignUp() {
     if (error) {
       setError("Wrong email or password");
     } else if (data?.user?.identities?.length === 0) {
+      await supabase.auth.signOut();
       setError("An account with this email already exists");
     } else await supabase.auth.signInWithPassword({ email, password });
   };

@@ -21,3 +21,22 @@ export function useIsRep(groupId) {
     enabled: !!groupId && !!user?.id,
   });
 }
+export function useIsModerator(groupId) {
+  const { user } = useAuth();
+
+  return useQuery({
+    queryKey: ["isModerator", groupId, user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("group_members")
+        .select("is_moderator")
+        .eq("group_id", groupId)
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+      return data?.is_moderator === true;
+    },
+    enabled: !!groupId && !!user?.id,
+  });
+}

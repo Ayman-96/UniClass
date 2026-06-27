@@ -1,0 +1,576 @@
+/* ─── Layout ─────────────────────────────────────────────── */
+.group-members-overlay {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background-color: #f4f4f2;
+  min-height: 100vh;
+  font-family: "DM Sans", sans-serif;
+  margin-left: 24px;
+}
+
+.gp-mmb-body {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
+.gp-members-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+
+.header-left-col img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #1a9e78;
+}
+
+.header-mid-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.group-title p:first-child {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.group-title p:last-child {
+  font-size: 13px;
+  color: #777;
+  margin: 0;
+}
+
+.group-count-members {
+  display: flex;
+  gap: 28px;
+}
+
+.group-data-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #444;
+  font-size: 13px;
+  border-right: 2px solid #ebebeb;
+  padding-right: 28px;
+}
+
+.group-data-count svg {
+  color: #1a9e78;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.group-data-count p:first-child {
+  font-weight: 700;
+  font-size: 15px;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.group-data-count p:last-child {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+.group-data-count:last-child {
+  border-right: none;
+}
+/* Header right — join code */
+.header-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 220px;
+  padding-left: 24px;
+  border-left: 2px solid #ebebeb;
+}
+
+.header-right-col > p {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.code-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px dashed #1a9e78;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #f0faf6;
+}
+
+.code-copy p {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.code-copy button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1a9e78;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.code-copy button:hover {
+  background: #d6f0e8;
+}
+
+.header-right-col > span,
+.header-right-col > p.invite-hint {
+  font-size: 12px;
+  color: #888;
+}
+
+.header-right-col > button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.header-right-col > button:first-of-type {
+  background: #1a9e78;
+  color: #fff;
+  border: none;
+}
+
+.header-right-col > button:first-of-type:hover {
+  background: #158a67;
+}
+
+.header-right-col > button:last-of-type {
+  background: #fff;
+  color: #1a9e78;
+  border: 1px solid #1a9e78;
+}
+
+.header-right-col > button:last-of-type:hover {
+  background: #f0faf6;
+}
+
+/* ───Tooltip ────────────────────────── */
+.reps-list-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  border-bottom: 1px solid #ebebeb;
+}
+.rep-alert-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
+
+.rep-tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 220px;
+  line-height: 1.5;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.rep-alert-wrapper:hover .rep-tooltip {
+  display: block;
+}
+/* ─── Members List (left column) ────────────────────────── */
+.members-container {
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 16px;
+  overflow: visible;
+}
+
+.members-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.members-list-header > div {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.members-list-header input {
+  padding: 8px 14px;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  color: #333;
+  background: #f9f9f9;
+  outline: none;
+  width: 200px;
+  transition: border-color 0.15s;
+}
+
+.members-list-header input:focus {
+  border-color: #1a9e78;
+  background: #fff;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-card {
+  height: 75px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+  transition: background 0.12s;
+}
+
+.member-card:last-child {
+  border-bottom: none;
+}
+
+.member-card:hover {
+  background: #fafafa;
+}
+
+.user-avatar-card img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ebebeb;
+}
+.member-name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.member-name p:first-child {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+
+.member-name p:last-child {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+.mod-name {
+  color: #f0a500;
+}
+/* role + dots row */
+.member-card > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.member-card > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  flex: 1;
+}
+.name-you-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.user-you {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1a9e78;
+  background: #f0faf6;
+  border: 1px solid #c8ede2;
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+
+.user-you svg {
+  width: 12px;
+  height: 12px;
+}
+.user-role-card {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 36px;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #f0faf6;
+  color: #1a9e78;
+  border: 1px solid #c8ede2;
+  white-space: nowrap;
+}
+
+.user-role-card svg {
+  font-size: 14px;
+}
+.rep-role-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.rep-role-card.moderator {
+  background-color: #fef9e7;
+  color: #f0a500;
+}
+
+.rep-role-card.representative {
+  background-color: #ede9fe;
+  color: #7c3aed;
+}
+
+.rep-role-card svg {
+  font-size: 20px;
+}
+.user-interaction-card {
+  cursor: pointer;
+  color: #bbb;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.user-interaction-card:hover {
+  color: #555;
+  background: #ebebeb;
+}
+
+/* dropdown */
+.interaction-list {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  min-width: 200px;
+  right: 10px;
+  top: 48px;
+  background: #f8fafc;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.interaction-list button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.12s;
+}
+
+.interaction-list button:last-of-type {
+  border-bottom: none;
+}
+
+.interaction-close {
+  align-self: flex-start;
+  padding: 4px 12px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.interaction-close:hover {
+  color: #555;
+}
+.interaction-list svg:hover {
+  color: #555;
+}
+
+.remove-member {
+  color: #e53935;
+}
+
+.remove-member:hover {
+  background: #fff5f5 !important;
+}
+
+.promote-mod {
+  color: #1a9e78;
+}
+
+.promote-mod:hover {
+  background: #f0faf6 !important;
+}
+
+/* ─── Right column ──────────────────────────────────────── */
+.body-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Reps card */
+.reps-list-card {
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 16px;
+  overflow: visible;
+}
+
+.reps-list-card > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.reps-list-card > div:first-child svg {
+  color: #1a9e78;
+  width: 18px;
+  height: 18px;
+}
+
+.rep-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Activity card */
+.group-activity {
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.group-activity > svg,
+.group-activity > :first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.activity-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f4f4f2;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #555;
+  border: 1px solid #ebebeb;
+}
+
+.activity-card svg {
+  color: #1a9e78;
+  flex-shrink: 0;
+}
+.rep-list-interactions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  min-width: fit-content;
+}
+.user-role-card.moderator {
+  background-color: #fef9e7;
+  color: #f0a500;
+  border: 1px solid #f0a500;
+}
+
+.user-role-card.representative {
+  background-color: #ede9fe;
+  color: #7c3aed;
+  border: 1px solid #7c3aed;
+}
