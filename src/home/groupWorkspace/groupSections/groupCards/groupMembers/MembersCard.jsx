@@ -31,7 +31,21 @@ import { IoAccessibilityOutline, IoPeople } from "react-icons/io5";
 import { useAuth } from "../../../../../AuthContext";
 import { useGroups } from "../../../../../hooks/useGroups";
 import { useIsModerator, useIsRep } from "../../../../../hooks/useIsRep";
+import { GoDotFill } from "react-icons/go";
 
+const getLastSeen = (lastSeen) => {
+  if (!lastSeen) return "Long Time";
+
+  const diff = Date.now() - new Date(lastSeen).getTime();
+  const minutes = Math.floor(diff / 1000 / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (minutes < 5) return "Online";
+  if (minutes < 60) return `Last seen ${minutes}m ago`;
+  if (hours < 24) return `Last seen ${hours}h ago`;
+  return `Last seen ${days}d ago`;
+};
 function MembersCard() {
   const { groupId } = useParams();
   const { user } = useAuth();
@@ -167,6 +181,7 @@ function MembersList({ groupData, groupMembers, user }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   return (
     <div className="members-container">
       <div className="members-list-header">
@@ -211,7 +226,14 @@ function MembersList({ groupData, groupMembers, user }) {
                     </div>
                   )}
                 </div>
-                <p>online statues</p>
+                <p
+                  className={`${getLastSeen(member.profiles.last_seen) === "Online" ? "user-online" : "user-offline"}`}
+                >
+                  <span>
+                    <GoDotFill />
+                  </span>{" "}
+                  {getLastSeen(member.profiles.last_seen)}
+                </p>
               </div>
 
               <div className="rep-list-interactions">
@@ -342,7 +364,14 @@ function RepsList({ groupData, countRep, user, reps }) {
                 <p className={`${rep.is_moderator ? "mod-name" : ""}`}>
                   {rep.profiles.username}
                 </p>
-                <p>online statues</p>
+                <p
+                  className={`${getLastSeen(rep.profiles.last_seen) === "Online" ? "user-online" : "user-offline"}`}
+                >
+                  <span>
+                    <GoDotFill />
+                  </span>{" "}
+                  {getLastSeen(rep.profiles.last_seen)}
+                </p>
               </div>
 
               <div className="rep-list-interactions">

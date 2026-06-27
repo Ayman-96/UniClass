@@ -15,7 +15,8 @@ export function useGroupMembers(groupId) {
           is_moderator,
           profiles (
             username,
-            avatar_url
+            avatar_url,
+            last_seen
           )
         `,
         )

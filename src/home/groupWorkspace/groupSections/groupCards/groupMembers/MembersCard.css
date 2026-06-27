@@ -303,7 +303,7 @@
 .member-name {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 30px;
 }
 
 .member-name p:first-child {
@@ -314,7 +314,6 @@
 
 .member-name p:last-child {
   font-size: 12px;
-  color: #aaa;
   margin: 0;
 }
 .mod-name {
@@ -573,4 +572,24 @@
   background-color: #ede9fe;
   color: #7c3aed;
   border: 1px solid #7c3aed;
+}
+.user-online {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #16a34a;
+}
+
+.user-offline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #aaa;
+}
+.user-online span,
+.user-offline span {
+  display: inline-flex;
+  align-items: center;
 }

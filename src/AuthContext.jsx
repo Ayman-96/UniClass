@@ -24,13 +24,21 @@ export const AuthProvider = ({ children }) => {
             .eq("id", session.user.id)
             .single();
 
-          if (!profile) window.location.href = "/setup";
-          else if (
-            window.location.pathname === "/" ||
-            window.location.pathname === "/signIn" ||
-            window.location.pathname === "/signUp"
-          ) {
-            window.location.href = "/home";
+          if (!profile) {
+            window.location.href = "/setup";
+          } else {
+            await supabase
+              .from("profiles")
+              .update({ last_seen: new Date().toISOString() })
+              .eq("id", session.user.id);
+
+            if (
+              window.location.pathname === "/" ||
+              window.location.pathname === "/signIn" ||
+              window.location.pathname === "/signUp"
+            ) {
+              window.location.href = "/home";
+            }
           }
           // if already on /home or elsewhere, don't redirect at all
         } catch (err) {
@@ -43,6 +51,22 @@ export const AuthProvider = ({ children }) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Heartbeat to stay online
+  useEffect(() => {
+    if (!user) return;
+
+    const interval = setInterval(
+      async () => {
+        await supabase
+          .from("profiles")
+          .update({ last_seen: new Date().toISOString() })
+          .eq("id", user.id);
+      },
+      3 * 60 * 1000,
+    ); // every 3 minutes
+
+    return () => clearInterval(interval);
+  }, [user]);
   return (
     <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
