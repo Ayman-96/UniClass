@@ -16,11 +16,12 @@ function ProfileFooter({ userContacts, isEditing, changeData, setChangeData }) {
           </div>
           <textarea
             type="text"
+            id="user-bio"
             value={changeData["bio"] || ""}
             onChange={(e) => {
               const text = e.target.value;
               const lines = text.split("\n");
-              if (lines.length <= 6) {
+              if (lines.length <= 7) {
                 setChangeData((prev) => ({
                   ...prev,
                   ["bio"]: text,

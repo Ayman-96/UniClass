@@ -1,7 +1,9 @@
 import { ChevronLeft, CircleX, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "../../AuthContext";
 
 function ProfileHeader({
+  userId,
   userInfo,
   isEditing,
   isPending,
@@ -16,6 +18,7 @@ function ProfileHeader({
   handleEditProfile,
   handleSaveProfile,
 }) {
+  const { me } = useAuth();
   const [openRemoveList, setOpenRemoveList] = useState(false);
   return (
     <div
@@ -129,41 +132,45 @@ function ProfileHeader({
         </div>
       </div>
 
-      {!isEditing ? (
-        <button className="edit-profile-info" onClick={handleEditProfile}>
-          <Pencil /> Edit Profile
-        </button>
+      {!userId !== me?.id ? (
+        !isEditing ? (
+          <button className="edit-profile-info" onClick={handleEditProfile}>
+            <Pencil /> Edit Profile
+          </button>
+        ) : (
+          <div className="edit-btns">
+            <button
+              className="save-profile-info"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSaveProfile();
+                handleEditProfile();
+              }}
+            >
+              {isPending ? "Hold on..." : " Save Changes"}
+            </button>
+
+            <button
+              className="change-background-img"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (isEditing) document.getElementById("background").click();
+              }}
+            >
+              Chage Background
+            </button>
+
+            <input
+              id="background"
+              type="file"
+              hidden
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => handleBackground(e.target.files[0])}
+            />
+          </div>
+        )
       ) : (
-        <div className="edit-btns">
-          <button
-            className="save-profile-info"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleSaveProfile();
-              handleEditProfile();
-            }}
-          >
-            {isPending ? "Hold on..." : " Save Changes"}
-          </button>
-
-          <button
-            className="change-background-img"
-            onClick={(e) => {
-              e.stopPropagation();
-              if (isEditing) document.getElementById("background").click();
-            }}
-          >
-            Chage Background
-          </button>
-
-          <input
-            id="background"
-            type="file"
-            hidden
-            onClick={(e) => e.stopPropagation()}
-            onChange={(e) => handleBackground(e.target.files[0])}
-          />
-        </div>
+        ""
       )}
     </div>
   );

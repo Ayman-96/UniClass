@@ -1,14 +1,16 @@
 import "./Profile.css";
+import ProfileBody from "./ProfileBody";
+import { useEffect, useState } from "react";
+import ProfileFooter from "./ProfileFooter";
+import ProfileHeader from "./ProfileHeader";
 import { fetchProfile } from "../../data/ProfileData";
 import { useProfile, useUpdateProfile } from "../../hooks/useSaveProfile";
-import { useEffect, useState } from "react";
-import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner.jsx";
 import { uploadCommentImage } from "../../hooks/useUploadImage";
-import ProfileHeader from "./ProfileHeader";
-import ProfileBody from "./ProfileBody";
-import ProfileFooter from "./ProfileFooter";
+import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner.jsx";
+import { useParams } from "react-router-dom";
 
-function Profile({ userId }) {
+function Profile() {
+  const { userId } = useParams();
   // HOOKS
   const { data: userInfo } = useProfile(userId);
   const { mutate: updateProfile, isError, isPending } = useUpdateProfile();
@@ -67,6 +69,7 @@ function Profile({ userId }) {
       )}
 
       <ProfileHeader
+        userId={userId}
         userInfo={userInfo}
         isEditing={isEditing}
         isPending={isPending}

@@ -416,7 +416,6 @@
   letter-spacing: 0.01px;
   font-weight: 500;
   width: 100%;
-  width: 900px;
 }
 /* ── Footer sections ──────────────────────────────────────── */
 .profile-footer {
@@ -429,11 +428,23 @@
 .bio-counter {
   color: #1a9e78;
 }
-.about-user,
 .user-contacts {
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 16px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
+}
+.about-user {
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   grid-column: span 2;
 }
 .about-user > div,
@@ -467,19 +478,22 @@
 }
 
 .about-user .user-detail {
-  min-height: 140px; /* Increased from 60px to give it a spacious look */
-  line-height: 1.6; /* Adds comfortable breathing room between lines */
+  height: auto;
+  min-height: unset;
+  field-sizing: content;
+  line-height: 1.6;
   resize: none;
-  width: 100%; /* Ensures it doesn't push past its grid column */
-  word-break: break-all; /* Forces long unbroken strings ('aaaaa') to wrap */
-  white-space: pre-wrap; /* Preserves spaces and breaks lines naturally */
+  width: 100%;
+  word-break: break-all;
+  white-space: pre-wrap;
 }
 .info-icon-wrapper {
   position: relative;
   display: inline-flex;
 }
 .about-user .user-detail.editing-mode {
-  min-height: 160px;
+  min-height: unset;
+  field-sizing: content;
   line-height: 1.6;
   resize: none;
   width: 100%;

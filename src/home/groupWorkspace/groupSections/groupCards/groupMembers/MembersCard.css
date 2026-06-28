@@ -181,12 +181,13 @@
 }
 
 .header-right-col > button:last-of-type {
-  background: #fff;
-  color: #1a9e78;
+  background: #1a9e78;
+  color: #ebebeb;
   border: 1px solid #1a9e78;
 }
 
 .header-right-col > button:last-of-type:hover {
+  color: #1a9e78;
   background: #f0faf6;
 }
 

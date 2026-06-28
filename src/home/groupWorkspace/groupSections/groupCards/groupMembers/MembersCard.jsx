@@ -1,6 +1,6 @@
 import "./MembersCard.css";
 import { toast } from "sonner";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import {
   useGroupMembers,
   usePromoteToMod,
@@ -26,7 +26,6 @@ import { FaRegCopy, FaUserTimes } from "react-icons/fa";
 import { RiShieldStarFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { LuCopyCheck, LuShieldOff, LuShieldX } from "react-icons/lu";
-import { BsDoorOpen } from "react-icons/bs";
 import { IoAccessibilityOutline, IoPeople } from "react-icons/io5";
 import { useAuth } from "../../../../../AuthContext";
 import { useGroups } from "../../../../../hooks/useGroups";
@@ -155,11 +154,6 @@ function GroupMembersHeader({ groupData, countRep }) {
         <button onClick={() => setOpenInvitation(true)}>
           <Link /> Invite Link
         </button>
-        {amIRep && (
-          <button>
-            <BsDoorOpen /> Manage Access
-          </button>
-        )}
       </div>
 
       {openInvitation && (
@@ -231,9 +225,9 @@ function MembersList({ groupData, groupMembers, user }) {
           ];
           return (
             <div className="member-card" key={memberId}>
-              <div className="user-avatar-card">
+              <NavLink to={`/profile/${memberId}`} className="user-avatar-card">
                 <img src={member.profiles.avatar_url} alt="user-avatar" />
-              </div>
+              </NavLink>
 
               <div className="member-name">
                 <div className="name-you-row">
