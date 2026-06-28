@@ -114,7 +114,6 @@ function GroupMembersHeader({ groupData, countRep }) {
       count: new Date(groupData?.created_at).toLocaleDateString(),
     },
   ];
-
   return (
     <div className="gp-members-header">
       <div className="header-left-col">
@@ -126,7 +125,7 @@ function GroupMembersHeader({ groupData, countRep }) {
           <p>
             {groupData?.name} {groupData?.icon}
           </p>
-          <p>{groupData?.description}</p>
+          <p>By : {groupData?.rep_name}</p>
         </div>
         <div className="group-count-members">
           {countData?.map((data) => {
@@ -141,6 +140,7 @@ function GroupMembersHeader({ groupData, countRep }) {
             );
           })}
         </div>
+        <div className="group-description">{groupData?.description}</div>
       </div>
       <div className="header-right-col">
         <p>Join Code</p>

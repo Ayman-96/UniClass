@@ -38,7 +38,8 @@ function CreateGroup({ dispatch, fillWarning }) {
           required
           type="text"
           id="groupName"
-          className="groupName-input"
+          maxLength={30}
+          className="groupInfo-input"
           placeholder="e.g. Class Software"
           onChange={(e) => {
             dispatch({ type: "SET_NAME", payload: e.target.value });
@@ -59,7 +60,7 @@ function CreateGroup({ dispatch, fillWarning }) {
             value={groupId}
             readOnly={true}
             placeholder="Unique ID"
-            className="groupId-input"
+            className="groupInfo-input"
           />
           <button
             className="generate-code-btn"
@@ -79,7 +80,8 @@ function CreateGroup({ dispatch, fillWarning }) {
           required
           type="text"
           id="groupRep"
-          className="groupName-input"
+          maxLength={20}
+          className="groupInfo-input"
           placeholder="Representative Name"
           onChange={(e) => {
             dispatch({ type: "SET_REP", payload: e.target.value });
@@ -109,11 +111,15 @@ function CreateGroup({ dispatch, fillWarning }) {
         <label htmlFor="groupDesc" className="groupDesc-label">
           Description <span>(optional)</span>
         </label>
-        <input
+        <textarea
           type="text"
           id="groupDesc"
-          className="groupDesc-input"
-          placeholder="Describe the group"
+          maxLength={132}
+          onChange={(e) => {
+            dispatch({ type: "SET_DESCRIPTION", payload: e.target.value });
+          }}
+          className="groupInfo-input groupDesc-input"
+          placeholder="Describe the group briefly."
         />
       </div>
       {fillWarning && <RequiredWarning />}

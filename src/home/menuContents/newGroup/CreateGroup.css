@@ -18,18 +18,13 @@
 }
 
 /* ── Labels ── */
-.groupName-label,
-.groupId-label,
-.groupRep-label,
-.groupDesc-label {
+.groupInfo-label {
   font-size: 13.5px;
   font-weight: 600;
   color: #111827;
 }
 
-.groupName-label span,
-.groupId-label span,
-.groupDesc-label span {
+.groupInfo-label span {
   font-weight: 400;
   font-size: 12.5px;
   color: #9ca3af;
@@ -37,9 +32,7 @@
 }
 
 /* ── Inputs ── */
-.groupName-input,
-.groupId-input,
-.groupDesc-input {
+.groupInfo-input {
   width: 100%;
   padding: 10px 14px;
   font-size: 14px;
@@ -54,15 +47,11 @@
   box-sizing: border-box;
 }
 
-.groupName-input::placeholder,
-.groupId-input::placeholder,
-.groupDesc-input::placeholder {
+.groupInfo-input::placeholder {
   color: #9ca3af;
 }
 
-.groupName-input:focus,
-.groupId-input:focus,
-.groupDesc-input:focus {
+.groupInfo-input:focus {
   background: #ffffff;
   border-color: #16a34a;
 }
@@ -74,7 +63,7 @@
   align-items: center;
 }
 
-.id-generater .groupId-input {
+.id-generater .groupInfo-input {
   flex: 1;
 }
 
@@ -133,7 +122,8 @@
 }
 
 /* ── Description textarea (override input to textarea if needed) ── */
-.groupDesc-input {
+.groupInfo-input.groupDesc-input {
+  align-self: flex-start;
   resize: none;
   min-height: 90px;
 }
