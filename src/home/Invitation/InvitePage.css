@@ -1,0 +1,219 @@
+/* InvitePage.css */
+
+.invitation-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background-color: #111111;
+  gap: 0.8rem;
+}
+
+/* ── Header ── */
+.inv-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.inv-header > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.inv-header > div p:first-child {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a9e78;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.inv-header > div p:first-child svg {
+  color: #1a9e78;
+  font-size: 1.5rem;
+}
+
+.inv-header > div p:last-child {
+  font-size: 0.95rem;
+  color: #888;
+  margin: 0;
+}
+/* ── Body card ── */
+
+.inv-body {
+  width: 100%;
+  max-width: 520px;
+  background: #1e1e1e;
+  border-radius: 18px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Group info row ── */
+
+.group-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.group-info img {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #1a9e78;
+}
+
+.group-info > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.group-info > div:last-child p:first-child {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.group-info > div:last-child p:last-child {
+  font-size: 0.875rem;
+  color: #888888;
+  margin: 0;
+}
+
+/* ── Counters ── */
+
+.group-counter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.group-counter > div {
+  background: #141414;
+  border-radius: 12px;
+  padding: 0.875rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.group-counter label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #666666;
+  text-transform: uppercase;
+}
+
+.group-counter > div > div {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.group-counter > div > div span {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #1a9e78;
+}
+
+/* ── Buttons ── */
+
+.group-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.group-btns button {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: #1a9e78;
+  color: #ffffff;
+  transition: background 0.15s ease;
+}
+
+.group-btns button:hover {
+  background: #16876a;
+}
+
+.group-btns button:active {
+  background: #12705a;
+}
+
+/* maybe-later button — second child */
+.group-btns button:last-of-type {
+  background: transparent;
+  border: 1px solid #2e2e2e;
+  color: #cccccc;
+}
+
+.group-btns button:last-of-type:hover {
+  background: #1e1e1e;
+  border-color: #444444;
+}
+
+.group-btns p {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666666;
+  margin: 0;
+}
+
+.group-btns p a {
+  color: #1a9e78;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.group-btns p a:hover {
+  text-decoration: underline;
+}
+.grp-avatar {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 14px;
+  background: #159068;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.grp-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.grp-avatar svg {
+  font-size: 36px;
+  color: #e6f7f1;
+}

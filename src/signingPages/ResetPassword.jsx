@@ -1,9 +1,9 @@
 import "./ResetPassword.css";
 import { useState } from "react";
 import { supabase } from "../supabase";
-import { Logo } from "../welcomePage/Welcome";
 import { Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Logo } from "../components/Logo";
 
 function ResetPassword() {
   const [email, setEmail] = useState("");

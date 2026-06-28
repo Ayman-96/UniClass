@@ -1,0 +1,289 @@
+/* InvitationCard.css */
+
+.invitation-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.invitation-card {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 460px;
+  padding: 1.5rem;
+  animation: slideUp 0.22s ease;
+  border: 1px solid #e8e8e8;
+}
+
+/* ── Header ── */
+
+.inv-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.4rem;
+}
+
+.inv-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 11px;
+  background: #e6f7f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a9e78;
+  font-size: 20px;
+}
+
+.share-inv {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.share-inv > div p:first-child {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 2px;
+}
+
+.share-inv > div p:last-child {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+.share-inv > button {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 8px;
+  border: none;
+  background: #f5f5f3;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+
+.share-inv > button:hover {
+  background: #ffe5e5;
+  color: #e05050;
+}
+
+/* ── Body ── */
+
+.inv-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Invite link row ── */
+
+.invite-link {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fafafa;
+  transition: border-color 0.15s;
+}
+
+.invite-link:hover {
+  border-color: #1a9e78;
+}
+
+.invite-link > svg {
+  font-size: 17px;
+  color: #bbb;
+  margin: 0 12px;
+  flex-shrink: 0;
+}
+
+.invite-link > p {
+  flex: 1;
+  font-size: 0.8rem;
+  color: #555;
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0.85rem 0;
+  margin: 0;
+}
+
+.invite-link > button {
+  background: #1a9e78;
+  border: none;
+  color: #fff;
+  padding: 0 1.1rem;
+  height: 100%;
+  min-height: 46px;
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.invite-link > button:hover {
+  background: #159068;
+}
+
+/* ── Divider ── */
+
+.divider-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.divider-link > div:first-child,
+.divider-link > div:last-child {
+  flex: 1;
+  height: 1px;
+  background: #efefef;
+}
+
+.divider-link > div:nth-child(2) {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: #bbb;
+}
+
+/* ── Invite code ── */
+
+.invite-code {
+  background: #f7fdf9;
+  border: 1.5px dashed #a8dfc8;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.invite-code > p {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #1a9e78;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.invite-code > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.invite-code > div > p {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: 0.15em;
+  font-family: monospace;
+  margin: 0;
+}
+
+.invite-code > button {
+  background: #1a9e78;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+  align-self: flex-end;
+}
+
+.invite-code > button:hover {
+  background: #159068;
+}
+
+/* ── Footer ── */
+
+#footer {
+  text-align: center;
+  font-size: 11.5px;
+  color: #bbb;
+  margin: 0.25rem 0 0;
+}
+
+#footer span {
+  color: #1a9e78;
+  font-weight: 700;
+}
+.invite-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.invite-code-row > button {
+  background: #1a9e78;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.invite-code-row > button:hover {
+  background: #159068;
+}

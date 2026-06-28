@@ -1,7 +1,7 @@
 import "./SideNav.css";
 import { NavLink } from "react-router-dom";
-import { Logo } from "../welcomePage/Welcome.jsx";
 import { LayoutGrid, Bell, Users, BookOpen, IdCard } from "lucide-react";
+import { Logo } from "../components/Logo.jsx";
 function SideNav() {
   const menuSections = [
     {

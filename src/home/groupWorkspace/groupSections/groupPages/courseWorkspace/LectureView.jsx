@@ -13,8 +13,8 @@ import { useEffect, useRef, useState } from "react";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Logo } from "../../../../../welcomePage/Welcome";
 import useLectureStore from "../../../../../store/useLectureStore";
+import { Logo } from "../../../../../components/Logo";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 function LectureView() {

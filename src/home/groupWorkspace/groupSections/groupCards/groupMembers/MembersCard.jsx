@@ -32,6 +32,7 @@ import { useAuth } from "../../../../../AuthContext";
 import { useGroups } from "../../../../../hooks/useGroups";
 import { useIsModerator, useIsRep } from "../../../../../hooks/useIsRep";
 import { GoDotFill } from "react-icons/go";
+import InvitationCrad from "./InvitationCard";
 
 const getLastSeen = (lastSeen) => {
   if (!lastSeen) return "Long Time";
@@ -86,9 +87,10 @@ function MembersCard() {
   );
 }
 function GroupMembersHeader({ groupData, countRep }) {
+  const [openInvitation, setOpenInvitation] = useState(false);
   const [copied, setCopied] = useState(false);
   const { data: amIRep } = useIsRep(groupData?.id);
-
+  console.log(openInvitation);
   function handleCopy() {
     navigator.clipboard.writeText(groupData?.group_code).then(() => {
       setCopied(true);
@@ -151,7 +153,7 @@ function GroupMembersHeader({ groupData, countRep }) {
           </button>
         </div>
         <p> Share this code with others to invite them</p>
-        <button>
+        <button onClick={() => setOpenInvitation(true)}>
           <Link /> Invite Link
         </button>
         {amIRep && (
@@ -160,6 +162,15 @@ function GroupMembersHeader({ groupData, countRep }) {
           </button>
         )}
       </div>
+
+      {openInvitation && (
+        <div className="invitation-overlay">
+          <InvitationCrad
+            setCloseInvitation={setOpenInvitation}
+            groupData={groupData}
+          />
+        </div>
+      )}
     </div>
   );
 }

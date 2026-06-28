@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { supabase } from "../supabase";
-import { Logo } from "../welcomePage/Welcome";
 import { Eye, EyeOff, Key, Mail } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import "./SignIn.css";
 import { Link, NavLink } from "react-router-dom";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
+import { Logo } from "../components/Logo";
 function SignIn() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");

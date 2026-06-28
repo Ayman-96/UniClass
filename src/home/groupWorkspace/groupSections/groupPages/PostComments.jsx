@@ -14,7 +14,7 @@ import { useReducer } from "react";
 import { useAuth } from "../../../../AuthContext.jsx";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
 import { useParams } from "react-router-dom";
-import TextCollapser from "../../../../components/loadingSpinner/TextExpnder.jsx";
+import TextCollapser from "../../../../components/TextExpnder.jsx";
 import { useLikeComments } from "../../../../hooks/useLikeComments.js";
 
 const initialState = {

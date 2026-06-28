@@ -100,3 +100,20 @@ export function useJoinGroup() {
     },
   });
 }
+
+// INVITATION
+export function useSingleGroup(groupId) {
+  return useQuery({
+    queryKey: ["groupByCode", groupId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("groups")
+        .select("*, group_members(count), courses(count)")
+        .eq("id", groupId)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!groupId,
+  });
+}

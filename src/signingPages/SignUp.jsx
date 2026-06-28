@@ -1,11 +1,11 @@
 import "./SignUp.css";
 import { Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
-import { Logo } from "../welcomePage/Welcome";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabase";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
+import { Logo } from "../components/Logo";
 function SignUp() {
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);

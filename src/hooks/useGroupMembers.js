@@ -28,7 +28,23 @@ export function useGroupMembers(groupId) {
     enabled: !!groupId,
   });
 }
-
+export function useIsMember(groupId) {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ["isMember", groupId, user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("group_members")
+        .select("id")
+        .eq("group_id", groupId)
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (error) throw error;
+      return !!data;
+    },
+    enabled: !!groupId && !!user?.id,
+  });
+}
 export function useRemoveMember(groupId) {
   const queryClient = useQueryClient();
 

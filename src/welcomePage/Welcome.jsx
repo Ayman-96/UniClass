@@ -1,7 +1,7 @@
 import "./Welcome.css";
 import { Link, NavLink } from "react-router-dom";
-import { GraduationCap } from "lucide-react";
 import { previewCards, previewFetures } from "../data/welcome";
+import { Logo } from "../components/Logo";
 
 function Homepage() {
   return (
@@ -25,19 +25,6 @@ function HomeNav() {
         </div>
       </nav>
     </div>
-  );
-}
-export function Logo() {
-  return (
-    <NavLink to="/Home" className="logo">
-      <div className="plat-logo">
-        <GraduationCap />
-      </div>
-      <div className="plat-name">
-        <h2>UniClass</h2>
-        <p>Student Learning Platform</p>
-      </div>
-    </NavLink>
   );
 }
 function Mainpage({ previewCards, previewFetures }) {
