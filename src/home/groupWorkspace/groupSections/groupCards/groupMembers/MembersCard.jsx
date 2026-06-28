@@ -90,7 +90,6 @@ function GroupMembersHeader({ groupData, countRep }) {
   const [openInvitation, setOpenInvitation] = useState(false);
   const [copied, setCopied] = useState(false);
   const { data: amIRep } = useIsRep(groupData?.id);
-  console.log(openInvitation);
   function handleCopy() {
     navigator.clipboard.writeText(groupData?.group_code).then(() => {
       setCopied(true);
@@ -180,6 +179,7 @@ function MembersList({ groupData, groupMembers, user }) {
   const { data: amIMod } = useIsModerator(groupData?.id);
   const { mutate: removeMember } = useRemoveMember(groupData?.id);
   const { mutate: promoteToRep } = usePromoteToRep(groupData?.id);
+  const [search, setSearch] = useState("");
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -192,16 +192,23 @@ function MembersList({ groupData, groupMembers, user }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+  const membersList = search
+    ? groupMembers.filter((data) => data?.profiles.username.includes(search))
+    : groupMembers;
   return (
     <div className="members-container">
       <div className="members-list-header">
         <div>Members ({groupData?.group_members[0].count})</div>
-        <input type="text" placeholder="Search members..." />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search members..."
+        />
       </div>
 
       <div className="members-list">
-        {groupMembers?.map((member) => {
+        {membersList?.map((member) => {
           const memberId = member?.user_id;
           const interactions = [
             {
@@ -342,8 +349,6 @@ function RepsList({ groupData, countRep, user, reps }) {
       <div className="rep-list">
         {reps?.map((rep) => {
           const repId = rep?.user_id;
-          console.log(repId);
-          console.log(user?.id);
           const actionsToRep = [
             {
               label: "Remove as Rep ",
