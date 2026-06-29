@@ -10,9 +10,9 @@ import {
   X,
 } from "lucide-react";
 import { useReducer, useState } from "react";
-import { useAddPost } from "../../../hooks/usePosts";
+import { useAddPost } from "../../../../../hooks/usePosts";
 import RequiredWarning from "./RequiredWarning";
-import { useAuth } from "../../../AuthContext.jsx";
+import { useAuth } from "../../../../../AuthContext.jsx";
 const postAttachments = [
   {
     text: "Attach File",

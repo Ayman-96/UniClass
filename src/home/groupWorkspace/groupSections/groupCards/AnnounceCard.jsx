@@ -1,5 +1,5 @@
 import "./AnnounceCard.css";
-import { use, useState } from "react";
+import { useState } from "react";
 import {
   BellIcon,
   Clock,

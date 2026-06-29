@@ -2,13 +2,14 @@ import { useParams } from "react-router-dom";
 import "./AddAnnounce.css";
 import { ImagePlus, Megaphone, ShieldCheck, X } from "lucide-react";
 import { useReducer, useState } from "react";
-import { useAddAnnounce } from "../../../hooks/useAnnounce";
 import RequiredWarning from "./RequiredWarning";
-import { useAuth } from "../../../AuthContext";
+
+import { useAuth } from "../../../../../AuthContext";
+import { useAddAnnounce } from "../../../../../hooks/useAnnounce";
 import {
   announceAttachments,
   announceTypes,
-} from "../../../data/addAnnounceData";
+} from "../../../../../data/addAnnounceData";
 
 const announceData = {
   title: "",

@@ -3,12 +3,12 @@ import {
   colorOptions,
   seasons,
   courseIcons,
-} from "../../../data/addCourseData";
+} from "../../../../../data/addCourseData";
 import { useParams } from "react-router-dom";
 import RequiredWarning from "./RequiredWarning";
 import { useEffect, useReducer, useState } from "react";
 import { BookOpen, X, Info, LayersPlus } from "lucide-react";
-import { useAddCourse } from "../../../hooks/useCourses";
+import { useAddCourse } from "../../../../../hooks/useCourses";
 const courseData = {
   id: "",
   name: "",

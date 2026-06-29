@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddMember from "../../groupModals/AddMember";
+import AddMember from "./groupModals/AddMember";
 import GroupPageHeader from "../../GroupWorkspaceHeader";
 import { UsersRound, UserPlus } from "lucide-react";
 import MembersCard from "../groupCards/groupMembers/MembersCard";

@@ -1,12 +1,12 @@
 import "./InvitePage.css";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../AuthContext";
 import { HiMiniUserGroup } from "react-icons/hi2";
-import { useIsMember } from "../../hooks/useGroupMembers";
+import { useIsMember } from "../hooks/useGroupMembers";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useJoinGroup, useSingleGroup } from "../../hooks/useGroups";
-import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
+import { useJoinGroup, useSingleGroup } from "../hooks/useGroups";
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 import { PiStudentFill } from "react-icons/pi";
-import { Logo } from "../../components/Logo";
+import { Logo } from "../components/Logo";
 
 function InvitePage() {
   const { user } = useAuth();

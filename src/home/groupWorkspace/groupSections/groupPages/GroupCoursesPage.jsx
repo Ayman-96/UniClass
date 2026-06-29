@@ -1,7 +1,7 @@
 import "./GroupCoursesPage.css";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import AddCourse from "../../groupModals/AddCourse";
+import AddCourse from "./groupModals/AddCourse";
 import CourseCard from "../groupCards/CourseCard";
 import { BookOpen, BookPlus } from "lucide-react";
 import GroupPageHeader from "../../GroupWorkspaceHeader";

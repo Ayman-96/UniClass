@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useGroupMembers } from "../../../hooks/useGroupMembers";
+import { useGroupMembers } from "../../../../../hooks/useGroupMembers";
 import "./AddMember.css";
 import { Send, UserPlus2, UserRoundSearch, X } from "lucide-react";
-import { useGroups } from "../../../hooks/useGroups";
+import { useGroups } from "../../../../../hooks/useGroups";
 
 function AddMember({ handleMemberModal }) {
   const { groupId } = useParams();

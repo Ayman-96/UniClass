@@ -2,7 +2,7 @@ import "./GroupPostsPage.css";
 import { useState } from "react";
 import PostCard from "../groupCards/PostCard";
 import { useParams } from "react-router-dom";
-import AddPost from "../../groupModals/AddPost";
+import AddPost from "./groupModals/AddPost";
 import {
   usePostLikes,
   usePosts,

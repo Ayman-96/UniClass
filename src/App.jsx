@@ -14,7 +14,7 @@ import GroupMembersPage from "./home/groupWorkspace/groupSections/groupPages/Gro
 import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/groupPages/GroupAnnouncementsPage";
 import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/CourseWorkspace";
 import Profile from "./home/profile/Profile";
-import InvitePage from "./home/Invitation/InvitePage";
+import InvitePage from "./Invitation/InvitePage";
 function App() {
   return (
     <div>
