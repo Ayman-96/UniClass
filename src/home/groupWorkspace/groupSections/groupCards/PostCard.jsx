@@ -4,20 +4,22 @@ import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
 import { HeartHandshake, MessageSquareText, Redo2 } from "lucide-react";
 import PostComments from "../groupPages/PostComments";
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
-import useGroupStore from "../../../../store/useGroupStore.js";
+import { useSingleGroup } from "../../../../hooks/useGroups.js";
+import { formatDistanceToNow } from "date-fns";
 
 function PostCard({ post, isLiked, likeCount, toggleLike }) {
   const { groupId } = useParams();
-  const currentGroup = useGroupStore((curr) => curr.currentGroup);
   const { data: isRep } = useIsRep(groupId);
+  const { data: currentGroup } = useSingleGroup(groupId);
   const [openComments, setOpenComments] = useState(false);
-  const { mutate: deletePost, isPending, isError } = useDeletePost();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const postedTime = new Date(post.created_at).toLocaleDateString();
   const { data: storedComments } = usePostComments(post.id);
-
+  const { mutate: deletePost, isPending, isError } = useDeletePost();
+  const postedTime = formatDistanceToNow(new Date(post.created_at), {
+    addSuffix: true,
+  });
   if (isPending) return <LoadingSpinner />;
   if (isError) return <div>Error Occured...</div>;
   return (
@@ -25,11 +27,16 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
       <div className="post-card">
         <div className="post-head">
           <div className="author-info">
-            <div className="author-pro-pic">MN</div>
+            <NavLink to={`/profile/${post.author_id}`}>
+              <img src={post.profiles.avatar_url} className="author-pro-pic" />
+            </NavLink>
             <div className="author-name">
-              <p>My Name</p>
+              <p>{post.profiles.username}</p>
               <p>
-                <span>{postedTime}</span> • {currentGroup.name}
+                {postedTime} •{" "}
+                <span style={{ color: currentGroup?.color }}>
+                  {currentGroup?.name}{" "}
+                </span>
               </p>
             </div>
           </div>

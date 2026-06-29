@@ -49,7 +49,6 @@ function AddAnnounce({ handleAnnounceModal }) {
     addAnnounce({
       group_id: groupId,
       rep_id: user.id,
-      rep_name: user.user_metadata.username,
       title: newAnnounce.title,
       content: newAnnounce.content,
       icon: newAnnounce.icon,

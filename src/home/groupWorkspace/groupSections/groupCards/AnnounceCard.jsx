@@ -1,5 +1,5 @@
 import "./AnnounceCard.css";
-import { useState } from "react";
+import { use, useState } from "react";
 import {
   BellIcon,
   Clock,
@@ -14,9 +14,11 @@ import {
 } from "../../../../hooks/useAnnounce";
 import AnnounceComments from "../groupPages/AnnounceComments";
 import { announceTypes } from "../../../../data/addAnnounceData";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep";
-import useGroupStore from "../../../../store/useGroupStore";
+import { useSingleGroup } from "../../../../hooks/useGroups";
+import { formatDistanceToNow } from "date-fns";
+import { useGroupMembers } from "../../../../hooks/useGroupMembers";
 function AnnounceCard({
   announce,
   myVote,
@@ -27,7 +29,7 @@ function AnnounceCard({
   const { groupId } = useParams();
   const { data: isRep } = useIsRep(groupId);
   const [openComments, setOpenComments] = useState(false);
-  const currentGroup = useGroupStore((curr) => curr.currentGroup);
+  const { data: currentGroup } = useSingleGroup(groupId);
   const { data: storedComments } = useAnnouncementComments(announce.id);
   const { mutate: deleteAnnounce, isPending } = useDeleteAnnounce();
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -62,17 +64,35 @@ function AnnounceCard({
       onCLick: () => setOpenComments(true),
     },
   ];
-
+  const { data: members } = useGroupMembers(groupId);
+  const authorMembership = members?.find((m) => m.user_id === announce.rep_id);
+  const isMod = authorMembership?.is_moderator;
   return (
     <div className="announce-overylay">
       <div className="announce-card">
         <div className="announcement-head">
           <div className="rep-info">
-            <div className="rep-pro-pic">MN</div>
+            <NavLink to={`/profile/${announce.rep_id}`}>
+              <img
+                src={announce.profiles.avatar_url}
+                className="author-pro-pic"
+              />
+            </NavLink>
             <div className="rep-name">
-              <p>Rep Name</p>
               <p>
-                <span>{postedTime}</span> • {currentGroup.name}
+                {announce.profiles.username}{" "}
+                <span style={{ color: currentGroup?.color }}>
+                  {isMod && "(Mod)"}
+                </span>
+              </p>
+              <p>
+                {formatDistanceToNow(new Date(announce.created_at), {
+                  addSuffix: true,
+                })}{" "}
+                •{" "}
+                <span style={{ color: currentGroup?.color }}>
+                  {currentGroup?.name}
+                </span>
               </p>
             </div>
           </div>

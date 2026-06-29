@@ -13,7 +13,7 @@ import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner
 import { useReducer } from "react";
 import { useAuth } from "../../../../AuthContext.jsx";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import TextCollapser from "../../../../components/TextExpnder.jsx";
 import { useLikeComments } from "../../../../hooks/useLikeComments.js";
 
@@ -144,11 +144,15 @@ function CommentItem({ comment, postId, isRep, dispatch }) {
   const likedByMe = comment.post_comment_likes?.some(
     (l) => l.user_id === user.id,
   );
-
   return (
     <div className="comment-container" key={comment.id}>
       <div className="user-comment">
-        <img className="user-pro" src={comment.profiles?.avatar_url || null} />
+        <NavLink to={`/profile/${comment.user_id}`}>
+          <img
+            className="user-pro"
+            src={comment.profiles?.avatar_url || null}
+          />
+        </NavLink>
         <div className="user-comm">
           <div className="comm-head">
             {comment.profiles?.username}

@@ -8,7 +8,7 @@ export function useAnnounces(groupId) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("announcements")
-        .select("*")
+        .select("*, profiles(username,avatar_url)")
         .eq("group_id", groupId)
         .order("created_at", { ascending: false }); // newest first
       if (error) throw error;

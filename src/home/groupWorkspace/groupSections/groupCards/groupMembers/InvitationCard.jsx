@@ -8,19 +8,20 @@ import { SiSlideshare } from "react-icons/si";
 import { toast } from "sonner";
 
 function InvitationCrad({ setCloseInvitation, groupData }) {
-  const [copied, setCopied] = useState(false);
-  function handleCopy(copyTxt) {
+  const [copiedLink, setCopiedink] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
+  function handleCopy(copyTxt, setter) {
     navigator.clipboard.writeText(`${copyTxt}`).then(() => {
-      setCopied(true);
+      setter(true);
       toast.success("Copied to Clipboard !");
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setter(false), 2000);
     });
   }
   return (
     <div className="invitation-card">
       <div className="inv-card-header">
         <div className="inv-icon">
-          <SiSlideshare />
+          <SiSlideshare style={{ color: groupData?.color }} />
         </div>
         <div className="share-inv">
           <div>
@@ -39,10 +40,14 @@ function InvitationCrad({ setCloseInvitation, groupData }) {
           <p>{window.location.origin + "/join/" + groupData?.id}</p>
           <button
             onClick={() =>
-              handleCopy(`${window.location.origin}/join/${groupData?.id}`)
+              handleCopy(
+                `${window.location.origin}/join/${groupData?.id}`,
+                setCopiedink,
+              )
             }
+            style={{ background: groupData?.color }}
           >
-            {copied ? <LuCopyCheck /> : <FaRegCopy />}
+            {copiedLink ? <LuCopyCheck /> : <FaRegCopy />}
           </button>
         </div>
 
@@ -52,18 +57,25 @@ function InvitationCrad({ setCloseInvitation, groupData }) {
           <div></div>
         </div>
 
-        <div className="invite-code">
-          <p>GROUP CODE</p>
+        <div
+          className="invite-code"
+          style={{ border: `1px dashed ${groupData?.color}` }}
+        >
+          <p style={{ color: groupData?.color }}>GROUP CODE</p>
           <div className="invite-code-row">
             <p>{groupData?.group_code}</p>
-            <button onClick={() => handleCopy(groupData?.group_code)}>
-              {copied ? <LuCopyCheck /> : <FaRegCopy />}
+            <button
+              onClick={() => handleCopy(groupData?.group_code, setCopiedCode)}
+              style={{ background: groupData?.color }}
+            >
+              {copiedCode ? <LuCopyCheck /> : <FaRegCopy />}
             </button>
           </div>
         </div>
 
         <p id="footer">
-          Grow Your Communications With Studiyng Via <span>UNICLASS</span>
+          Grow Your Communications With Studiyng Via{" "}
+          <span style={{ color: groupData?.color }}>UNICLASS</span>
         </p>
       </div>
     </div>

@@ -15,7 +15,7 @@ import {
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
 import { useReducer } from "react";
 import { useAuth } from "../../../../AuthContext.jsx";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
 import TextCollapser from "../../../../components/TextExpnder.jsx";
 import { useLikeComments } from "../../../../hooks/useLikeComments.js";
@@ -60,7 +60,6 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
     });
     dispatch({ type: "RESET" });
   }
-
   if (isError) return <div>Error Occured...</div>;
   return (
     <div className="post-comment-section">
@@ -151,14 +150,17 @@ function CommentItem({ comment, announceId, dispatch, isRep }) {
     id: comment.id,
     queryKey: ["announcement_comments", announceId],
   });
-
+  console.log(comment);
   return (
     <div className="comment-container" key={comment.id}>
       <div className="user-comment">
-        <img
-          className="user-pro"
-          src={comment.profiles?.avatar_url || null}
-        ></img>
+        <NavLink to={`/profile/${comment.user_id}`}>
+          <img
+            className="user-pro"
+            src={comment.profiles?.avatar_url || null}
+          />
+        </NavLink>
+
         <div className="user-comm">
           <div className="comm-head">
             {comment.profiles?.username}

@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { FaRegCopy, FaUserTimes } from "react-icons/fa";
 import { RiShieldStarFill } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuCopyCheck, LuShieldOff, LuShieldX } from "react-icons/lu";
 import { IoAccessibilityOutline, IoPeople } from "react-icons/io5";
 import { useAuth } from "../../../../../AuthContext";
@@ -86,6 +86,7 @@ function MembersCard() {
   );
 }
 function GroupMembersHeader({ groupData, countRep }) {
+  const [isHovered, setIsHovered] = useState(false);
   const [openInvitation, setOpenInvitation] = useState(false);
   const [copied, setCopied] = useState(false);
   const { data: amIRep } = useIsRep(groupData?.id);
@@ -117,7 +118,10 @@ function GroupMembersHeader({ groupData, countRep }) {
   return (
     <div className="gp-members-header">
       <div className="header-left-col">
-        <img src={groupData?.avatar} />
+        <img
+          src={groupData?.avatar}
+          style={{ border: `3px solid ${groupData?.color}` }}
+        />
       </div>
 
       <div className="header-mid-col">
@@ -131,7 +135,9 @@ function GroupMembersHeader({ groupData, countRep }) {
           {countData?.map((data) => {
             return (
               <div className="group-data-count" key={data.label}>
-                <div>{data?.icon}</div>
+                <div>
+                  {React.cloneElement(data?.icon, { color: groupData?.color })}
+                </div>
                 <div>
                   <p>{data?.count}</p>
                   <p>{data?.label}</p>
@@ -144,14 +150,29 @@ function GroupMembersHeader({ groupData, countRep }) {
       </div>
       <div className="header-right-col">
         <p>Join Code</p>
-        <div className="code-copy">
+        <div
+          className="code-copy"
+          style={{
+            border: `2px dashed ${groupData?.color}`,
+          }}
+        >
           <p>{groupData?.group_code}</p>
-          <button onClick={handleCopy}>
+          <button onClick={handleCopy} style={{ color: groupData?.color }}>
             {copied ? <LuCopyCheck /> : <FaRegCopy />}
           </button>
         </div>
         <p> Share this code with others to invite them</p>
-        <button onClick={() => setOpenInvitation(true)}>
+        <button
+          onClick={() => setOpenInvitation(true)}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          style={{
+            background: isHovered ? "transparent" : groupData?.color,
+            border: `1px solid ${groupData?.color}`,
+            color: isHovered ? groupData?.color : "white", // optional
+            transition: "background 0.2s, color 0.2s",
+          }}
+        >
           <Link /> Invite Link
         </button>
       </div>
@@ -233,7 +254,13 @@ function MembersList({ groupData, groupMembers, user }) {
                 <div className="name-you-row">
                   <p>{member.profiles.username}</p>
                   {memberId === user.id && (
-                    <div className="user-you">
+                    <div
+                      className="user-you"
+                      style={{
+                        color: `${groupData?.color}`,
+                        border: `1px solid ${groupData?.color}`,
+                      }}
+                    >
                       You <IoAccessibilityOutline />
                     </div>
                   )}
@@ -332,8 +359,7 @@ function RepsList({ groupData, countRep, user, reps }) {
       <div className="reps-list-header">
         Reps ({countRep})
         <div className="rep-alert-wrapper">
-          {" "}
-          <BadgeInfo />
+          <BadgeInfo style={{ color: groupData?.color }} />
           <span className="rep-tooltip">
             {" "}
             Representatives help manage the group and assist the moderator.{" "}

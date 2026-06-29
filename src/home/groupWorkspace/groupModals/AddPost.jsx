@@ -57,21 +57,20 @@ function AddPost({ handlePostModal }) {
   const [fillWarning, setFillWarning] = useState(false);
 
   function handleSubmit() {
-    if (!newPost.content) {
+    if (!newPost.content && !newPost.imageFile) {
       setFillWarning(true);
       return;
     }
     addPost({
       group_id: groupId,
       author_id: user.id,
-      author_name: user.user_metadata.username,
       content: newPost.content,
       imageFile: newPost.imageFile,
     });
     dispatch({ type: "RESET" });
     handlePostModal();
   }
-
+  console.log(user);
   return (
     <div className="add-post-overlay">
       <div className="add-post-modal">

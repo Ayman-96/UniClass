@@ -10,7 +10,7 @@ export function usePosts(groupId) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("posts")
-        .select("*")
+        .select("*, profiles(username,avatar_url,role)")
         .eq("group_id", groupId)
         .order("created_at", { ascending: false }); // newest first
       if (error) throw error;

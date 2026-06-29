@@ -122,7 +122,7 @@ function LectureDiscussion({ selectedLecture }) {
       content: commentContent,
       type: activeType.name.toLowerCase(),
       lecture_id: selectedLecture.id,
-      course_id: courseId,
+      course_id: courseId, //
     });
     setCommentContent("");
   }
