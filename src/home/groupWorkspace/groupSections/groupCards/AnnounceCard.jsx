@@ -12,7 +12,7 @@ import {
   useDeleteAnnounce,
   useAnnouncementComments,
 } from "../../../../hooks/useAnnounce";
-import AnnounceComments from "../groupPages/AnnounceComments";
+import AnnounceComments from "./AnnounceComments";
 import { announceTypes } from "../../../../data/addAnnounceData";
 import { NavLink, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep";

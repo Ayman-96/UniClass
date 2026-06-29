@@ -2,7 +2,7 @@ import "./PostCard.css";
 import { useState } from "react";
 import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
 import { HeartHandshake, MessageSquareText, Redo2 } from "lucide-react";
-import PostComments from "../groupPages/PostComments";
+import PostComments from "./PostComments";
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
 import { NavLink, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
