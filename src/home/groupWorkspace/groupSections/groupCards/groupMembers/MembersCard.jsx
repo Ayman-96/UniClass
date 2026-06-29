@@ -59,6 +59,8 @@ function MembersCard() {
     }
     return acc;
   }, 0);
+
+  console.log(group);
   return (
     <div className="group-members-overlay">
       <div className="gp-mmb-header">
@@ -89,7 +91,7 @@ function GroupMembersHeader({ groupData, countRep }) {
   const [isHovered, setIsHovered] = useState(false);
   const [openInvitation, setOpenInvitation] = useState(false);
   const [copied, setCopied] = useState(false);
-  const { data: amIRep } = useIsRep(groupData?.id);
+  // const { data: amIRep } = useIsRep(groupData?.id);
   function handleCopy() {
     navigator.clipboard.writeText(groupData?.group_code).then(() => {
       setCopied(true);

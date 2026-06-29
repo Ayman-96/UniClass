@@ -2,7 +2,13 @@ import "./GroupSideBar.css";
 import { useGroups } from "../../hooks/useGroups";
 import { NavLink, useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
-import { BookOpen, MessageSquareText, Users, Megaphone } from "lucide-react";
+import {
+  BookOpen,
+  MessageSquareText,
+  Users,
+  Megaphone,
+  Settings,
+} from "lucide-react";
 
 const groupSections = [
   {
@@ -24,6 +30,11 @@ const groupSections = [
     id: 4,
     title: "announcements",
     icon: <Megaphone className="groupNav-icon" />,
+  },
+  {
+    id: 5,
+    title: "settings",
+    icon: <Settings className="groupNav-icon" />,
   },
 ];
 function GroupSideBar() {

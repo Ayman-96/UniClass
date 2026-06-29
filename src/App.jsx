@@ -15,6 +15,7 @@ import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/groupPag
 import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/CourseWorkspace";
 import Profile from "./home/profile/Profile";
 import InvitePage from "./Invitation/InvitePage";
+import GroupSettingsPage from "./home/groupWorkspace/groupSections/groupPages/GroupSettingsPage";
 function App() {
   return (
     <div>
@@ -38,6 +39,7 @@ function App() {
             <Route path="posts" element={<GroupPostsPage />} />
             <Route path="members" element={<GroupMembersPage />} />
             <Route path="announcements" element={<GroupAnnouncementsPage />} />
+            <Route path="settings" element={<GroupSettingsPage />} />
           </Route>
         </Route>
         <Route path="/profile/:userId" element={<Profile />} />
