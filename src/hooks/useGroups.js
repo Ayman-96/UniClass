@@ -1,6 +1,8 @@
+import { toast } from "sonner";
 import { useAuth } from "../AuthContext";
 import { supabase } from "../supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { nanoid } from "nanoid";
 /*
 useQuery → GET/fetch data
 useMutation → POST/PUT/DELETE/update data
@@ -104,7 +106,7 @@ export function useJoinGroup() {
 // INVITATION
 export function useSingleGroup(groupId) {
   return useQuery({
-    queryKey: ["groupByCode", groupId],
+    queryKey: ["group", groupId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("groups")
@@ -115,5 +117,85 @@ export function useSingleGroup(groupId) {
       return data;
     },
     enabled: !!groupId,
+  });
+}
+export function useUpdateGroupSettings(groupId) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (settings) => {
+      let avatarUrl = settings.avatar_url;
+      let bannerUrl = settings.banner_url;
+
+      // Upload avatar if a new file was selected
+      if (settings.avatarFile) {
+        const file = settings.avatarFile;
+        const ext = file.name.split(".").pop();
+        const path = `${groupId}/${nanoid()}.${ext}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("group-avatars")
+          .upload(path, file);
+        if (uploadError) throw uploadError;
+
+        const { data: publicUrlData } = supabase.storage
+          .from("group-avatars")
+          .getPublicUrl(path);
+        avatarUrl = publicUrlData.publicUrl;
+      }
+
+      // Upload banner if a new file was selected
+      if (settings.bannerFile) {
+        const file = settings.bannerFile;
+        const ext = file.name.split(".").pop();
+        const path = `${groupId}/${nanoid()}.${ext}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("group-banner")
+          .upload(path, file);
+        if (uploadError) throw uploadError;
+
+        const { data: publicUrlData } = supabase.storage
+          .from("group-banner")
+          .getPublicUrl(path);
+        bannerUrl = publicUrlData.publicUrl;
+      }
+
+      const { error } = await supabase.rpc("update_group_settings", {
+        p_group_id: groupId,
+        p_allow_members_to_post: settings.allow_members_to_post,
+        p_require_approval: settings.require_approval,
+        p_visibility: settings.visibility,
+        p_banner_url: bannerUrl,
+        p_avatar_url: avatarUrl,
+        p_description: settings.description,
+        p_color: settings.color,
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["group", groupId] });
+      toast.success("Group settings updated");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update settings");
+    },
+  });
+}
+export function useDeleteGroup() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (groupId) => {
+      const { error } = await supabase
+        .from("groups")
+        .delete()
+        .eq("id", groupId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Group Deleted Successfully :(");
+      queryClient.invalidateQueries({ queryKey: ["groups"] });
+    },
   });
 }

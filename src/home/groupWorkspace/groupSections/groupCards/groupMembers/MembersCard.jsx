@@ -17,6 +17,8 @@ import {
   CalendarDays,
   ChevronLeft,
   Crown,
+  DoorClosedLocked,
+  DoorOpen,
   EllipsisVertical,
   Link,
   ShieldUser,
@@ -32,6 +34,7 @@ import { useGroups } from "../../../../../hooks/useGroups";
 import { useIsModerator, useIsRep } from "../../../../../hooks/useIsRep";
 import { GoDotFill } from "react-icons/go";
 import InvitationCrad from "./InvitationCard";
+import { MdOutgoingMail } from "react-icons/md";
 
 const getLastSeen = (lastSeen) => {
   if (!lastSeen) return "Long Time";
@@ -60,7 +63,6 @@ function MembersCard() {
     return acc;
   }, 0);
 
-  console.log(group);
   return (
     <div className="group-members-overlay">
       <div className="gp-mmb-header">
@@ -99,7 +101,16 @@ function GroupMembersHeader({ groupData, countRep }) {
       setTimeout(() => setCopied(false), 2000);
     });
   }
-
+  const accessTypes = [
+    { label: "Open", value: "open", icon: <DoorOpen size={18} /> },
+    {
+      label: "Invite Only",
+      value: "invite_only",
+      icon: <MdOutgoingMail size={18} />,
+    },
+    { label: "Closed", value: "closed", icon: <DoorClosedLocked size={18} /> },
+  ];
+  const accessType = accessTypes.find((g) => g.value === groupData?.visibility);
   const countData = [
     {
       label: "Members",
@@ -119,9 +130,12 @@ function GroupMembersHeader({ groupData, countRep }) {
   ];
   return (
     <div className="gp-members-header">
+      {groupData?.banner_url && (
+        <img className="group-banner-img" src={groupData.banner_url} />
+      )}
       <div className="header-left-col">
         <img
-          src={groupData?.avatar}
+          src={groupData?.avatar_url}
           style={{ border: `3px solid ${groupData?.color}` }}
         />
       </div>
@@ -129,7 +143,10 @@ function GroupMembersHeader({ groupData, countRep }) {
       <div className="header-mid-col">
         <div className="group-title">
           <p>
-            {groupData?.name} {groupData?.icon}
+            {groupData?.name}{" "}
+            <span style={{ color: groupData?.color }}>
+              {accessType.label} {accessType.icon}
+            </span>
           </p>
           <p>By : {groupData?.rep_name}</p>
         </div>
