@@ -32,25 +32,6 @@ export function useAddGroup() {
   // This function runs when you call: addGroupMutation.mutate(...)
   return useMutation({
     mutationFn: async (newGroup) => {
-      let avatarUrl = null;
-
-      if (newGroup.avatar) {
-        const fileExt = newGroup.avatar.name.split(".").pop();
-        const fileName = `${Date.now()}.${fileExt}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from("group-avatars")
-          .upload(fileName, newGroup.avatar);
-
-        if (uploadError) throw uploadError;
-
-        const { data: urlData } = supabase.storage
-          .from("group-avatars")
-          .getPublicUrl(fileName);
-
-        avatarUrl = urlData.publicUrl;
-      }
-
       const { data, error } = await supabase.rpc("create_group", {
         p_name: newGroup.name,
         p_group_code: newGroup.group_code,
@@ -58,7 +39,6 @@ export function useAddGroup() {
         p_color: newGroup.color,
         p_rep_id: newGroup.rep_id,
         p_rep_name: newGroup.rep_name,
-        p_avatar: avatarUrl,
       });
 
       if (error) throw error;

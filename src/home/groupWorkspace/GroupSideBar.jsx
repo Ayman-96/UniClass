@@ -9,6 +9,7 @@ import {
   Megaphone,
   Settings,
 } from "lucide-react";
+import { useGroupMembers } from "../../hooks/useGroupMembers";
 
 const groupSections = [
   {
@@ -18,19 +19,21 @@ const groupSections = [
   },
   {
     id: 2,
-    title: "posts",
-    icon: <MessageSquareText className="groupNav-icon" />,
-  },
-  {
-    id: 3,
-    title: "members",
-    icon: <Users className="groupNav-icon" />,
-  },
-  {
-    id: 4,
     title: "announcements",
     icon: <Megaphone className="groupNav-icon" />,
   },
+  {
+    id: 3,
+    title: "posts",
+    icon: <MessageSquareText className="groupNav-icon" />,
+  },
+
+  {
+    id: 4,
+    title: "members",
+    icon: <Users className="groupNav-icon" />,
+  },
+
   {
     id: 5,
     title: "settings",
@@ -38,20 +41,18 @@ const groupSections = [
   },
 ];
 function GroupSideBar() {
-  // const setOfGroups = JSON.parse(localStorage.getItem("storeGroup"));
-  // const { groupId } = useParams();
-  // const specifiedGroup = setOfGroups.find(
-  //   (group) => group.group_code === groupId,
-  // );
-  const { data: storedGroups, isLoading, isError } = useGroups();
   const { groupId } = useParams();
+  const { data: storedGroups, isLoading, isError } = useGroups();
+  const specifiedGroup = storedGroups?.find((group) => group.id === groupId);
+  const { data: members } = useGroupMembers(groupId);
+  const moderator = members?.filter((g) => g.is_moderator === true);
+  console.log(moderator);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Something went wrong</div>;
-  const specifiedGroup = storedGroups.find((group) => group.id === groupId);
   return (
     <nav className="group-nav">
       <div className="group-nav-header">
-        <div className="group-logo">{specifiedGroup.name.slice(0, 2)}</div>
+        <img src={specifiedGroup?.avatar_url} className="group-logo" />
         <div className="group-nav-name">{specifiedGroup.name}</div>
         <div className="group-nav-code">{specifiedGroup.group_code}</div>
       </div>
@@ -69,12 +70,15 @@ function GroupSideBar() {
         })}
       </div>
 
-      <div className="link-to-rep-acc">
-        <div className="rep-acc-img">AR</div>
-        <div className="refer-to-rep">
-          Rep <span>rep name</span>
+      <NavLink className="link-to-rep-acc">
+        <img
+          className="rep-acc-img"
+          src={moderator?.[0]?.profiles?.avatar_url}
+        />
+        <div className="refer-to-rep" style={{ color: specifiedGroup?.color }}>
+          Rep <span>{moderator?.[0]?.profiles?.username}</span>
         </div>
-      </div>
+      </NavLink>
     </nav>
   );
 }
