@@ -92,7 +92,7 @@ function MembersList({ groupData, groupMembers, user }) {
               <div className="member-name">
                 <div className="name-you-row">
                   <p>{member.profiles.username}</p>
-                  {memberId === user.id && (
+                  {memberId === user?.id && (
                     <div
                       className="user-you"
                       style={{

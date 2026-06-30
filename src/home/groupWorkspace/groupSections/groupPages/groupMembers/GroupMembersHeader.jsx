@@ -2,15 +2,15 @@ import {
   CalendarDays,
   DoorClosedLocked,
   DoorOpen,
+  LinkIcon,
   ShieldUser,
 } from "lucide-react";
 import { toast } from "sonner";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { FaRegCopy } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi";
 import { LuCopyCheck } from "react-icons/lu";
-import InvitationCrad from "./InvitationCard";
+import InvitationCard from "./InvitationCard";
 import { MdOutgoingMail } from "react-icons/md";
 
 function GroupMembersHeader({ groupData, countRep }) {
@@ -57,7 +57,7 @@ function GroupMembersHeader({ groupData, countRep }) {
   return (
     <div className="gp-members-header">
       {groupData?.banner_url && (
-        <img className="group-banner-img" src={groupData.banner_url} />
+        <img className="group-banner-img" src={groupData?.banner_url} />
       )}
       <div className="header-left-col">
         <img
@@ -71,7 +71,7 @@ function GroupMembersHeader({ groupData, countRep }) {
           <p>
             {groupData?.name}{" "}
             <span style={{ color: groupData?.color }}>
-              {accessType.label} {accessType.icon}
+              {accessType?.label} {accessType?.icon}
             </span>
           </p>
           <p>By : {groupData?.rep_name}</p>
@@ -118,13 +118,13 @@ function GroupMembersHeader({ groupData, countRep }) {
             transition: "background 0.2s, color 0.2s",
           }}
         >
-          <Link /> Invite Link
+          <LinkIcon /> Invite Link
         </button>
       </div>
 
       {openInvitation && (
         <div className="invitation-overlay">
-          <InvitationCrad
+          <InvitationCard
             setCloseInvitation={setOpenInvitation}
             groupData={groupData}
           />

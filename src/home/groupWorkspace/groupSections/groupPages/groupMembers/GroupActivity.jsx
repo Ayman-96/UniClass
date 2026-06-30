@@ -1,7 +1,7 @@
 import { ActivityIcon, Calendar } from "lucide-react";
 
-function GroupActivity({ groupMembers }) {
-  const isMod = groupMembers?.filter(
+function GroupActivity({ groupData }) {
+  const isMod = groupData?.filter(
     (rep) => rep.role === "rep" && rep.is_moderator,
   );
 

@@ -105,12 +105,18 @@
   font-size: 13px;
   border-right: 2px solid #ebebeb;
   padding-right: 28px;
+  opacity: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .group-data-count svg {
   color: #1a9e78;
   font-size: 18px;
   flex-shrink: 0;
+  opacity: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .group-data-count p:first-child {
@@ -118,12 +124,18 @@
   font-size: 15px;
   color: #1a1a1a;
   margin: 0;
+  opacity: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .group-data-count p:last-child {
   font-size: 12px;
-  color: #888;
+  color: #292929;
   margin: 0;
+  opacity: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .group-data-count:last-child {
@@ -148,6 +160,9 @@
   min-width: 220px;
   padding-left: 24px;
   border-left: 2px solid #ebebeb;
+  opacity: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .header-right-col > p {

@@ -6,12 +6,13 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../../../../AuthContext";
 import GroupMembersHeader from "./GroupMembersHeader";
 import { useGroupMembers } from "../../../../../hooks/useGroupMembers";
+import { useGroups } from "../../../../../hooks/useGroups";
 
 function MembersCard() {
   const { user } = useAuth();
   const { groupId } = useParams();
 
-  const { data: groupData } = useGroupMembers();
+  const { data: groupData } = useGroups(groupId);
   const { data: groupMembers } = useGroupMembers(groupId);
 
   const group = groupData?.find((curr) => curr.id === groupId);
@@ -22,7 +23,7 @@ function MembersCard() {
     }
     return acc;
   }, 0);
-
+  console.log(groupData);
   return (
     <div className="group-members-overlay">
       <div className="gp-mmb-header">

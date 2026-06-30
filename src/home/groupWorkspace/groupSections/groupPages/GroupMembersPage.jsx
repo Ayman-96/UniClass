@@ -1,8 +1,8 @@
 import { useState } from "react";
 import AddMember from "./groupModals/AddMember";
-import GroupPageHeader from "../../GroupWorkspaceHeader";
 import { UsersRound, UserPlus } from "lucide-react";
-import MembersCard from "../groupCards/groupMembers/MembersCard";
+import MembersCard from "./groupMembers/MembersCard";
+import GroupPageHeader from "../../GroupWorkspaceHeader";
 function GroupMembersPage() {
   const [memberModal, setMemberModal] = useState(false);
   function handleMemberModal() {
