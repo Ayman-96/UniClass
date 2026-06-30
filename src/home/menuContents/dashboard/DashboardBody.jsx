@@ -10,9 +10,9 @@ function DashboardBody({ storedGroups }) {
             to={`/home/group/${group.id}/courses`}
             key={group.group_code}
             className="group-card"
-            style={{ boxShadow: `inset 0 4px 0 0 ${group.color}` }}
+            style={{ boxShadow: `inset 0 6px 0 0 ${group.color}` }}
           >
-            {/*add icons in future */}
+            <img src={group?.avatar_url} className="group-bg-cover" />
             <div
               className="group-avatar-badge"
               style={{
@@ -20,19 +20,24 @@ function DashboardBody({ storedGroups }) {
                 color: "#ffff",
               }}
             >
-              <Users size={20} />
+              {group.avatar_url ? (
+                <img src={group.avatar_url} />
+              ) : (
+                <Users size={40} />
+              )}
             </div>
 
             <div className="group-title">
               <p className="group-name">{group.name}</p>
               <div className="rep-name-title">
-                Representative : <span>{group.rep_name}</span>
+                Representative :{" "}
+                <span style={{ color: group.color }}>{group.rep_name}</span>
               </div>
             </div>
 
             <div className="group-roster-summary">
               <div className="member-count-row">
-                <Users size={16} />{" "}
+                <Users size={16} style={{ color: group.color }} />{" "}
                 <span>{group.group_members[0].count} members</span>
               </div>
               <div className="courses-count-row">
