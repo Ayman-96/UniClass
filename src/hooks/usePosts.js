@@ -10,7 +10,7 @@ export function usePosts(groupId) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("posts")
-        .select("*, profiles(username,avatar_url,role)")
+        .select("*, profiles(username,avatar_url,role), post_files(*)")
         .eq("group_id", groupId)
         .order("created_at", { ascending: false }); // newest first
       if (error) throw error;
@@ -25,19 +25,54 @@ export function useAddPost() {
 
   return useMutation({
     mutationFn: async (newPost) => {
-      // 1. if there's an image file, upload it first
       let img_url = null;
       if (newPost.imageFile) {
-        img_url = await uploadImage(newPost.imageFile); // URL saved here
+        img_url = await uploadImage(newPost.imageFile);
       }
-      // 2. save the post with the URL (or null if no image)
-      const { data, error } = await supabase
+
+      const { data: post, error } = await supabase
         .from("posts")
-        .insert({ ...newPost, img_url, imageFile: undefined }) // we dont have imageFile prop, so remove it
+        .insert({
+          ...newPost,
+          img_url,
+          imageFile: undefined,
+          files: undefined,
+        })
         .select()
         .single();
       if (error) throw error;
-      return data; // into onSuccess
+
+      let uploadedFiles = [];
+      if (newPost.files?.length) {
+        uploadedFiles = await Promise.all(
+          newPost.files.map(async (file) => {
+            const filePath = `${newPost.author_id}/${Date.now()}-${file.name}`;
+            const { error: uploadError } = await supabase.storage
+              .from("post-files")
+              .upload(filePath, file);
+            if (uploadError) throw uploadError;
+
+            const { data: urlData } = supabase.storage
+              .from("post-files")
+              .getPublicUrl(filePath);
+
+            return {
+              post_id: post.id,
+              url: urlData.publicUrl,
+              name: file.name,
+              type: file.type,
+              size: file.size,
+            };
+          }),
+        );
+
+        const { error: filesError } = await supabase
+          .from("post_files")
+          .insert(uploadedFiles);
+        if (filesError) throw filesError;
+      }
+
+      return { ...post, post_files: uploadedFiles };
     },
     onSuccess: (data) => {
       console.log("✅ Post created:", data);

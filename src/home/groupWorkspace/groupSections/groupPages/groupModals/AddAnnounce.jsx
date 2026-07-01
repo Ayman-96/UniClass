@@ -1,21 +1,28 @@
-import { useParams } from "react-router-dom";
 import "./AddAnnounce.css";
-import { ImagePlus, Megaphone, ShieldCheck, X } from "lucide-react";
-import { useReducer, useState } from "react";
-import RequiredWarning from "./RequiredWarning";
-
-import { useAuth } from "../../../../../AuthContext";
-import { useAddAnnounce } from "../../../../../hooks/useAnnounce";
+import { useParams } from "react-router-dom";
 import {
   announceAttachments,
   announceTypes,
 } from "../../../../../data/addAnnounceData";
+import { useReducer, useState } from "react";
+import RequiredWarning from "./RequiredWarning";
+import { useAuth } from "../../../../../AuthContext";
+import { useAddAnnounce } from "../../../../../hooks/useAnnounce";
+import { useProfile } from "../../../../../hooks/useSaveProfile.js";
+import { ImagePlus, Megaphone, ShieldCheck, X } from "lucide-react";
+import { useSingleGroup } from "../../../../../hooks/useGroups.js";
+import {
+  formatFileSize,
+  getFileStyle,
+} from "../../../../../data/addCourseData.jsx";
+import { toast } from "sonner";
 
 const announceData = {
   title: "",
   icon: "",
   content: "",
   imageFile: null,
+  files: [],
 };
 function announceReducer(state, action) {
   switch (action.type) {
@@ -27,6 +34,19 @@ function announceReducer(state, action) {
       return { ...state, content: action.payload };
     case "ADD_IMAGE":
       return { ...state, imageFile: action.payload };
+    case "REMOVE_IMAGE":
+      return { ...state, imageFile: null };
+    case "ADD_FILES":
+      return {
+        ...state,
+        files: [...state.files, ...Array.from(action.payload)],
+      };
+    case "REMOVE_FILE":
+      return {
+        ...state,
+        files: state.files.filter((f) => f !== action.payload),
+      };
+
     case "RESET":
       return announceData;
 
@@ -37,13 +57,17 @@ function announceReducer(state, action) {
 function AddAnnounce({ handleAnnounceModal }) {
   const { user } = useAuth();
   const { groupId } = useParams();
-  const [selectedIcon, setSelectedIcon] = useState(null);
-  const [newAnnounce, dispatch] = useReducer(announceReducer, announceData);
-  const { mutate: addAnnounce } = useAddAnnounce();
+
   const [fillWarning, setFillWarning] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState(null);
+
+  const { mutate: addAnnounce } = useAddAnnounce();
+  const { data: myProfile } = useProfile();
+  const { data: specifiedGroup } = useSingleGroup(groupId);
+  const [newAnnounce, dispatch] = useReducer(announceReducer, announceData);
 
   function handleSubmit() {
-    if (!newAnnounce.title || !newAnnounce.content) {
+    if (!newAnnounce.title && !newAnnounce.content) {
       setFillWarning(true);
       return;
     }
@@ -54,6 +78,7 @@ function AddAnnounce({ handleAnnounceModal }) {
       content: newAnnounce.content,
       icon: newAnnounce.icon,
       imageFile: newAnnounce.imageFile,
+      files: newAnnounce.files,
     });
     dispatch({ type: "RESET" });
     handleAnnounceModal();
@@ -72,10 +97,17 @@ function AddAnnounce({ handleAnnounceModal }) {
 
         <div className="post-modal-body">
           <div className="rep-info">
-            <div className="rep-pro-pic">MN</div>
+            {myProfile?.avatar_url && (
+              <img className="author-pro-pic" src={myProfile.avatar_url} />
+            )}
             <div className="rep-name">
-              <p>Rep Name</p>
-              <p>Rep • Group Name</p>
+              <p>{myProfile?.username}</p>
+              <p>
+                Rep •{" "}
+                <span style={{ color: specifiedGroup?.color }}>
+                  {specifiedGroup?.name}
+                </span>
+              </p>
             </div>
           </div>
 
@@ -138,13 +170,61 @@ function AddAnnounce({ handleAnnounceModal }) {
                 id="announce-images"
                 hidden
                 onChange={(e) => {
-                  console.log(e.target.files);
                   dispatch({ type: "ADD_IMAGE", payload: e.target.files[0] });
                 }}
               />
-              <ImagePlus />
-              <p>Click to Add Images</p>
-              <p>PNG,JPG up to xMB each</p>
+              {newAnnounce.imageFile ? (
+                <div
+                  className="added-image-post"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img src={URL.createObjectURL(newAnnounce.imageFile)} />
+                  <button
+                    className="remove-img"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch({ type: "REMOVE_IMAGE" });
+                    }}
+                  >
+                    <X />
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <ImagePlus />
+                  <p>Click to upload images</p>
+                  <p>PNG,JPG up to 5MB each</p>
+                </div>
+              )}
+            </div>
+            <div className="post-files">
+              {newAnnounce.files?.map((file) => {
+                const { icon: Icon, bg, color } = getFileStyle(file.type);
+                return (
+                  <div key={file.lastModified} className="file-attachement">
+                    <div
+                      className="file-icon"
+                      style={{ background: bg, color }}
+                    >
+                      <Icon size={18} />
+                    </div>
+                    <div className="file-attach-details">
+                      <div>{file.name}</div>
+                      <p>{formatFileSize(file.size)}</p>
+                    </div>
+                    <button
+                      className="remove-file"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dispatch({ type: "REMOVE_FILE", payload: file });
+                      }}
+                    >
+                      <X />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -162,14 +242,42 @@ function AddAnnounce({ handleAnnounceModal }) {
           <div className="attach-buttons">
             {announceAttachments.map((attach) => {
               return (
-                <button className="add-attach" key={attach.text}>
+                <button
+                  className="add-attach"
+                  key={attach.text}
+                  onClick={() => {
+                    attach.text === "File" &&
+                      document.getElementById("files").click();
+                  }}
+                >
                   {attach.icon}
                   {attach.text}
                 </button>
               );
             })}
           </div>
-
+          <input
+            type="file"
+            hidden
+            multiple
+            id="files"
+            onChange={(e) => {
+              const selected = Array.from(e.target.files);
+              const total = newAnnounce.files?.length + selected?.length;
+              if (total > 10) {
+                toast.error("Max 10 files per post");
+                return;
+              }
+              const oversized = selected.find(
+                (file) => file.size > 20 * 1024 * 1024,
+              );
+              if (oversized) {
+                toast.error(`${oversized.name} exceeds 20MB`);
+                return;
+              }
+              dispatch({ type: "ADD_FILES", payload: e.target.files });
+            }}
+          />
           <div className="announce-buttons">
             <button onClick={handleAnnounceModal}>Cancel</button>
             <button onClick={handleSubmit}>

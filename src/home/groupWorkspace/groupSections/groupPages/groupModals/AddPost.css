@@ -85,8 +85,8 @@
 }
 
 .author-pro-pic {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: #ebf3ff;
   color: #3a86ff;
@@ -96,6 +96,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  object-fit: cover;
+  display: block;
 }
 
 .author-name p:first-child {
@@ -112,6 +114,7 @@
 }
 
 .author-name p:last-child span {
+  text-transform: capitalize;
   color: #1a9e6e;
   font-weight: 500;
 }
@@ -338,8 +341,6 @@
   stroke-width: 1.8;
 }
 .upload-img-post:hover svg {
-  width: 34px;
-  height: 34px;
   color: #63b58f;
   stroke-width: 1.8;
 }
@@ -357,4 +358,55 @@
 /* hide actual input */
 .post-img-btn {
   display: none;
+}
+.added-image-post {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.added-image-post img {
+  width: 80%;
+  height: 80%;
+  border-radius: 16px;
+  object-fit: cover;
+}
+.remove-img {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(145, 137, 114, 0.55);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.remove-img:hover {
+  background: rgba(126, 126, 126, 0.534);
+}
+
+.remove-img svg {
+  width: 16px;
+  height: 16px;
+}
+
+.remove-file {
+  border: none;
+  background-color: #eceae49d;
+  width: 30px;
+  height: 30px;
+  border-radius: 14px;
+}
+.remove-file svg {
+  margin-top: 2px;
+  width: 26px;
+  height: 26px;
 }

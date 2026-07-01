@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   BellIcon,
   Clock,
+  Download,
   HeartHandshake,
   MessageCircleQuestionMark,
   ThumbsDown,
@@ -19,6 +20,8 @@ import { useIsRep } from "../../../../hooks/useIsRep";
 import { useSingleGroup } from "../../../../hooks/useGroups";
 import { formatDistanceToNow } from "date-fns";
 import { useGroupMembers } from "../../../../hooks/useGroupMembers";
+import handleDownload from "../../../../components/DownloadFile";
+import { formatFileSize, getFileStyle } from "../../../../data/addCourseData";
 function AnnounceCard({
   announce,
   myVote,
@@ -139,6 +142,40 @@ function AnnounceCard({
         )}
       </div>
 
+      <div className="post-files">
+        {announce.announcement_files?.map((file) => {
+          console.log(announce);
+          const { icon: Icon, bg, color } = getFileStyle(file.type);
+          return (
+            <a
+              href={file.url}
+              key={file.url}
+              target="_blank"
+              onClick={(e) => e.stopPropagation()}
+              className="file-attachement"
+            >
+              <div className="file-icon" style={{ background: bg, color }}>
+                <Icon size={18} />
+              </div>
+              <div className="file-attach-details">
+                <div>{file.name}</div>
+                <p>{formatFileSize(file.size)}</p>
+              </div>
+              <button
+                style={{ color }}
+                className="download-file"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleDownload(file.url, file.name, "Downloading File...");
+                }}
+              >
+                <Download />
+              </button>
+            </a>
+          );
+        })}
+      </div>
       <div className="announcement-footer">
         <div className="time-announced">
           <Clock /> {postedTime}

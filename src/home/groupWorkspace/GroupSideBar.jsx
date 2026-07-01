@@ -46,7 +46,6 @@ function GroupSideBar() {
   const specifiedGroup = storedGroups?.find((group) => group.id === groupId);
   const { data: members } = useGroupMembers(groupId);
   const moderator = members?.filter((g) => g.is_moderator === true);
-  console.log(moderator);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Something went wrong</div>;
   return (

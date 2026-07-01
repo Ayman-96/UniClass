@@ -199,3 +199,94 @@
 .like-post.liked svg {
   color: #dc2626;
 }
+.post-files {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.file-attachement {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fafafa;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-decoration: none;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+
+  min-width: 0;
+}
+
+.file-attachement:hover {
+  border-color: #1a9e78;
+  background: #ffffff;
+}
+
+.file-attachement > div:first-child {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(26, 158, 120, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #1a9e78;
+  font-size: 18px;
+}
+
+.file-attach-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.file-attach-details > div:first-child {
+  font-size: 14px;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-attach-details > div:nth-child(2) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.file-attach-details p {
+  font-size: 12px;
+  color: #9a9a95;
+  margin: 0;
+}
+
+.download-file {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid #ebebeb;
+  background: transparent;
+  color: #5f5e5a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.file-attach-details button:hover {
+  background: #1a9e78;
+  border-color: #1a9e78;
+  color: #ffffff;
+}

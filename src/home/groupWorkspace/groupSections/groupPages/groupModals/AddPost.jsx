@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import "./AddPost.css";
 import {
   AtSign,
@@ -10,19 +9,31 @@ import {
   X,
 } from "lucide-react";
 import { useReducer, useState } from "react";
-import { useAddPost } from "../../../../../hooks/usePosts";
+import { useParams } from "react-router-dom";
 import RequiredWarning from "./RequiredWarning";
 import { useAuth } from "../../../../../AuthContext.jsx";
+import { useAddPost } from "../../../../../hooks/usePosts";
+import { useProfile } from "../../../../../hooks/useSaveProfile.js";
+import { useSingleGroup } from "../../../../../hooks/useGroups.js";
+import { toast } from "sonner";
+import {
+  formatFileSize,
+  getFileStyle,
+} from "../../../../../data/addCourseData.jsx";
 const postAttachments = [
   {
+    id: "files",
     text: "Attach File",
     icon: <Paperclip />,
   },
   {
+    id: "tags",
+
     text: "Mention",
     icon: <AtSign />,
   },
   {
+    id: "links",
     text: "Add Link",
     icon: <Link />,
   },
@@ -32,6 +43,7 @@ const postData = {
   author_badge: "",
   content: "",
   imageFile: null,
+  files: [],
 };
 
 function postReducer(state, action) {
@@ -40,6 +52,18 @@ function postReducer(state, action) {
       return { ...state, content: action.payload };
     case "ADD_IMAGE":
       return { ...state, imageFile: action.payload };
+    case "REMOVE_IMAGE":
+      return { ...state, imageFile: null };
+    case "ADD_FILES":
+      return {
+        ...state,
+        files: [...state.files, ...Array.from(action.payload)],
+      };
+    case "REMOVE_FILE":
+      return {
+        ...state,
+        files: state.files.filter((f) => f !== action.payload),
+      };
 
     case "RESET":
       return postData;
@@ -52,9 +76,13 @@ function AddPost({ handlePostModal }) {
   const { user } = useAuth();
   const { groupId } = useParams();
 
-  const [newPost, dispatch] = useReducer(postReducer, postData);
-  const { mutate: addPost } = useAddPost();
   const [fillWarning, setFillWarning] = useState(false);
+
+  const { mutate: addPost } = useAddPost();
+  const { data: myProfile } = useProfile();
+  const { data: specifiedGroup } = useSingleGroup(groupId);
+
+  const [newPost, dispatch] = useReducer(postReducer, postData);
 
   function handleSubmit() {
     if (!newPost.content && !newPost.imageFile) {
@@ -66,11 +94,12 @@ function AddPost({ handlePostModal }) {
       author_id: user.id,
       content: newPost.content,
       imageFile: newPost.imageFile,
+      files: newPost.files,
     });
     dispatch({ type: "RESET" });
     handlePostModal();
   }
-  console.log(user);
+
   return (
     <div className="add-post-overlay">
       <div className="add-post-modal">
@@ -85,11 +114,16 @@ function AddPost({ handlePostModal }) {
 
         <div className="post-modal-body">
           <div className="author-info">
-            <div className="author-pro-pic">MN</div>
+            {myProfile?.avatar_url && (
+              <img src={myProfile.avatar_url} className="author-pro-pic" />
+            )}
             <div className="author-name">
-              <p>My Name</p>
+              <p>{myProfile?.username}</p>
               <p>
-                Group Name • <span>Badge</span>
+                {specifiedGroup?.name} •{" "}
+                <span style={{ color: specifiedGroup?.color }}>
+                  {myProfile?.role}
+                </span>
               </p>
             </div>
           </div>
@@ -99,11 +133,12 @@ function AddPost({ handlePostModal }) {
               rows={4}
               id="postText"
               name="postText"
+              maxLength={999}
               value={newPost.content}
               placeholder="Share Something with Your Groupmates! :)"
-              onChange={(e) => {
-                dispatch({ type: "ADD_CONTENT", payload: e.target.value });
-              }}
+              onChange={(e) =>
+                dispatch({ type: "ADD_CONTENT", payload: e.target.value })
+              }
             ></textarea>
           </div>
         </div>
@@ -121,13 +156,58 @@ function AddPost({ handlePostModal }) {
               id="post-images"
               hidden
               onChange={(e) => {
-                console.log(e.target.files);
                 dispatch({ type: "ADD_IMAGE", payload: e.target.files[0] });
               }}
             />
-            <ImagePlus />
-            <p>Click to upload images</p>
-            <p>PNG,JPG up to 5MB each</p>
+            {newPost.imageFile ? (
+              <div
+                className="added-image-post"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img src={URL.createObjectURL(newPost.imageFile)} />
+                <button
+                  className="remove-img"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch({ type: "REMOVE_IMAGE" });
+                  }}
+                >
+                  <X />
+                </button>
+              </div>
+            ) : (
+              <div>
+                <ImagePlus />
+                <p>Click to upload images</p>
+                <p>PNG,JPG up to 5MB each</p>
+              </div>
+            )}
+          </div>
+          <div className="post-files">
+            {newPost.files?.map((file) => {
+              const { icon: Icon, bg, color } = getFileStyle(file.type);
+              return (
+                <div key={file.lastModified} className="file-attachement">
+                  <div className="file-icon" style={{ background: bg, color }}>
+                    <Icon size={18} />
+                  </div>
+                  <div className="file-attach-details">
+                    <div>{file.name}</div>
+                    <p>{formatFileSize(file.size)}</p>
+                  </div>
+                  <button
+                    className="remove-file"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      dispatch({ type: "REMOVE_FILE", payload: file });
+                    }}
+                  >
+                    <X />
+                  </button>
+                </div>
+              );
+            })}
           </div>
 
           <div className="post-hr">⸻⸻⸻⸻⸻⸻⸻⸻ or add more ⸻⸻⸻⸻⸻⸻⸻⸻⸻</div>
@@ -135,19 +215,49 @@ function AddPost({ handlePostModal }) {
           <div className="post-attachments">
             {postAttachments.map((attach, i) => {
               return (
-                <button key={i}>
+                <button
+                  key={i}
+                  onClick={() => {
+                    attach.id === "files" &&
+                      document.getElementById("files").click();
+                  }}
+                >
                   {attach.icon}
                   {attach.text}
                 </button>
               );
             })}
           </div>
+          <input
+            type="file"
+            hidden
+            multiple
+            id="files"
+            onChange={(e) => {
+              const selected = Array.from(e.target.files);
+              const total = newPost.files?.length + selected?.length;
+              if (total > 10) {
+                toast.error("Max 10 files per post");
+                return;
+              }
+              const oversized = selected.find(
+                (file) => file.size > 20 * 1024 * 1024,
+              );
+              if (oversized) {
+                toast.error(`${oversized.name} exceeds 20MB`);
+                return;
+              }
+              dispatch({ type: "ADD_FILES", payload: e.target.files });
+            }}
+          />
         </div>
 
         {fillWarning && <RequiredWarning />}
 
         <div className="post-footer">
-          <div className="count-char">0/500 characters</div>
+          <div className="count-char">
+            {newPost?.content?.length}/999 characters
+          </div>
           <div className="buttons">
             <button onClick={handlePostModal} className="cancel-post-btn">
               Cancel

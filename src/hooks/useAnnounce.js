@@ -2,21 +2,23 @@ import { useAuth } from "../AuthContext";
 import { supabase } from "../supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadCommentImage } from "./useUploadImage";
+
 export function useAnnounces(groupId) {
   return useQuery({
-    queryKey: ["announcements", groupId], // ← groupId (filter) makes it unique per group
+    queryKey: ["announcements", groupId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("announcements")
-        .select("*, profiles(username,avatar_url)")
+        .select("*, profiles(username,avatar_url), announcement_files(*)")
         .eq("group_id", groupId)
-        .order("created_at", { ascending: false }); // newest first
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
     },
   });
 }
-// Add a new course
+
+// Add a new announcement
 export function useAddAnnounce() {
   const queryClient = useQueryClient();
 
@@ -24,18 +26,55 @@ export function useAddAnnounce() {
     mutationFn: async (newAnnouncement) => {
       let img_url = null;
       if (newAnnouncement.imageFile) {
-        img_url = await uploadImage(newAnnouncement.imageFile); // URL saved here
+        img_url = await uploadImage(newAnnouncement.imageFile);
       }
-      // I passed addCourse here from AddCourse.jsx
-      const { data, error } = await supabase
-        .from("announcements") // go to the "courses" table
-        .insert({ ...newAnnouncement, img_url, imageFile: undefined }) // INSERT this object as a new row
-        .select() // return the inserted row back to us
-        .single(); // expect exactly 1 row back, not an array
+
+      const { data: announcement, error } = await supabase
+        .from("announcements")
+        .insert({
+          ...newAnnouncement,
+          img_url,
+          imageFile: undefined,
+          files: undefined,
+        })
+        .select()
+        .single();
       if (error) throw error;
-      return data;
+
+      let uploadedFiles = [];
+      if (newAnnouncement.files?.length) {
+        uploadedFiles = await Promise.all(
+          newAnnouncement.files.map(async (file) => {
+            const filePath = `${newAnnouncement.author_id}/${Date.now()}-${file.name}`;
+            const { error: uploadError } = await supabase.storage
+              .from("announcement-files")
+              .upload(filePath, file);
+            if (uploadError) throw uploadError;
+
+            const { data: urlData } = supabase.storage
+              .from("announcement-files")
+              .getPublicUrl(filePath);
+
+            return {
+              announcement_id: announcement.id,
+              url: urlData.publicUrl,
+              name: file.name,
+              type: file.type,
+              size: file.size,
+            };
+          }),
+        );
+
+        const { error: filesError } = await supabase
+          .from("announcement_files")
+          .insert(uploadedFiles);
+        if (filesError) throw filesError;
+      }
+
+      return { ...announcement, announcement_files: uploadedFiles };
     },
     onSuccess: (data) => {
+      console.log("✅ Announcement created:", data);
       queryClient.invalidateQueries({
         queryKey: ["announcements", data.group_id],
       });

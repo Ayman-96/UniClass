@@ -30,8 +30,8 @@
 }
 
 .group-logo {
-  width: 44px;
-  height: 44px;
+  width: 80px;
+  height: 55px;
   border-radius: 14px;
   background: #c8ede0;
   color: #0f6e56;
@@ -41,6 +41,8 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 8px;
+  object-fit: cover;
+  display: block;
 }
 
 .group-nav-name {
