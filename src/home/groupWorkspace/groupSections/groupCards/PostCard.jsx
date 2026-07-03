@@ -98,6 +98,7 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
                   target="_blank"
                   onClick={(e) => e.stopPropagation()}
                   className="file-attachement"
+                  style={{ "--group-color": currentGroup?.color }}
                 >
                   <div className="file-icon" style={{ background: bg, color }}>
                     <Icon size={18} />

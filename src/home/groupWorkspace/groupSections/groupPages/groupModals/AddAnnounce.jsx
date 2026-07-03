@@ -198,10 +198,10 @@ function AddAnnounce({ handleAnnounceModal }) {
               )}
             </div>
             <div className="post-files">
-              {newAnnounce.files?.map((file) => {
+              {newAnnounce.files?.map((file, i) => {
                 const { icon: Icon, bg, color } = getFileStyle(file.type);
                 return (
-                  <div key={file.lastModified} className="file-attachement">
+                  <div key={i} className="file-attachement">
                     <div
                       className="file-icon"
                       style={{ background: bg, color }}

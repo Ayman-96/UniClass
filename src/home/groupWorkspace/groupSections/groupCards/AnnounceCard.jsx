@@ -152,6 +152,7 @@ function AnnounceCard({
               key={file.url}
               target="_blank"
               onClick={(e) => e.stopPropagation()}
+              style={{ "--group-color": currentGroup?.color }}
               className="file-attachement"
             >
               <div className="file-icon" style={{ background: bg, color }}>

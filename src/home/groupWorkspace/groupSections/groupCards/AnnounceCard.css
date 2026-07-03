@@ -301,6 +301,10 @@
   border: none;
 }
 
+.file-attachement:hover {
+  border-color: var(--group-color);
+}
+
 @media (max-width: 480px) {
   .storedAnnouncements-cards {
     padding: 8px;

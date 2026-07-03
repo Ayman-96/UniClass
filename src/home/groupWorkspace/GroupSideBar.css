@@ -161,6 +161,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  object-fit: cover;
+  display: block;
 }
 
 .refer-to-rep {
