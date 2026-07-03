@@ -24,6 +24,7 @@ function InvitePage() {
       joinGroup(groupId);
     }
   }
+  console.log(group);
   if (!group) return <LoadingSpinner />;
   return (
     <div className="invitation-page">
@@ -39,8 +40,8 @@ function InvitePage() {
       <div className="inv-body">
         <div className="group-info">
           <div className="grp-avatar">
-            {group?.avatar ? (
-              <img src={group?.avatar} alt="group-avatar" />
+            {group?.avatar_url ? (
+              <img src={group?.avatar_url} alt="group-avatar" />
             ) : (
               <PiStudentFill />
             )}
@@ -66,8 +67,22 @@ function InvitePage() {
         </div>
 
         <div className="group-btns">
-          <button onClick={handleJoin}>Join Group</button>
-          <button onClick={() => navigate(-1)}>Maybe later</button>
+          <button
+            onClick={() => group?.visibility === "open" && handleJoin()}
+            style={
+              group?.visibility !== "open"
+                ? { backgroundColor: "rgba(188, 53, 53, 0.86)" }
+                : {}
+            }
+          >
+            {group?.visibility === "open"
+              ? "Join Group"
+              : "The Group is Closed, Try Asking Reps"}
+          </button>
+          <button onClick={() => navigate(-1)}>
+            {" "}
+            {group?.visibility === "open" ? "Maybe Later" : "Ok"}
+          </button>
           <p>
             You need an account to join. <Link to="/signUp">Signup here.</Link>
           </p>

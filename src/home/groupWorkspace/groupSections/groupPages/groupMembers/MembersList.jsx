@@ -93,13 +93,7 @@ function MembersList({ groupData, groupMembers, user }) {
                 <div className="name-you-row">
                   <p>{member.profiles.username}</p>
                   {memberId === user?.id && (
-                    <div
-                      className="user-you"
-                      style={{
-                        color: `${groupData?.color}`,
-                        border: `1px solid ${groupData?.color}`,
-                      }}
-                    >
+                    <div className="user-you">
                       You <IoAccessibilityOutline />
                     </div>
                   )}
