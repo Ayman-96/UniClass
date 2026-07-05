@@ -16,6 +16,7 @@ import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/cour
 import Profile from "./home/profile/Profile";
 import InvitePage from "./Invitation/InvitePage";
 import GroupSettingsPage from "./home/groupWorkspace/groupSections/groupPages/groupSettings/GroupSettingsPage";
+import Classmates from "./home/menuContents/classmates/Classmates";
 function App() {
   return (
     <div>
@@ -30,7 +31,7 @@ function App() {
           <Route index element={<UserDashboard />} />
           <Route path="dashboard" element={<UserDashboard />} />
           <Route path="notifications" element={<Notification />} />
-          <Route path="classmates" element={<UserDashboard />} />
+          <Route path="classmates" element={<Classmates />} />
           <Route path="profile" element={<Profile />} />
 
           <Route path="group/:groupId" element={<GroupWorkSpace />}>

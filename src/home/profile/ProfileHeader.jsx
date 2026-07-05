@@ -1,6 +1,5 @@
-import { ChevronLeft, CircleX, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { useAuth } from "../../AuthContext";
+import { ChevronLeft, CircleX, Pencil, Trash2 } from "lucide-react";
 
 function ProfileHeader({
   userId,
@@ -18,7 +17,6 @@ function ProfileHeader({
   handleEditProfile,
   handleSaveProfile,
 }) {
-  const { me } = useAuth();
   const [openRemoveList, setOpenRemoveList] = useState(false);
   return (
     <div
@@ -132,7 +130,7 @@ function ProfileHeader({
         </div>
       </div>
 
-      {!userId !== me?.id ? (
+      {!userId ? (
         !isEditing ? (
           <button className="edit-profile-info" onClick={handleEditProfile}>
             <Pencil /> Edit Profile
