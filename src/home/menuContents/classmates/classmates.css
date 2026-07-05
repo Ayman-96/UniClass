@@ -249,7 +249,7 @@
 }
 .friend-card {
   display: grid;
-  grid-template-columns: minmax(180px, 260px) 150px 1fr;
+  grid-template-columns: minmax(180px, 260px) 150px minmax(140px, auto);
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
@@ -307,6 +307,8 @@
 .fr-right-grid {
   display: flex;
   justify-content: flex-end;
+  min-width: 0;
+  overflow: visible;
 }
 
 .user-online,
@@ -366,9 +368,18 @@
 }
 
 .fr-card-interaction .chat-friend:hover {
+  background: #e8f5f0;
   color: #1a9e78;
 }
+.fr-card-interaction .remove-friend:hover {
+  background: #fdecec;
+  color: #e05252;
+}
 
+.fr-card-interaction button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #d7ede6;
+}
 /* ==========================================================================
    ClassmatesShortcuts.jsx
    ========================================================================== */
@@ -700,4 +711,47 @@
 .received-received-right-grid button svg {
   width: 16px;
   height: 16px;
+}
+.sure-remove {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sure-remove button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.sure-remove button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.sure-remove button:first-child {
+  background: #e05252;
+  color: #ffffff;
+}
+
+.sure-remove button:first-child:hover {
+  background: #9e3232;
+}
+
+.sure-remove button:last-child {
+  background: #fafafa;
+  color: #767676;
+  border: 1px solid #ebebeb;
+}
+
+.sure-remove button:last-child:hover {
+  background: #e7ffec;
+  color: #1a1a1a;
 }

@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { PiToggleLeftFill, PiToggleRightFill } from "react-icons/pi";
-import { useFriends } from "../../../hooks/useFriends";
+import { useFriends, useRemoveFriend } from "../../../hooks/useFriends";
 import { GoDotFill } from "react-icons/go";
 import { BiMessageSquareDots } from "react-icons/bi";
-import { EllipsisVertical } from "lucide-react";
 import { SlMagnifier } from "react-icons/sl";
 import { NavLink } from "react-router-dom";
-
+import { FaUserSlash } from "react-icons/fa";
+import { CircleCheckBig, CircleX } from "lucide-react";
 function ClassmatesList() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
 
+  const { data: friends } = useFriends();
+  const { mutate: removeFriend } = useRemoveFriend();
   const getLastSeen = (lastSeen) => {
     if (!lastSeen) return "Long Time";
 
@@ -24,8 +27,6 @@ function ClassmatesList() {
     if (hours < 24) return `Last seen ${hours}h ago`;
     return `Last seen ${days}d ago`;
   };
-
-  const { data: friends } = useFriends();
 
   const friendsList = search
     ? friends?.filter(
@@ -110,9 +111,29 @@ function ClassmatesList() {
                           {" "}
                           <BiMessageSquareDots />
                         </button>
-                        <button>
-                          <EllipsisVertical />
-                        </button>
+                        {!isRemoving ? (
+                          <button
+                            className="remove-friend"
+                            onClick={() => setIsRemoving(true)}
+                          >
+                            <FaUserSlash />
+                          </button>
+                        ) : (
+                          <div className="sure-remove">
+                            <button
+                              title="Remove"
+                              onClick={() => removeFriend(friend.profile?.id)}
+                            >
+                              <CircleCheckBig />
+                            </button>
+                            <button
+                              title="Cancel"
+                              onClick={() => setIsRemoving(false)}
+                            >
+                              <CircleX />
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

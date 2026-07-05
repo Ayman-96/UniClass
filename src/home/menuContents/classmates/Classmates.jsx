@@ -7,6 +7,7 @@ import ReceivedRequests from "./ReceivedRequests";
 import SentRequests from "./SentRequests";
 function Classmates() {
   const [activeTab, setActiveTab] = useState(0);
+
   return (
     <div className="classmates-section">
       <div className="classmaates-main-page">
@@ -20,7 +21,7 @@ function Classmates() {
         )}
       </div>
       <div className="classmates-side-card">
-        <ClassmatesShortcuts />
+        <ClassmatesShortcuts setActiveTab={setActiveTab} />
       </div>
     </div>
   );

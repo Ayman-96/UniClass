@@ -147,7 +147,10 @@ export function useRespondFriendRequest() {
   });
 }
 
-export function useRemoveFriend(userId) {
+export function useRemoveFriend() {
+  const { user } = useAuth();
+  const userId = user?.id;
+
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -159,7 +162,7 @@ export function useRemoveFriend(userId) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["friends", userId] });
-      toast.success("Removed from classmates");
+      toast.success("Removed from your friends list");
     },
     onError: (error) => {
       toast.error(error.message || "Could not remove classmate");

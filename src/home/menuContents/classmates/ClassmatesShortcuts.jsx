@@ -7,7 +7,7 @@ import { useAuth } from "../../../AuthContext";
 import { useState } from "react";
 import { toast } from "sonner";
 import { LuCopyCheck } from "react-icons/lu";
-function ClassmatesShortcuts() {
+function ClassmatesShortcuts({ setActiveTab }) {
   const [copied, setCopied] = useState(false);
 
   const { user } = useAuth();
@@ -64,7 +64,7 @@ function ClassmatesShortcuts() {
             );
           })}
         </div>
-        <div className="view-pendings-btn">
+        <div className="view-pendings-btn" onClick={() => setActiveTab(1)}>
           <p>View All Pendings</p>
           <p>
             <ChevronRight />
@@ -106,7 +106,7 @@ function ClassmatesShortcuts() {
             );
           })}
         </div>
-        <div className="view-pendings-btn">
+        <div className="view-pendings-btn" onClick={() => setActiveTab(1)}>
           <p>View All Requests</p>
           <p>
             <ChevronRight />

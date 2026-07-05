@@ -1,5 +1,8 @@
 import { NavLink } from "react-router-dom";
-import { useFriendRequests } from "../../../hooks/useFriends";
+import {
+  useCancelFriendRequest,
+  useFriendRequests,
+} from "../../../hooks/useFriends";
 import { GoDotFill } from "react-icons/go";
 import { TbSendOff } from "react-icons/tb";
 import { formatDistanceToNow } from "date-fns";
@@ -8,19 +11,7 @@ function SentRequests() {
   const { sent } = useFriendRequests();
   const sentRequests = sent?.data;
 
-  const getLastSeen = (lastSeen) => {
-    if (!lastSeen) return "Long Time";
-
-    const diff = Date.now() - new Date(lastSeen).getTime();
-    const minutes = Math.floor(diff / 1000 / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    if (minutes < 5) return "Online";
-    if (minutes < 60) return `Last seen ${minutes}m ago`;
-    if (hours < 24) return `Last seen ${hours}h ago`;
-    return `Last seen ${days}d ago`;
-  };
+  const { mutate: cancelRequest } = useCancelFriendRequest();
 
   return (
     <div className="cm-list-container">
@@ -62,7 +53,7 @@ function SentRequests() {
                 </div>
                 <div className="sent-fr-right-grid">
                   <div className="sent-received-right-grid">
-                    <button>
+                    <button onClick={() => cancelRequest(pending.id)}>
                       <TbSendOff />
                       Cancel
                     </button>
