@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { GoDotFill } from "react-icons/go";
+import { NavLink } from "react-router-dom";
+import { SlMagnifier } from "react-icons/sl";
+import { FaUserSlash } from "react-icons/fa";
+import { BiMessageSquareDots } from "react-icons/bi";
+import { CircleCheckBig, CircleX } from "lucide-react";
 import { PiToggleLeftFill, PiToggleRightFill } from "react-icons/pi";
 import { useFriends, useRemoveFriend } from "../../../hooks/useFriends";
-import { GoDotFill } from "react-icons/go";
-import { BiMessageSquareDots } from "react-icons/bi";
-import { SlMagnifier } from "react-icons/sl";
-import { NavLink } from "react-router-dom";
-import { FaUserSlash } from "react-icons/fa";
-import { CircleCheckBig, CircleX } from "lucide-react";
+
 function ClassmatesList() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState(false);

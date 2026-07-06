@@ -194,3 +194,37 @@ export function useCancelFriendRequest() {
     },
   });
 }
+
+export function useFriendshipStatuses(profileIds = []) {
+  const { user } = useAuth();
+  const userId = user?.id;
+
+  return useQuery({
+    queryKey: ["friendship-statuses", userId, profileIds],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("friendships")
+        .select("id, requester_id, addressee_id, status")
+        .or(`requester_id.eq.${userId},addressee_id.eq.${userId}`)
+        .in("requester_id", [userId, ...profileIds])
+        .in("addressee_id", [userId, ...profileIds]);
+
+      if (error) throw error;
+
+      // build a map: otherUserId -> { status, friendshipId, isRequester }
+      const map = {};
+      data.forEach((row) => {
+        const otherId =
+          row.requester_id === userId ? row.addressee_id : row.requester_id;
+        map[otherId] = {
+          friendshipId: row.id,
+          status: row.status, // "pending" | "accepted"
+          isRequester: row.requester_id === userId,
+        };
+      });
+
+      return map;
+    },
+    enabled: !!userId && profileIds.length > 0,
+  });
+}

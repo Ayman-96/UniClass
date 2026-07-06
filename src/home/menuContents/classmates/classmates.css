@@ -573,6 +573,7 @@
   margin: 0;
   font-size: 13px;
   font-weight: 600;
+  letter-spacing: 5px;
   color: #1a9e78;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -754,4 +755,381 @@
 .sure-remove button:last-child:hover {
   background: #e7ffec;
   color: #1a1a1a;
+}
+/* ===========================
+        Add Friend Modal
+=========================== */
+
+.add-friend-container {
+  width: min(760px, 92vw);
+  max-height: 85vh;
+
+  background: #fff;
+  border-radius: 22px;
+
+  padding: 1.8rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.18),
+    0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* ===========================
+          Header
+=========================== */
+
+.add-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.add-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.add-header div p:first-child {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.add-header div p:last-child {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.add-header button {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  outline: none;
+
+  background: #f4f6f8;
+
+  border-radius: 12px;
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+
+  transition: 0.18s;
+}
+
+.add-header button:hover {
+  background: #eceff2;
+}
+
+.add-header svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===========================
+         Search Input
+=========================== */
+
+.add-friend-container input {
+  width: 100%;
+  height: 55px;
+
+  padding: 0 1.2rem;
+
+  border: 1.5px solid #dbe2e8;
+  border-radius: 14px;
+
+  outline: none;
+
+  font-size: 0.95rem;
+
+  transition: 0.2s;
+}
+
+.add-friend-container input:focus {
+  border-color: var(--main-color);
+
+  box-shadow: 0 0 0 4px rgba(15, 143, 107, 0.12);
+}
+
+/* ===========================
+      Search Result Area
+=========================== */
+
+.serach-result {
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+
+  padding-right: 0.3rem;
+}
+
+.serach-result > p {
+  font-size: 1rem;
+  font-weight: 700;
+
+  color: #374151;
+
+  margin-bottom: 0.8rem;
+}
+
+/* ===========================
+        People Card
+=========================== */
+
+.perople-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  min-height: 88px;
+
+  padding: 1rem;
+
+  border: 1px solid #edf1f4;
+  border-radius: 16px;
+
+  background: white;
+
+  margin-bottom: 0.8rem;
+
+  transition: 0.18s;
+}
+
+.perople-card:hover {
+  border-color: #d7e8e3;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.05);
+}
+
+/* ===========================
+       Left Section
+=========================== */
+
+.people-left-grid {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  gap: 1rem;
+}
+
+.people-left-grid img {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  background: #ececec;
+
+  flex-shrink: 0;
+}
+
+.people-left-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.people-left-grid div p:first-child {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.people-left-grid div p:last-child {
+  font-size: 0.88rem;
+  color: #6b7280;
+}
+
+.people-left-grid > p {
+  margin-left: 1rem;
+
+  padding: 0.4rem 0.8rem;
+
+  border-radius: 999px;
+
+  background: #eefaf5;
+
+  color: var(--main-color);
+
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* ===========================
+        Right Section
+=========================== */
+/* Container alignment */
+.people-right-grid {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Base status wrapper and buttons */
+.friend-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  margin: 0;
+}
+
+/* 1. Pending (Outbound Request) - Gold / Amber Theme */
+.friend-status.request {
+  background-color: #fef3c7; /* Light gold background */
+  color: #d97706; /* Deep gold/amber text */
+  border: 1px solid #fde68a;
+}
+.friend-status.request svg {
+  animation: spinSlow 3s linear infinite; /* Subtle rotation for the hourglass */
+}
+
+/* 2. Friend (Accepted) - Light Green / Emerald Theme */
+.friend-status.friend {
+  background-color: #ecfdf5; /* Light green background */
+  color: #059669; /* Deep emerald text */
+  border: 1px solid #a7f3d0;
+}
+
+/* 3. Pending Actions (Inbound Request Container) */
+.friend-status.pending {
+  display: flex;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+/* Action Buttons inside incoming request */
+.friend-status.pending button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Accept Button */
+.friend-status.pending button:first-child {
+  background-color: #059669;
+  color: #ffffff;
+  border: 1px solid #059669;
+}
+.friend-status.pending button:first-child:hover {
+  background-color: #047857;
+  border-color: #047857;
+}
+
+/* Refuse Button */
+.friend-status.pending button:last-child {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+}
+.friend-status.pending button:last-child:hover {
+  background-color: #fee2e2; /* Light red on hover */
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+/* 4. Default Add Friend Button */
+.friend-status.add {
+  background-color: #2563eb; /* Primary Blue */
+  color: #ffffff;
+  border: 1px solid #2563eb;
+  cursor: pointer;
+}
+.friend-status.add:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* Hourglass subtle animation */
+@keyframes spinSlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+/* ==================================
+        Modal Backdrop
+================================== */
+
+.add-friend-mockup {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2rem;
+
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  z-index: 9999;
+
+  animation: fadeIn 0.18s ease;
+}
+
+/* ==================================
+        Animations
+================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

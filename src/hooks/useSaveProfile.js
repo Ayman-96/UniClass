@@ -80,3 +80,25 @@ export function useUpdateProfile() {
     },
   });
 }
+
+export function useSearchProfiles(searchTerm) {
+  const { user } = useAuth();
+
+  return useQuery({
+    queryKey: ["profiles", "search", searchTerm],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .neq("id", user.id)
+        .or(
+          `username.ilike.%${searchTerm}%,full_name.ilike.%${searchTerm}%,tag.ilike.%${searchTerm}%`,
+        )
+        .limit(20);
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!searchTerm && !!user?.id,
+  });
+}

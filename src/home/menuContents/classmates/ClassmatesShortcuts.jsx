@@ -1,23 +1,27 @@
+import { toast } from "sonner";
+import { useState } from "react";
+import { ChevronRight } from "lucide-react";
+import { LuCopyCheck } from "react-icons/lu";
+import { useAuth } from "../../../AuthContext";
 import { formatDistanceToNow } from "date-fns";
+import { LiaHourglassHalfSolid } from "react-icons/lia";
+import { useProfile } from "../../../hooks/useSaveProfile";
 import { useFriendRequests } from "../../../hooks/useFriends";
 import { FaRegCopy, FaUserCheck, FaUserTimes } from "react-icons/fa";
-import { ChevronRight } from "lucide-react";
-import { LiaHourglassHalfSolid } from "react-icons/lia";
-import { useAuth } from "../../../AuthContext";
-import { useState } from "react";
-import { toast } from "sonner";
-import { LuCopyCheck } from "react-icons/lu";
+
 function ClassmatesShortcuts({ setActiveTab }) {
+  const { user } = useAuth();
   const [copied, setCopied] = useState(false);
 
-  const { user } = useAuth();
+  const { data: mine } = useProfile(user?.id);
+
   const { received } = useFriendRequests();
   const receivedRequests = received?.data;
   const { sent } = useFriendRequests();
   const sentRequests = sent?.data;
 
   function handleCopy() {
-    navigator.clipboard.writeText(user?.id).then(() => {
+    navigator.clipboard.writeText(mine?.tag.toUpperCase()).then(() => {
       setCopied(true);
       toast.success("Copied to Clipboard !");
       setTimeout(() => setCopied(false), 2000);
@@ -106,7 +110,7 @@ function ClassmatesShortcuts({ setActiveTab }) {
             );
           })}
         </div>
-        <div className="view-pendings-btn" onClick={() => setActiveTab(1)}>
+        <div className="view-pendings-btn" onClick={() => setActiveTab(2)}>
           <p>View All Requests</p>
           <p>
             <ChevronRight />
@@ -118,7 +122,7 @@ function ClassmatesShortcuts({ setActiveTab }) {
         <p>Add Me By</p>
         <p>Share tour code with others so they can add you </p>
         <div className="my-id-copy">
-          <p>{user?.id}</p>
+          <p>{mine?.tag.toUpperCase()}</p>
           <button onClick={handleCopy}>
             {copied ? <LuCopyCheck /> : <FaRegCopy />}
           </button>

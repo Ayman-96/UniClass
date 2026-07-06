@@ -4,8 +4,8 @@ import {
   useRespondFriendRequest,
 } from "../../../hooks/useFriends";
 import { GoDotFill } from "react-icons/go";
-import { FaUserCheck, FaUserTimes } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
+import { FaUserCheck, FaUserTimes } from "react-icons/fa";
 
 function ReceivedRequests() {
   const { received } = useFriendRequests();

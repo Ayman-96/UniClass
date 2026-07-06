@@ -1,8 +1,9 @@
 import { UsersRound } from "lucide-react";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import { MdOutlineEmojiPeople } from "react-icons/md";
 import { BsPersonWalking } from "react-icons/bs";
-function ClassmatesHeader({ activeTab, setActiveTab }) {
+import { MdOutlineEmojiPeople } from "react-icons/md";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
+
+function ClassmatesHeader({ activeTab, setActiveTab, setOpenAddCard }) {
   const cmTabs = [
     {
       id: 0,
@@ -29,7 +30,7 @@ function ClassmatesHeader({ activeTab, setActiveTab }) {
             <p>
               Connect with your friends, Manage requests and build your network
             </p>
-            <button>
+            <button onClick={() => setOpenAddCard(true)}>
               <AiOutlineUsergroupAdd /> Add Friends
             </button>
           </div>
