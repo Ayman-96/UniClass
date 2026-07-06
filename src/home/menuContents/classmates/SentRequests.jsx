@@ -19,7 +19,6 @@ function SentRequests() {
         <div> Sent Requests ({sentRequests?.length})</div>
         <div className="friends-list">
           {sentRequests?.map((pending) => {
-            console.log(pending);
             return (
               <div className="friend-card" key={pending.addressee?.id}>
                 <div className="fr-left-grid">

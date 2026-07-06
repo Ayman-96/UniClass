@@ -170,7 +170,7 @@
   gap: 6px;
   padding: 8px 18px;
   border: 1.5px solid #1a9e78;
-  border-radius: 8px;
+  border-radius: 20px;
   background: transparent;
   color: #1a9e78;
   font-size: 0.875rem;
@@ -607,6 +607,241 @@
 
 .remove-list > svg:hover {
   opacity: 1;
+}
+/* ==========================================
+   1. LAYOUT CONTROLLER (Perfect Vertical Stack)
+   ========================================== */
+.profile-header .edit-btns {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column; /* Stacks them vertically */
+  align-items: flex-end; /* Aligns the stack cleanly against the right edge */
+  gap: 8px; /* Spacing between the stacked buttons */
+}
+
+/* ==========================================
+   2. SHARED COMPONENT DESIGN (With Uniform Width)
+   ========================================== */
+.profile-header .save-profile-info,
+.profile-header .change-background-img,
+.profile-header .change-banner-img {
+  display: flex; /* Changed from inline-flex to flex */
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* FIXED WIDTH FOR PERFECT ALIGNMENT */
+  width: 170px; /* Forces every button to be exactly the same size */
+  box-sizing: border-box; /* Ensures padding doesn't break the width calculation */
+
+  /* Glassmorphism Effect over background graphics */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover & Push Actions */
+.profile-header .save-profile-info:hover,
+.profile-header .change-background-img:hover,
+.profile-header .change-banner-img:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.profile-header .save-profile-info:active,
+.profile-header .change-background-img:active,
+.profile-header .change-banner-img:active {
+  transform: translateY(0);
+}
+
+/* ==========================================
+   3. COLOR THEMES
+   ========================================== */
+
+/* Save Changes Button */
+.profile-header .save-profile-info {
+  background-color: #059669;
+  color: #ffffff;
+  border-color: #059669;
+}
+.profile-header .save-profile-info:hover {
+  background-color: #047857;
+  border-color: #047857;
+}
+
+/* Change Background Button */
+.profile-header .change-background-img {
+  background-color: rgba(31, 41, 55, 0.75);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.profile-header .change-background-img:hover {
+  background-color: rgba(17, 24, 39, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Change Banner Button */
+.profile-header .change-banner-img {
+  background-color: rgba(31, 41, 55, 0.75);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.profile-header .change-banner-img:hover {
+  background-color: rgba(17, 24, 39, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+/* ==========================================
+   TOP-LEFT POSITIONING & BACK BUTTON DESIGN
+   ========================================== */
+.profile-header .leave-profile {
+  position: absolute;
+  top: 5px; /* Aligned perfectly with the top edge of your edit stack */
+  left: 10px; /* Securely pinned to the top-left corner */
+  z-index: 10;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px; /* Uniform padding for a clean circular button target */
+  border-radius: 50%; /* Smooth circular shape */
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Translucent Glass Theme to match your other buttons over the background */
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #1f2937; /* Clean, dark contrast text color */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon Resizing & Micro-interaction */
+.profile-header .leave-profile svg {
+  font-size: 1.25rem; /* Crisp, readable size */
+  transition: transform 0.2s ease;
+}
+
+/* Hover and Focus Animations */
+.profile-header .leave-profile:hover {
+  background-color: #ffffff;
+  color: #111827;
+  transform: scale(1.05); /* Soft, reactive pop out */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+/* Subtle directional nudge to make the icon feel like it pushes backward */
+.profile-header .leave-profile:hover svg {
+  transform: translateX(-2px);
+}
+
+.profile-header .leave-profile:active {
+  transform: scale(0.98);
+}
+/* ==========================================
+   1. ANCHORING LAYOUT (Top-Right Alignment)
+   ========================================== */
+.profile-header .friendship-stat {
+  position: absolute;
+  top: 20px; /* Distance from top edge of the banner */
+  right: 20px; /* Distance from right edge of the banner */
+  z-index: 10; /* Keeps it floating cleanly above artwork or background images */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 20px;
+  margin: 0;
+  white-space: nowrap; /* Prevents text formatting from splitting onto 2 lines */
+
+  /* Glassmorphism Protection Layers for high image overlay contrast */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset baseline borders for button element types */
+button.friendship-stat {
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+/* Micro-interaction on hover if the element is clickable */
+button.friendship-stat:hover {
+  transform: translateY(-1px);
+}
+button.friendship-stat:active {
+  transform: translateY(0);
+}
+
+/* ==========================================
+   2. INDIVIDUAL STATUS THEMING
+   ========================================== */
+
+/* A. Accepted / Active Friend (Light Emerald Green Theme) */
+.profile-header .friendship-stat.accepted {
+  background-color: rgba(236, 253, 245, 0.95); /* Rich opaque soft background */
+  color: #065f46; /* Deep forest green text */
+  border: 1px solid #6ee7b7;
+}
+
+/* B. Pending Request (Gold / Amber Theme) */
+.profile-header .friendship-stat.pending {
+  background-color: rgba(254, 243, 199, 0.95); /* Rich opaque soft background */
+  color: #92400e; /* Deep amber text */
+  border: 1px solid #fcd34d;
+}
+/* Smooth, subtle continuous pulse animation for the pending hourglass icon */
+.profile-header .friendship-stat.pending svg {
+  animation: statusSubtlePulse 2s infinite ease-in-out;
+}
+
+/* C. Add Friend Primary Action (Vibrant Dash Blue Theme) */
+.profile-header .friendship-stat.add {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+.profile-header .friendship-stat.add:hover {
+  background-color: #1d4ed8;
+  border-color: #2563eb;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3); /* Strong vibrant glow on hover */
+}
+
+/* ==========================================
+   3. REUSABLE ANIMATION KEYFRAMES
+   ========================================== */
+@keyframes statusSubtlePulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
 }
 @media (max-width: 768px) {
   .tooltip {

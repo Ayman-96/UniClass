@@ -1,5 +1,19 @@
 import { useState } from "react";
-import { ChevronLeft, CircleX, Pencil, Trash2 } from "lucide-react";
+import {
+  ChevronLeft,
+  CircleX,
+  Pencil,
+  Trash2,
+  UserCheck2,
+  UserPlus2,
+} from "lucide-react";
+import {
+  useFriendshipStatuses,
+  useSendFriendRequest,
+} from "../../hooks/useFriends";
+import { LiaHourglassHalfSolid } from "react-icons/lia";
+import { useNavigate } from "react-router-dom";
+import { LuCircleArrowOutUpLeft } from "react-icons/lu";
 
 function ProfileHeader({
   userId,
@@ -17,7 +31,10 @@ function ProfileHeader({
   handleEditProfile,
   handleSaveProfile,
 }) {
+  const navigate = useNavigate();
+  const { data: friendStatus } = useFriendshipStatuses(userId ? [userId] : []);
   const [openRemoveList, setOpenRemoveList] = useState(false);
+  const { mutate: sendRequest } = useSendFriendRequest();
   return (
     <div
       className="profile-header"
@@ -30,7 +47,7 @@ function ProfileHeader({
         className="remove-images"
         onMouseLeave={() => setOpenRemoveList(false)}
       >
-        {isEditing &&
+        {isEditing && !userId ? (
           hasAnyImage &&
           (!openRemoveList ? (
             <Trash2 onMouseEnter={() => setOpenRemoveList(true)} />
@@ -57,7 +74,12 @@ function ProfileHeader({
               )}
               <ChevronLeft onClick={() => setOpenRemoveList(false)} />
             </div>
-          ))}
+          ))
+        ) : (
+          <button onClick={() => navigate(-1)} className="leave-profile">
+            <LuCircleArrowOutUpLeft />
+          </button>
+        )}
       </div>
 
       {userInfo?.banner_url && (
@@ -149,6 +171,16 @@ function ProfileHeader({
             </button>
 
             <button
+              className="change-banner-img"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (isEditing) document.getElementById("banner").click();
+              }}
+            >
+              Chage banner
+            </button>
+
+            <button
               className="change-background-img"
               onClick={(e) => {
                 e.stopPropagation();
@@ -167,8 +199,25 @@ function ProfileHeader({
             />
           </div>
         )
+      ) : friendStatus?.[userId]?.status === "accepted" ? (
+        <p className="friendship-stat accepted">
+          Friend <UserCheck2 />
+        </p>
+      ) : friendStatus?.[userId]?.status === "pending" ? (
+        <p className="friendship-stat pending">
+          Pending <LiaHourglassHalfSolid />
+        </p>
       ) : (
-        ""
+        <button
+          className="friendship-stat add"
+          onClick={(e) => {
+            e.stopPropagation();
+            sendRequest(userId);
+          }}
+        >
+          Send Friend Request
+          <UserPlus2 />
+        </button>
       )}
     </div>
   );

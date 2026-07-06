@@ -24,7 +24,6 @@ function InvitePage() {
       joinGroup(groupId);
     }
   }
-  console.log(group);
   if (!group) return <LoadingSpinner />;
   return (
     <div className="invitation-page">

@@ -1,6 +1,6 @@
 import "./classmates.css";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   useFriendshipStatuses,
   useRespondFriendRequest,
@@ -11,16 +11,20 @@ import { FaPeopleRobbery } from "react-icons/fa6";
 import { LiaHourglassHalfSolid } from "react-icons/lia";
 import { FaUserCheck, FaUserTimes } from "react-icons/fa";
 import { useSearchProfiles } from "../../../hooks/useSaveProfile";
+import { NavLink } from "react-router-dom";
 
 function AddFriend({ setOpenAddCard }) {
   const [search, setSearch] = useState("");
 
   const { data: searchResult } = useSearchProfiles(search);
+  const resultIDs = useMemo(() => {
+    if (!searchResult) return [];
+    return searchResult.map((g) => g.id);
+  }, [searchResult]); // Only re-runs if searchResult updates!
+
   const { data: friendStatus } = useFriendshipStatuses(resultIDs);
   const { mutate: respond } = useRespondFriendRequest();
   const { mutate: sendRequest } = useSendFriendRequest();
-
-  const resultIDs = searchResult?.map((g) => g.id) ?? [];
 
   return (
     <div className="add-friend-container">
@@ -44,11 +48,12 @@ function AddFriend({ setOpenAddCard }) {
         <p>Search Results</p>
         {searchResult?.map((res) => {
           const status = friendStatus?.[res?.id] || "";
-          console.log(status);
           return (
             <div className="perople-card" key={res?.id}>
               <div className="people-left-grid">
-                <img src={res?.avatar_url || ""} />
+                <NavLink to={`/profile/${res?.id}`}>
+                  <img src={res?.avatar_url || ""} />
+                </NavLink>
                 <div>
                   <p>{res.full_name}</p>
                   <p>

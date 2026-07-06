@@ -108,6 +108,7 @@ export function useSendFriendRequest() {
         queryKey: ["friendRequests", "sent", userId],
       });
       queryClient.invalidateQueries({ queryKey: ["suggestions", userId] });
+      queryClient.invalidateQueries({ queryKey: ["friendship-statuses"] });
       toast.success("Friend request sent");
     },
     onError: (error) => {
@@ -134,15 +135,14 @@ export function useRespondFriendRequest() {
       queryClient.invalidateQueries({
         queryKey: ["friendRequests", "received", userId],
       });
+      queryClient.invalidateQueries({ queryKey: ["friendship-statuses"] });
+
       if (variables.status === "accepted") {
         queryClient.invalidateQueries({ queryKey: ["friends", userId] });
         toast.success("Friend request accepted");
       } else {
         toast.success("Request declined");
       }
-    },
-    onError: (error) => {
-      toast.error(error.message || "Could not respond to request");
     },
   });
 }
@@ -162,6 +162,7 @@ export function useRemoveFriend() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["friends", userId] });
+      queryClient.invalidateQueries({ queryKey: ["friendship-statuses"] });
       toast.success("Removed from your friends list");
     },
     onError: (error) => {
@@ -187,8 +188,10 @@ export function useCancelFriendRequest() {
         queryKey: ["friendRequests", "sent", user?.id],
       });
       queryClient.invalidateQueries({ queryKey: ["suggestions", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["friendship-statuses"] });
       toast.success("Request cancelled");
     },
+
     onError: (error) => {
       toast.error(error.message || "Could not cancel request");
     },
@@ -198,7 +201,6 @@ export function useCancelFriendRequest() {
 export function useFriendshipStatuses(profileIds = []) {
   const { user } = useAuth();
   const userId = user?.id;
-
   return useQuery({
     queryKey: ["friendship-statuses", userId, profileIds],
     queryFn: async () => {
