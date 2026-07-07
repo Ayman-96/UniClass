@@ -203,9 +203,10 @@ function PersonalInfo({ dispatch }) {
         <input
           type="text"
           placeholder="Someone..."
-          onChange={(e) =>
-            dispatch({ type: "SET_USER_NAME", payload: e.target.value })
-          }
+          onChange={(e) => {
+            const noSpaces = e.target.value.replace(/\s/g, "");
+            dispatch({ type: "SET_USER_NAME", payload: noSpaces });
+          }}
         />
       </div>
 

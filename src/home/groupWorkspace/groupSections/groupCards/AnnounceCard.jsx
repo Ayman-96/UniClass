@@ -22,6 +22,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useGroupMembers } from "../../../../hooks/useGroupMembers";
 import handleDownload from "../../../../components/DownloadFile";
 import { formatFileSize, getFileStyle } from "../../../../data/addCourseData";
+import { renderMentions } from "../../../../components/renderMentions";
 function AnnounceCard({
   announce,
   myVote,
@@ -37,6 +38,7 @@ function AnnounceCard({
   const { mutate: deleteAnnounce, isPending } = useDeleteAnnounce();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const postedTime = new Date(announce.created_at).toLocaleDateString();
+  const { data: groupMember = [] } = useGroupMembers(groupId);
   const announcementButtons = [
     {
       name: "like",
@@ -67,8 +69,9 @@ function AnnounceCard({
       onCLick: () => setOpenComments(true),
     },
   ];
-  const { data: members } = useGroupMembers(groupId);
-  const authorMembership = members?.find((m) => m.user_id === announce.rep_id);
+  const authorMembership = groupMember?.find(
+    (m) => m.user_id === announce.rep_id,
+  );
   const isMod = authorMembership?.is_moderator;
   return (
     <div className="announce-overylay">
@@ -132,7 +135,10 @@ function AnnounceCard({
 
       <div className="announcement-body">
         <div className="announce-title">{announce.title}</div>
-        <div className="announce-content">{announce.content}</div>
+        <div className="announce-content">
+          {" "}
+          {renderMentions(announce.content, groupMember)}
+        </div>
         {announce.img_url && (
           <img
             src={announce.img_url}
@@ -144,7 +150,6 @@ function AnnounceCard({
 
       <div className="post-files">
         {announce.announcement_files?.map((file) => {
-          console.log(announce);
           const { icon: Icon, bg, color } = getFileStyle(file.type);
           return (
             <a

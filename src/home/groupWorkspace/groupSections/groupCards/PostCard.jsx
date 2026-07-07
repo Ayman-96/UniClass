@@ -18,6 +18,8 @@ import { useIsRep } from "../../../../hooks/useIsRep.js";
 import { useSingleGroup } from "../../../../hooks/useGroups.js";
 import { formatDistanceToNow } from "date-fns";
 import handleDownload from "../../../../components/DownloadFile.js";
+import { renderMentions } from "../../../../components/renderMentions.jsx";
+import { useGroupMembers } from "../../../../hooks/useGroupMembers.js";
 
 function PostCard({ post, isLiked, likeCount, toggleLike }) {
   const { groupId } = useParams();
@@ -27,6 +29,7 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { data: storedComments } = usePostComments(post.id);
   const { mutate: deletePost, isPending, isError } = useDeletePost();
+  const { data: groupMember = [] } = useGroupMembers(groupId);
   const postedTime = formatDistanceToNow(new Date(post.created_at), {
     addSuffix: true,
   });
@@ -79,7 +82,9 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
         </div>
 
         <div className="post-body">
-          <p className="post-content">{post.content}</p>
+          <p className="post-content">
+            {renderMentions(post.content, groupMember)}
+          </p>
           {post.img_url && (
             <img
               src={post.img_url}

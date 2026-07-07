@@ -1,21 +1,27 @@
 import "./AddAnnounce.css";
 import { useParams } from "react-router-dom";
-import {
-  announceAttachments,
-  announceTypes,
-} from "../../../../../data/addAnnounceData";
+import { announceTypes } from "../../../../../data/addAnnounceData";
 import { useReducer, useState } from "react";
 import RequiredWarning from "./RequiredWarning";
 import { useAuth } from "../../../../../AuthContext";
 import { useAddAnnounce } from "../../../../../hooks/useAnnounce";
 import { useProfile } from "../../../../../hooks/useSaveProfile.js";
-import { ImagePlus, Megaphone, ShieldCheck, X } from "lucide-react";
+import {
+  AtSign,
+  ImagePlus,
+  Link,
+  Megaphone,
+  Paperclip,
+  ShieldCheck,
+  X,
+} from "lucide-react";
 import { useSingleGroup } from "../../../../../hooks/useGroups.js";
 import {
   formatFileSize,
   getFileStyle,
 } from "../../../../../data/addCourseData.jsx";
 import { toast } from "sonner";
+import { useGroupMembers } from "../../../../../hooks/useGroupMembers.js";
 
 const announceData = {
   title: "",
@@ -46,6 +52,13 @@ function announceReducer(state, action) {
         ...state,
         files: state.files.filter((f) => f !== action.payload),
       };
+    case "ADD_MENTION": {
+      const needsSpace = state.content !== "" && !state.content.endsWith(" ");
+      return {
+        ...state,
+        content: state.content + (needsSpace ? " " : "") + "@",
+      };
+    }
 
     case "RESET":
       return announceData;
@@ -60,10 +73,17 @@ function AddAnnounce({ handleAnnounceModal }) {
 
   const [fillWarning, setFillWarning] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState(null);
+  const [showMentions, setShowMentions] = useState(false);
+  const [mentionFilter, setMentionFilter] = useState("");
 
   const { mutate: addAnnounce } = useAddAnnounce();
   const { data: myProfile } = useProfile();
   const { data: specifiedGroup } = useSingleGroup(groupId);
+  const { data: members = [] } = useGroupMembers(groupId);
+  const filteredMembers = members?.filter((m) =>
+    m.profiles?.username?.toLowerCase().includes(mentionFilter.toLowerCase()),
+  );
+
   const [newAnnounce, dispatch] = useReducer(announceReducer, announceData);
 
   function handleSubmit() {
@@ -83,6 +103,40 @@ function AddAnnounce({ handleAnnounceModal }) {
     dispatch({ type: "RESET" });
     handleAnnounceModal();
   }
+
+  function handleMentionButtonClick() {
+    dispatch({ type: "ADD_MENTION" });
+    setShowMentions(true);
+    setMentionFilter("");
+  }
+  function handleSelectMention(member) {
+    const updatedContent = newAnnounce.content?.replace(
+      /@[\w-]*$/,
+      `@[${member.profiles.username}](${member.profiles.tag.toUpperCase()}) `,
+    );
+    dispatch({ type: "SET_CONTENT", payload: updatedContent });
+    setShowMentions(false);
+    setMentionFilter("");
+  }
+
+  const announceAttachments = [
+    {
+      text: "File",
+      icon: <Paperclip />,
+      onClick: () => document.getElementById("files").click(),
+    },
+    {
+      text: "Mention",
+      icon: <AtSign />,
+      onClick: () => handleMentionButtonClick(),
+    },
+    {
+      text: "Link",
+      icon: <Link />,
+      onClick: () => "",
+    },
+  ];
+  console.log(members);
   return (
     <div className="add-post-overlay">
       <div className="add-post-modal">
@@ -151,13 +205,36 @@ function AddAnnounce({ handleAnnounceModal }) {
               rows={3}
               id="announceContent"
               name="announceContent"
+              value={newAnnounce.content}
               className="announcement-content"
               placeholder="Weite your announcement details..."
               onChange={(e) => {
                 dispatch({ type: "SET_CONTENT", payload: e.target.value });
               }}
             />
-
+            {showMentions && (
+              <div className="mention-dropdown">
+                <input
+                  type="text"
+                  className="mention-filter-input"
+                  placeholder="Search member..."
+                  value={mentionFilter}
+                  onChange={(e) => setMentionFilter(e.target.value)}
+                  autoFocus
+                />
+                {filteredMembers?.map((member) => {
+                  return (
+                    <button
+                      key={member.user_id}
+                      type="button"
+                      onClick={() => handleSelectMention(member)}
+                    >
+                      {member.profiles?.username || ""}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
             <div
               className="upload-img-announce"
               onClick={() => document.getElementById("announce-images").click()}
@@ -245,10 +322,7 @@ function AddAnnounce({ handleAnnounceModal }) {
                 <button
                   className="add-attach"
                   key={attach.text}
-                  onClick={() => {
-                    attach.text === "File" &&
-                      document.getElementById("files").click();
-                  }}
+                  onClick={() => attach.onClick()}
                 >
                   {attach.icon}
                   {attach.text}

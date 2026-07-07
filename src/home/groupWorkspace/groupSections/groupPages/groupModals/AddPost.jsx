@@ -20,24 +20,8 @@ import {
   formatFileSize,
   getFileStyle,
 } from "../../../../../data/addCourseData.jsx";
-const postAttachments = [
-  {
-    id: "files",
-    text: "Attach File",
-    icon: <Paperclip />,
-  },
-  {
-    id: "tags",
+import { useGroupMembers } from "../../../../../hooks/useGroupMembers.js";
 
-    text: "Mention",
-    icon: <AtSign />,
-  },
-  {
-    id: "links",
-    text: "Add Link",
-    icon: <Link />,
-  },
-];
 const postData = {
   author_name: "",
   author_badge: "",
@@ -64,6 +48,13 @@ function postReducer(state, action) {
         ...state,
         files: state.files.filter((f) => f !== action.payload),
       };
+    case "ADD_MENTION": {
+      const needsSpace = state.content !== "" && !state.content.endsWith(" ");
+      return {
+        ...state,
+        content: state.content + (needsSpace ? " " : "") + "@",
+      };
+    }
 
     case "RESET":
       return postData;
@@ -77,11 +68,17 @@ function AddPost({ handlePostModal }) {
   const { groupId } = useParams();
 
   const [fillWarning, setFillWarning] = useState(false);
+  const [showMentions, setShowMentions] = useState(false);
+  const [mentionFilter, setMentionFilter] = useState("");
 
   const { mutate: addPost } = useAddPost();
   const { data: myProfile } = useProfile();
   const { data: specifiedGroup } = useSingleGroup(groupId);
 
+  const { data: members = [] } = useGroupMembers(groupId);
+  const filteredMembers = members?.filter((m) =>
+    m.profiles?.username?.toLowerCase().includes(mentionFilter.toLowerCase()),
+  );
   const [newPost, dispatch] = useReducer(postReducer, postData);
 
   function handleSubmit() {
@@ -100,6 +97,40 @@ function AddPost({ handlePostModal }) {
     handlePostModal();
   }
 
+  function handleMentionButtonClick() {
+    dispatch({ type: "ADD_MENTION" });
+    setShowMentions(true);
+    setMentionFilter("");
+  }
+  function handleSelectMention(member) {
+    const updatedContent = newPost.content?.replace(
+      /@[\w-]*$/,
+      `@[${member.profiles.username}](${member.profiles.tag.toUpperCase()}) `,
+    );
+    dispatch({ type: "ADD_CONTENT", payload: updatedContent });
+    setShowMentions(false);
+    setMentionFilter("");
+  }
+  const postAttachments = [
+    {
+      id: "files",
+      text: "Attach File",
+      icon: <Paperclip />,
+      onClick: () => document.getElementById("files").click(),
+    },
+    {
+      id: "tags",
+      text: "Mention",
+      icon: <AtSign />,
+      onClick: () => handleMentionButtonClick(),
+    },
+    {
+      id: "links",
+      text: "Add Link",
+      icon: <Link />,
+      onClick: () => "",
+    },
+  ];
   return (
     <div className="add-post-overlay">
       <div className="add-post-modal">
@@ -140,6 +171,29 @@ function AddPost({ handlePostModal }) {
                 dispatch({ type: "ADD_CONTENT", payload: e.target.value })
               }
             ></textarea>
+            <div className="mention-dropdown-container">
+              {showMentions && (
+                <div className="mention-dropdown">
+                  <input
+                    type="text"
+                    className="mention-filter-input"
+                    placeholder="Search member..."
+                    value={mentionFilter}
+                    onChange={(e) => setMentionFilter(e.target.value)}
+                    autoFocus
+                  />
+                  {filteredMembers?.map((member) => (
+                    <button
+                      key={member.user_id}
+                      type="button"
+                      onClick={() => handleSelectMention(member)}
+                    >
+                      {member.profiles?.username || ""}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -215,13 +269,7 @@ function AddPost({ handlePostModal }) {
           <div className="post-attachments">
             {postAttachments.map((attach, i) => {
               return (
-                <button
-                  key={i}
-                  onClick={() => {
-                    attach.id === "files" &&
-                      document.getElementById("files").click();
-                  }}
-                >
+                <button key={i} onClick={() => attach.onClick()}>
                   {attach.icon}
                   {attach.text}
                 </button>

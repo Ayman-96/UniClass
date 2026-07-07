@@ -1,6 +1,11 @@
 import { GraduationCap, UserRoundPen } from "lucide-react";
 
-function ProfileBody({ personalInfoTable, isEditing, changeData, setChangeData }) {
+function ProfileBody({
+  personalInfoTable,
+  isEditing,
+  changeData,
+  setChangeData,
+}) {
   return (
     <div className="profile-body">
       <div className="body-header">
@@ -45,7 +50,10 @@ function ProfileBody({ personalInfoTable, isEditing, changeData, setChangeData }
                       onChange={(e) =>
                         setChangeData((prev) => ({
                           ...prev,
-                          [info.key]: e.target.value,
+                          [info.key]:
+                            info.key === "username"
+                              ? e.target.value.replace(/\s/g, "")
+                              : e.target.value,
                         }))
                       }
                       disabled={!isEditing || info.disabled}

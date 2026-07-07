@@ -16,7 +16,8 @@ export function useGroupMembers(groupId) {
           profiles (
             username,
             avatar_url,
-            last_seen
+            last_seen,
+            tag
           )
         `,
         )
