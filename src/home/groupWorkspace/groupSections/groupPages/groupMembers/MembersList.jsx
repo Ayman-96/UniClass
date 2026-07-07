@@ -63,6 +63,7 @@ function MembersList({ groupData, groupMembers, user }) {
 
       <div className="members-list">
         {membersList?.map((member) => {
+          console.log(member);
           const memberId = member?.user_id;
           const interactions = [
             {
@@ -110,7 +111,7 @@ function MembersList({ groupData, groupMembers, user }) {
 
               <div className="rep-list-interactions">
                 <div
-                  className={`user-role-card ${member.is_moderator ? "moderator" : "representative"}`}
+                  className={`user-role-card ${member.is_moderator ? "moderator" : member.role === "rep" ? "representative" : "member"}`}
                 >
                   {member.is_moderator ? (
                     <Crown />

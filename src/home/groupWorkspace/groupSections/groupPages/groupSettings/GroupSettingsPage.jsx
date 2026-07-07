@@ -2,6 +2,7 @@ import "./Groupsettingspage.css";
 import { useEffect, useState } from "react";
 import {
   useDeleteGroup,
+  useLeaveGroup,
   useSingleGroup,
   useUpdateGroupSettings,
 } from "../../../../../hooks/useGroups";
@@ -12,6 +13,8 @@ import GroupSettingsHeader from "./GroupSettingsHeader";
 import GroupGeneralSettings from "./GroupGeneralSettings";
 import { useNavigate, useParams } from "react-router-dom";
 import GroupPageHeader from "../../../GroupWorkspaceHeader";
+import { useIsModerator } from "../../../../../hooks/useIsRep";
+import { TbLogout2 } from "react-icons/tb";
 
 function GroupSettingsPage() {
   const { groupId } = useParams();
@@ -20,8 +23,10 @@ function GroupSettingsPage() {
   const [isEditing, setIsEdinig] = useState(false);
   const { mutate: updateGroup } = useUpdateGroupSettings(groupId);
   const [changeData, setChangeData] = useState(null);
-
   const { mutate: deleteGroup } = useDeleteGroup();
+  const { data: amIMod } = useIsModerator(groupId);
+  const { mutate: leaveGroup } = useLeaveGroup();
+
   useEffect(() => {
     if (groupData) {
       setChangeData({
@@ -97,13 +102,36 @@ function GroupSettingsPage() {
             Permanently delete this group and all its data. This action cannot
             be undone!
           </div>
-          <button
-            onClick={() => {
-              (deleteGroup(groupId), navigate("/home"));
-            }}
-          >
-            Delete Group
-          </button>
+          {amIMod && (
+            <button
+              onClick={() => {
+                (deleteGroup(groupId), navigate("/home"));
+              }}
+            >
+              Delete Group
+            </button>
+          )}
+        </div>
+        <div className="leave-group">
+          <div>
+            <TbLogout2 /> Leave Group
+          </div>
+          <div>
+            If you are no more interested with the group, you can leave it
+            peacefully. This action cannot be undone!
+          </div>
+
+          {amIMod ? (
+            <p>Moderator Can't Leave Group</p>
+          ) : (
+            <button
+              onClick={() => {
+                (leaveGroup(groupId), navigate("/home"));
+              }}
+            >
+              Leave Group
+            </button>
+          )}
         </div>
       </div>
     </div>

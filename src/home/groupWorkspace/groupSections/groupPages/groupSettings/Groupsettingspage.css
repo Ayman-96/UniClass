@@ -563,6 +563,9 @@
    DELETE GROUP
 ───────────────────────────────────────── */
 .delete-group-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   padding: 0 24px 24px;
 }
 
@@ -613,4 +616,69 @@
 
 .delete-group button:hover {
   background: #a93226;
+}
+.leave-group-wrapper {
+  padding: 0 24px 24px;
+}
+
+.leave-group {
+  background: #fff;
+  border: 1px solid #b3afafcd;
+  border-radius: 14px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 480px;
+}
+
+.leave-group > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.leave-group > div:first-child svg {
+  width: 18px;
+  height: 18px;
+}
+
+.leave-group > div:nth-child(2) {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.5;
+}
+
+.leave-group button {
+  margin-top: 8px;
+  background: #000000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+.leave-group p {
+  margin-top: 8px;
+  background: #000000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: no-drop;
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+
+.leave-group button:hover {
+  background: #757575;
 }

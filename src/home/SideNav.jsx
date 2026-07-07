@@ -2,7 +2,10 @@ import "./SideNav.css";
 import { NavLink } from "react-router-dom";
 import { LayoutGrid, Bell, Users, BookOpen, IdCard } from "lucide-react";
 import { Logo } from "../components/Logo.jsx";
+import { FaDoorOpen } from "react-icons/fa6";
+import { useSignOut } from "../hooks/useAuthActions.js";
 function SideNav() {
+  const { mutate: signOut, isPending } = useSignOut();
   const menuSections = [
     {
       id: 1,
@@ -48,6 +51,14 @@ function SideNav() {
           <span className="status-dot ds-dot"></span>
         </NavLink>
       </div>
+
+      <button
+        className="sign-out-btn"
+        onClick={() => signOut()}
+        disabled={isPending}
+      >
+        <FaDoorOpen /> {isPending ? "Signing out..." : "Sign Out"}
+      </button>
     </nav>
   );
 }

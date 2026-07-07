@@ -3,6 +3,8 @@ import { useAuth } from "../AuthContext";
 import { supabase } from "../supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
+import useGroupStore from "../store/useGroupStore";
 /*
 useQuery → GET/fetch data
 useMutation → POST/PUT/DELETE/update data
@@ -176,6 +178,35 @@ export function useDeleteGroup() {
     onSuccess: () => {
       toast.success("Group Deleted Successfully :(");
       queryClient.invalidateQueries({ queryKey: ["groups"] });
+    },
+  });
+}
+
+export function useLeaveGroup() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const clearCurrentGroup = useGroupStore((s) => s.clearCurrentGroup);
+
+  return useMutation({
+    mutationFn: async (groupId) => {
+      const { error } = await supabase.rpc("leave_group", {
+        p_group_id: groupId,
+      });
+      if (error) throw error;
+    },
+    onSuccess: (_data, groupId) => {
+      queryClient.invalidateQueries({ queryKey: ["group-members", groupId] });
+      queryClient.invalidateQueries({ queryKey: ["my-groups"] });
+      clearCurrentGroup();
+      toast.success("You've left the group");
+      navigate("/groups");
+    },
+    onError: (error) => {
+      if (error.message?.includes("REP_CANNOT_LEAVE")) {
+        toast.error("Transfer the ownership to a member before leaving");
+      } else {
+        toast.error(error.message || "Couldn't leave the group");
+      }
     },
   });
 }

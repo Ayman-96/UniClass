@@ -119,3 +119,36 @@
 .la-dot {
   background: #378add;
 } /* blue   */
+
+.sideNav-menu-section,
+.sideNav-classes-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sign-out-btn {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #ef4444;
+  background-color: transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 240px;
+  margin-left: 10px;
+  border: none;
+}
+
+.sign-out-btn:hover {
+  background-color: #fef2f2;
+}
+
+.sign-out-btn svg {
+  font-size: 1.2rem;
+}
