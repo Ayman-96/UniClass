@@ -23,7 +23,6 @@ function MembersCard() {
     }
     return acc;
   }, 0);
-  console.log(groupData);
   return (
     <div className="group-members-overlay">
       <div className="gp-mmb-header">

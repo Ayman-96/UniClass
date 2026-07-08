@@ -66,7 +66,7 @@ export function useJoinGroup() {
 
   return useMutation({
     mutationFn: async (code) => {
-      const { error } = await supabase.rpc("join_group_by_code", {
+      const { data, error } = await supabase.rpc("join_group_by_code", {
         p_code: code,
         p_user_id: user.id,
       });
@@ -76,11 +76,21 @@ export function useJoinGroup() {
           throw new Error("Group not found. Check the code and try again.");
         if (error.message.includes("Already a member"))
           throw new Error("You are already a member of this group.");
+        if (error.message.includes("GROUP_CLOSED"))
+          throw new Error(
+            "This group is closed and not accepting new members.",
+          );
         throw error;
       }
+
+      return data; // group name
     },
-    onSuccess: () => {
+    onSuccess: (groupName) => {
       queryClient.invalidateQueries({ queryKey: ["groups"] });
+      toast.success(`Welcome to ${groupName}!`);
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 }

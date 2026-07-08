@@ -22,6 +22,7 @@ function GroupWorkspaceHeader({
       </p>
       <button
         style={{ background: groupData?.color }}
+        disabled={requiredRep}
         className="group-header-btn"
         onClick={() => {
           requiredRep ? isRep && onButtonClick() : onButtonClick();
@@ -29,9 +30,9 @@ function GroupWorkspaceHeader({
       >
         {requiredRep ? (
           isRep ? (
-            <div>
+            <dibutv>
               {btnIcon} {btnTitle}
-            </div>
+            </dibutv>
           ) : (
             <div>
               {" "}

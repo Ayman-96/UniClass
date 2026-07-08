@@ -9,6 +9,7 @@ import { RiShieldStarFill } from "react-icons/ri";
 import { LuShieldOff, LuShieldX } from "react-icons/lu";
 import { useIsModerator, useIsRep } from "../../../../../hooks/useIsRep";
 import { BadgeInfo, ChevronLeft, Crown, EllipsisVertical } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 function RepsList({ groupData, countRep, user, reps }) {
   const groupId = groupData?.id;
@@ -86,9 +87,12 @@ function RepsList({ groupData, countRep, user, reps }) {
           ];
           return (
             <div className="member-card" key={repId}>
-              <div className="user-avatar-card">
+              <NavLink
+                className="user-avatar-card"
+                to={`/profile/${rep?.user_id}`}
+              >
                 <img src={rep.profiles.avatar_url} alt="user-avatar" />
-              </div>
+              </NavLink>
 
               <div className="member-name">
                 <p className={`${rep.is_moderator ? "mod-name" : ""}`}>

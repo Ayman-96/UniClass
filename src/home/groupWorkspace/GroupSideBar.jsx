@@ -69,7 +69,10 @@ function GroupSideBar() {
         })}
       </div>
 
-      <NavLink className="link-to-rep-acc">
+      <NavLink
+        className="link-to-rep-acc"
+        to={`/profile/${moderator?.[0]?.user_id}`}
+      >
         <img
           className="rep-acc-img"
           src={moderator?.[0]?.profiles?.avatar_url}
