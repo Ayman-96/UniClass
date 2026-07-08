@@ -123,6 +123,9 @@
   font-size: 13px;
   font-weight: 600;
   overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+  display: block;
 }
 
 .user-comm {

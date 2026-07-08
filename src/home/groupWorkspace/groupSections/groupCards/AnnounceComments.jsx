@@ -19,6 +19,8 @@ import { NavLink, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
 import TextCollapser from "../../../../components/TextExpnder.jsx";
 import { useLikeComments } from "../../../../hooks/useLikeComments.js";
+import { useProfile } from "../../../../hooks/useSaveProfile.js";
+import { useSingleGroup } from "../../../../hooks/useGroups.js";
 
 const initialState = {
   content: "",
@@ -44,8 +46,11 @@ function commentReducer(state, action) {
 }
 
 function AnnounceComments({ setOpenComments, storedComments, announceId }) {
+  const { user } = useAuth();
   const { groupId } = useParams();
   const { data: isRep } = useIsRep(groupId);
+  const { data: me } = useProfile(user?.id);
+  const { data: groupData } = useSingleGroup(groupId);
   const { mutate: addComment, isPending, isError } = useAddComment();
   const [newComment, dispatch] = useReducer(commentReducer, initialState);
 
@@ -97,7 +102,7 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
           )}
 
           <div className="commenting">
-            <img />
+            <img src={me?.avatar_url || ""} />
             <input
               type="text"
               className="ann-input"
@@ -123,11 +128,11 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
                 dispatch({ type: "SET_IMAGE", payload: e.target.files[0] })
               }
             />
-            {(newComment.content || !newComment.image) && (
+            {(newComment.content || newComment.image) && (
               <button
                 className="post-comment"
                 onClick={handleAddComment}
-                style={{ backgroundColor: "#b7521c" }}
+                style={{ backgroundColor: groupData?.color }}
               >
                 <SendHorizonal />
               </button>
@@ -150,7 +155,6 @@ function CommentItem({ comment, announceId, dispatch, isRep }) {
     id: comment.id,
     queryKey: ["announcement_comments", announceId],
   });
-  console.log(comment);
   return (
     <div className="comment-container" key={comment.id}>
       <div className="user-comment">

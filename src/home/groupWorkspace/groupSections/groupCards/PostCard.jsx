@@ -1,43 +1,73 @@
 import "./PostCard.css";
-import { useState } from "react";
-import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
 import {
+  ClipboardCheck,
   Download,
   HeartHandshake,
   MessageSquareText,
   Redo2,
 } from "lucide-react";
+import { toast } from "sonner";
+import { useEffect, useRef, useState } from "react";
 import PostComments from "./PostComments";
+import { formatDistanceToNow } from "date-fns";
 import {
   formatFileSize,
   getFileStyle,
 } from "../../../../data/addCourseData.jsx";
-import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useSearchParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
 import { useSingleGroup } from "../../../../hooks/useGroups.js";
-import { formatDistanceToNow } from "date-fns";
 import handleDownload from "../../../../components/DownloadFile.js";
-import { renderMentions } from "../../../../components/renderMentions.jsx";
 import { useGroupMembers } from "../../../../hooks/useGroupMembers.js";
+import { renderMentions } from "../../../../components/renderMentions.jsx";
+import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
+import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
 
 function PostCard({ post, isLiked, likeCount, toggleLike }) {
   const { groupId } = useParams();
-  const { data: isRep } = useIsRep(groupId);
-  const { data: currentGroup } = useSingleGroup(groupId);
+
+  const [copied, setCopied] = useState(false);
   const [openComments, setOpenComments] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const { data: storedComments } = usePostComments(post.id);
-  const { mutate: deletePost, isPending, isError } = useDeletePost();
+
+  const { data: isRep } = useIsRep(groupId);
+  const { data: currentGroup } = useSingleGroup(groupId);
+  const { data: storedComments = [] } = usePostComments(post.id);
   const { data: groupMember = [] } = useGroupMembers(groupId);
+  const { mutate: deletePost, isPending, isError } = useDeletePost();
+
+  const [searchParams] = useSearchParams();
+  const highlightId = searchParams.get("highlight");
+  const highlightedRef = useRef(null);
+
+  useEffect(() => {
+    if (highlightId && highlightedRef.current) {
+      highlightedRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [highlightId]);
+
   const postedTime = formatDistanceToNow(new Date(post.created_at), {
     addSuffix: true,
   });
-
+  function handleCopy(postId) {
+    navigator.clipboard
+      .writeText(`${window.location.origin}/post/${postId}`)
+      .then(() => {
+        setCopied(true);
+        toast.success("Link Copied to Clipboard !");
+        setTimeout(() => setCopied(false), 2000);
+      });
+  }
   if (isPending) return <LoadingSpinner />;
   if (isError) return <div>Error Occured...</div>;
   return (
-    <div className="post-overylay">
+    <div
+      className={`post-overylay ${post.id === highlightId ? "post-highlighted" : ""}`}
+      ref={post.id === highlightId ? highlightedRef : null}
+    >
       <div className="post-card">
         <div className="post-head">
           <div className="author-info">
@@ -148,8 +178,8 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
           >
             <MessageSquareText /> {storedComments?.length}
           </button>
-          <button className="share-post">
-            <Redo2 />
+          <button className="share-post" onClick={() => handleCopy(post?.id)}>
+            {copied ? <ClipboardCheck /> : <Redo2 />}
           </button>
         </div>
       </div>

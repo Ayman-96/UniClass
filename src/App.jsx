@@ -17,6 +17,7 @@ import Profile from "./home/profile/Profile";
 import InvitePage from "./Invitation/InvitePage";
 import GroupSettingsPage from "./home/groupWorkspace/groupSections/groupPages/groupSettings/GroupSettingsPage";
 import Classmates from "./home/menuContents/classmates/Classmates";
+import PostRedirect from "./PostRedirect/PostRedirect";
 function App() {
   return (
     <div>
@@ -49,6 +50,7 @@ function App() {
           element={<CourseWorkspace />}
         />
         <Route path="/join/:groupId" element={<InvitePage />} />
+        <Route path="/post/:postId" element={<PostRedirect />} />
       </Routes>
     </div>
   );

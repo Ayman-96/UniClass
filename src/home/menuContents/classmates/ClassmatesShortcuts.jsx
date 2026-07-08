@@ -15,7 +15,7 @@ import { FaRegCopy, FaUserCheck, FaUserTimes } from "react-icons/fa";
 function ClassmatesShortcuts({ setActiveTab }) {
   const { user } = useAuth();
   const [copied, setCopied] = useState(false);
-
+//
   const { data: mine } = useProfile(user?.id);
 
   const { received } = useFriendRequests();

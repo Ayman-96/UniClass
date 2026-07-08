@@ -30,9 +30,9 @@ function GroupWorkspaceHeader({
       >
         {requiredRep ? (
           isRep ? (
-            <dibutv>
+            <div>
               {btnIcon} {btnTitle}
-            </dibutv>
+            </div>
           ) : (
             <div>
               {" "}

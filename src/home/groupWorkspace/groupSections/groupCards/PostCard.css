@@ -357,3 +357,18 @@
   background: #f1f5f9;
   color: #0f172a;
 }
+.post-highlighted {
+  animation: post-flash 5s ease-out;
+  border-radius: 12px;
+}
+
+@keyframes post-flash {
+  0% {
+    background-color: #9ddec7cb;
+    border: 2px solid #9ddec7cb;
+  }
+  100% {
+    background-color: transparent;
+    border: 2px solid transparent;
+  }
+}
