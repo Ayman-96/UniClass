@@ -6,7 +6,10 @@ import { useAuth } from "../../../AuthContext";
 import { formatDistanceToNow } from "date-fns";
 import { LiaHourglassHalfSolid } from "react-icons/lia";
 import { useProfile } from "../../../hooks/useSaveProfile";
-import { useFriendRequests } from "../../../hooks/useFriends";
+import {
+  useFriendRequests,
+  useRespondFriendRequest,
+} from "../../../hooks/useFriends";
 import { FaRegCopy, FaUserCheck, FaUserTimes } from "react-icons/fa";
 
 function ClassmatesShortcuts({ setActiveTab }) {
@@ -19,6 +22,8 @@ function ClassmatesShortcuts({ setActiveTab }) {
   const receivedRequests = received?.data;
   const { sent } = useFriendRequests();
   const sentRequests = sent?.data;
+
+  const { mutate: respond } = useRespondFriendRequest();
 
   function handleCopy() {
     navigator.clipboard.writeText(mine?.tag.toUpperCase()).then(() => {
@@ -57,10 +62,18 @@ function ClassmatesShortcuts({ setActiveTab }) {
                   </div>
                 </div>
                 <div className="received-right-grid">
-                  <button>
+                  <button
+                    onClick={() =>
+                      respond({ requestId: requester.id, status: "accepted" })
+                    }
+                  >
                     <FaUserCheck />
                   </button>
-                  <button>
+                  <button
+                    onClick={() =>
+                      respond({ requestId: requester.id, status: "declined" })
+                    }
+                  >
                     <FaUserTimes />
                   </button>
                 </div>

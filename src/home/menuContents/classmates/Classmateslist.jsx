@@ -18,6 +18,7 @@ function ClassmatesList() {
   const getLastSeen = (lastSeen) => {
     if (!lastSeen) return "Long Time";
 
+    // eslint-disable-next-line react-hooks/purity
     const diff = Date.now() - new Date(lastSeen).getTime();
     const minutes = Math.floor(diff / 1000 / 60);
     const hours = Math.floor(minutes / 60);

@@ -10,6 +10,7 @@ import { HiUserPlus } from "react-icons/hi2";
 import { FaPeopleRobbery } from "react-icons/fa6";
 import { LiaHourglassHalfSolid } from "react-icons/lia";
 import { FaUserCheck, FaUserTimes } from "react-icons/fa";
+import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
 import { useSearchProfiles } from "../../../hooks/useSaveProfile";
 import { NavLink } from "react-router-dom";
 
@@ -22,7 +23,7 @@ function AddFriend({ setOpenAddCard }) {
     return searchResult.map((g) => g.id);
   }, [searchResult]); // Only re-runs if searchResult updates!
 
-  const { data: friendStatus } = useFriendshipStatuses(resultIDs);
+  const { data: friendStatus, isPending } = useFriendshipStatuses(resultIDs);
   const { mutate: respond } = useRespondFriendRequest();
   const { mutate: sendRequest } = useSendFriendRequest();
 
@@ -46,28 +47,36 @@ function AddFriend({ setOpenAddCard }) {
 
       <div className="serach-result">
         <p>Search Results</p>
+
         {searchResult?.map((res) => {
           const status = friendStatus?.[res?.id] || "";
           return (
             <div className="perople-card" key={res?.id}>
-              <div className="people-left-grid">
-                <NavLink to={`/profile/${res?.id}`}>
-                  <img src={res?.avatar_url || ""} />
-                </NavLink>
+              {isPending ? (
                 <div>
-                  <p>{res.full_name}</p>
+                  {" "}
+                  <LoadingSpinner />
+                </div>
+              ) : (
+                <div className="people-left-grid">
+                  <NavLink to={`/profile/${res?.id}`}>
+                    <img src={res?.avatar_url || ""} />
+                  </NavLink>
+                  <div>
+                    <p>{res.full_name}</p>
+                    <p>
+                      @
+                      {res.username
+                        ?.trim()
+                        .replace(/[\s\u00A0]+/g, "_")
+                        .toLowerCase()}
+                    </p>
+                  </div>
                   <p>
-                    @
-                    {res.username
-                      ?.trim()
-                      .replace(/[\s\u00A0]+/g, "_")
-                      .toLowerCase()}
+                    {res.department || "Not Set"} • {res.role || "Not Student"}
                   </p>
                 </div>
-                <p>
-                  {res.department || "Not Set"} • {res.stage || "Not Student"}
-                </p>
-              </div>
+              )}
               <div className="people-right-grid">
                 {status.isRequester ? (
                   <div className="friend-status request">

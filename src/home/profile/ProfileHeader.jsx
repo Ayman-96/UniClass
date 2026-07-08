@@ -14,6 +14,7 @@ import {
 import { LiaHourglassHalfSolid } from "react-icons/lia";
 import { useNavigate } from "react-router-dom";
 import { LuCircleArrowOutUpLeft } from "react-icons/lu";
+import { useAuth } from "../../AuthContext";
 
 function ProfileHeader({
   userId,
@@ -32,6 +33,7 @@ function ProfileHeader({
   handleSaveProfile,
 }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { data: friendStatus } = useFriendshipStatuses(userId ? [userId] : []);
   const [openRemoveList, setOpenRemoveList] = useState(false);
   const { mutate: sendRequest } = useSendFriendRequest();
@@ -47,7 +49,7 @@ function ProfileHeader({
         className="remove-images"
         onMouseLeave={() => setOpenRemoveList(false)}
       >
-        {isEditing && !userId ? (
+        {isEditing && (!userId || userId === user?.id) ? (
           hasAnyImage &&
           (!openRemoveList ? (
             <Trash2 onMouseEnter={() => setOpenRemoveList(true)} />
@@ -152,7 +154,7 @@ function ProfileHeader({
         </div>
       </div>
 
-      {!userId ? (
+      {!userId || userId === user?.id ? (
         !isEditing ? (
           <button className="edit-profile-info" onClick={handleEditProfile}>
             <Pencil /> Edit Profile

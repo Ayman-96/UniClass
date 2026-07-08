@@ -23,6 +23,7 @@ function RepsList({ groupData, countRep, user, reps }) {
   const getLastSeen = (lastSeen) => {
     if (!lastSeen) return "Long Time";
 
+    // eslint-disable-next-line react-hooks/purity
     const diff = Date.now() - new Date(lastSeen).getTime();
     const minutes = Math.floor(diff / 1000 / 60);
     const hours = Math.floor(minutes / 60);
@@ -65,13 +66,13 @@ function RepsList({ groupData, countRep, user, reps }) {
           const actionsToRep = [
             {
               label: "Remove as Rep ",
-              icon: <LuShieldX />,
+              icon: <LuShieldX size={18} />,
               onClick: () => removeRep(repId),
               modOnly: true,
             },
             {
               label: "Promote to Mod ",
-              icon: <Crown />,
+              icon: <Crown size={18} />,
               onClick: () =>
                 promoteToMod({ currentModId: user?.id, newModId: repId }),
               modOnly: true,

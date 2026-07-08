@@ -19,8 +19,8 @@ export function useFriends() {
           addressee_id,
           status,
           created_at,
-          requester:profiles!friendships_requester_id_fkey(id, full_name,username,department,stage,last_seen, avatar_url),
-          addressee:profiles!friendships_addressee_id_fkey(id, full_name,username, department,stage,last_seen, avatar_url)
+          requester:profiles!friendships_requester_id_fkey(id, full_name,username,department,role,last_seen, avatar_url),
+          addressee:profiles!friendships_addressee_id_fkey(id, full_name,username, department,role,last_seen, avatar_url)
         `,
         )
         .eq("status", "accepted")
@@ -54,7 +54,7 @@ export function useFriendRequests() {
           `
           id,
           created_at,
-          requester:profiles!friendships_requester_id_fkey(id, full_name,username, avatar_url)
+          requester:profiles!friendships_requester_id_fkey(id, full_name,username, avatar_url,department,role)
         `,
         )
         .eq("status", "pending")
@@ -75,7 +75,7 @@ export function useFriendRequests() {
           `
           id,
           created_at,
-          addressee:profiles!friendships_addressee_id_fkey(id, full_name,username, avatar_url)
+          addressee:profiles!friendships_addressee_id_fkey(id, full_name,username, avatar_url,department,role)
         `,
         )
         .eq("status", "pending")

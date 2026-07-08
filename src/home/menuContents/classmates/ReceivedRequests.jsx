@@ -35,7 +35,7 @@ function ReceivedRequests() {
                     </p>
                     <p>
                       {pending.requester?.department || "Not Set"} •{" "}
-                      {pending.requester?.stage || "Not Student"}
+                      {pending.requester?.role || "Not Student"}
                     </p>
                   </div>
                 </div>

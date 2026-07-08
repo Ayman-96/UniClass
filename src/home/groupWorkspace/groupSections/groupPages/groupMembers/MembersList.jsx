@@ -7,9 +7,14 @@ import {
   useRemoveMember,
 } from "../../../../../hooks/useGroupMembers";
 import { RiShieldStarFill } from "react-icons/ri";
-import { IoAccessibilityOutline, IoPeople } from "react-icons/io5";
+import { IoAccessibilityOutline } from "react-icons/io5";
 import { ChevronLeft, Crown, EllipsisVertical, User } from "lucide-react";
 import { useIsModerator, useIsRep } from "../../../../../hooks/useIsRep";
+import {
+  useFriends,
+  useSendFriendRequest,
+} from "../../../../../hooks/useFriends";
+import { FaPeopleArrows, FaUserPlus } from "react-icons/fa6";
 
 function MembersList({ groupData, groupMembers, user }) {
   const [search, setSearch] = useState("");
@@ -17,12 +22,17 @@ function MembersList({ groupData, groupMembers, user }) {
 
   const { data: amIRep } = useIsRep(groupData?.id);
   const { data: amIMod } = useIsModerator(groupData?.id);
+  const { data: friends } = useFriends();
   const { mutate: removeMember } = useRemoveMember(groupData?.id);
   const { mutate: promoteToRep } = usePromoteToRep(groupData?.id);
+  const { mutate: sendRequest } = useSendFriendRequest();
+
+  const friendIds = new Set(friends?.map((fr) => fr.profile?.id));
 
   const getLastSeen = (lastSeen) => {
     if (!lastSeen) return "Long Time";
 
+    // eslint-disable-next-line react-hooks/purity
     const diff = Date.now() - new Date(lastSeen).getTime();
     const minutes = Math.floor(diff / 1000 / 60);
     const hours = Math.floor(minutes / 60);
@@ -63,7 +73,6 @@ function MembersList({ groupData, groupMembers, user }) {
 
       <div className="members-list">
         {membersList?.map((member) => {
-          console.log(member);
           const memberId = member?.user_id;
           const interactions = [
             {
@@ -72,11 +81,17 @@ function MembersList({ groupData, groupMembers, user }) {
               onClick: () => removeMember(memberId),
               repOnly: true,
             },
-            {
-              label: "Add as Friend ",
-              icon: <IoPeople />,
-              onClick: "",
-            },
+            friendIds?.has(member?.user_id)
+              ? {
+                  label: "Already Friends",
+                  icon: <FaPeopleArrows size={16} />,
+                  onClick: () => "",
+                }
+              : {
+                  label: "Add as Friend ",
+                  icon: <FaUserPlus />,
+                  onClick: () => sendRequest(member?.user_id),
+                },
             {
               label: "Promote to Rep ",
               icon: <RiShieldStarFill />,

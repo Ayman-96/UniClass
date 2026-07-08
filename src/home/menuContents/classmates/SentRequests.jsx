@@ -36,7 +36,7 @@ function SentRequests() {
                     </p>
                     <p>
                       {pending.addressee?.department || "Not Set"} •{" "}
-                      {pending.addressee?.stage || "Not Student"}
+                      {pending.addressee?.role || "Not Student"}
                     </p>
                   </div>
                 </div>

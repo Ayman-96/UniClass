@@ -101,7 +101,27 @@
   color: #2d2d2d;
   background: transparent;
 }
+.already-member {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #047857;
+  background-color: #d1fae5;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
 
+.already-member svg {
+  font-size: 1.1rem;
+  color: #059669;
+  display: inline-block;
+  vertical-align: middle;
+}
 .selected-friends {
   display: flex;
   flex-wrap: wrap;
@@ -162,7 +182,6 @@
   border-radius: 10px;
   background-color: #ffffff;
   transition: all 0.2s ease;
-  cursor: pointer;
 }
 
 .friend-card:hover {
@@ -252,11 +271,80 @@
   gap: 8px;
   transition: all 0.2s ease;
 }
+.user-onlinee {
+  color: #a363eb;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  margin: 0;
+  font-weight: 500;
+  white-space: nowrap;
+}
 
+.user-onlinee span {
+  display: inline-block;
+  font-size: 10px;
+  transform: translateY(1px);
+}
+
+.user-offlinee span {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 10px;
+  color: #c4c4c4;
+  font-size: 8px;
+}
+.user-offlinee {
+  color: #a0a0a0;
+}
+.select-invite,
+.unselect-invite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.select-invite svg,
+.unselect-invite svg {
+  font-size: 1.15rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.select-invite {
+  background-color: #dbc5ffa1;
+  color: #483250;
+}
+
+.select-invite:hover {
+  background-color: #ac5eff92;
+  color: #1e293b;
+}
+
+.unselect-invite {
+  background-color: #fee2e2;
+  color: #ef4444;
+  padding: 8px 12px;
+}
+
+.unselect-invite:hover {
+  background-color: #fca5a5;
+  color: #991b1b;
+}
 .send-invite-btn:hover {
-  background-color: #0f6e3f;
+  background-color: #c99cfc;
   color: #ffffff;
-  border-color: #0f6e3f;
+  border-color: #c99cfc;
 }
 
 .friends-list::-webkit-scrollbar {
