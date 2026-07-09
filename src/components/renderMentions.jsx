@@ -4,7 +4,6 @@ import { useSingleGroup } from "../hooks/useGroups";
 export function renderMentions(content, members = []) {
   const { groupId } = useParams();
   const { data: currentGroup } = useSingleGroup(groupId);
-  console.log(currentGroup);
   if (!content) return null;
 
   // Optional: build a fresh id -> current username map, so renamed users show their NEW name

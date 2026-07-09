@@ -386,3 +386,57 @@
     max-height: 120px;
   }
 }
+
+.reply-to-parent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: #f4f4f2;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.reply-to-parent strong {
+  color: #1a9e78;
+  font-weight: 600;
+}
+
+.reply-to-parent .cancel-reply {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.reply-to-parent .cancel-reply:hover {
+  color: #333;
+}
+
+/* Reply comment styling — smaller, indented under parent */
+.smaller-comment-reply {
+  margin-left: 42px;
+  gap: 8px;
+}
+
+.smaller-comment-reply .user-pro {
+  width: 26px;
+  height: 26px;
+}
+
+.smaller-comment-reply .comm-head {
+  font-size: 0.82rem;
+}
+
+.smaller-comment-reply .comm-content {
+  font-size: 0.82rem;
+}
+.reply-tag {
+  color: #1a9e78;
+  font-weight: 600;
+}

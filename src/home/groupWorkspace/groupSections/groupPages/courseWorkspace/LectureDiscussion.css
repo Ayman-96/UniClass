@@ -40,7 +40,7 @@
   position: absolute;
   top: 14px;
   right: 16px;
-  background: #f4f4f4;
+  background: #eafef0;
   color: #555;
   font-size: 12px;
   font-weight: 500;
@@ -308,4 +308,49 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
+}
+.discuss-reply-to-parent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: #f4f4f2;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.discuss-reply-to-parent strong {
+  color: #1a9e78;
+  font-weight: 600;
+}
+
+.discuss-cancel-reply {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.discuss-cancel-reply:hover {
+  color: #333;
+}
+
+.discuss-smaller-reply {
+  margin-left: 16px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+.discuss-smaller-reply .user-avatar-discussion {
+  font-size: 0.85rem;
+}
+
+.discuss-reply-tag {
+  color: #1a9e78;
+  font-weight: 600;
 }

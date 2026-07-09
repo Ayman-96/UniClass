@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
-import { useReducer } from "react";
+import { useMemo, useReducer, useState } from "react";
 import { useAuth } from "../../../../AuthContext.jsx";
 import { NavLink, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
@@ -53,18 +53,50 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
   const { data: groupData } = useSingleGroup(groupId);
   const { mutate: addComment, isPending, isError } = useAddComment();
   const [newComment, dispatch] = useReducer(commentReducer, initialState);
+  const [parent, setParent] = useState(null);
 
   function handleAddComment() {
     if (!newComment.content && !newComment.image) return;
 
+    const finalContent = parent
+      ? `@${parent} ${newComment.content}`
+      : newComment.content;
+
     addComment({
       announceId: announceId,
-      content: newComment.content,
+      content: finalContent,
       parentCommentId: newComment.replyTo,
       file: newComment.image,
     });
     dispatch({ type: "RESET" });
+    setParent(null);
   }
+
+  function groupComments(comments) {
+    const parents = [];
+    const repliesByParent = {};
+
+    for (const comment of comments) {
+      if (comment.parent_comment_id) {
+        if (!repliesByParent[comment.parent_comment_id]) {
+          repliesByParent[comment.parent_comment_id] = [];
+        }
+        repliesByParent[comment.parent_comment_id].push(comment);
+      } else {
+        parents.push(comment);
+      }
+    }
+
+    return parents.map((parent) => ({
+      ...parent,
+      replies: repliesByParent[parent.id] || [],
+    }));
+  }
+  const grouped = useMemo(
+    () => groupComments(storedComments ?? []),
+    [storedComments],
+  );
+
   if (isError) return <div>Error Occured...</div>;
   return (
     <div className="post-comment-section">
@@ -76,14 +108,28 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
           </button>
         </div>
         <div className="comments-list">
-          {storedComments?.map((comment) => (
-            <CommentItem
-              key={comment.id}
-              comment={comment}
-              announceId={announceId}
-              dispatch={dispatch}
-              isRep={isRep}
-            />
+          {grouped?.map((comment) => (
+            <div key={comment.id}>
+              <CommentItem
+                key={comment.id}
+                comment={comment}
+                announceId={announceId}
+                isRep={isRep}
+                dispatch={dispatch}
+                setParent={setParent}
+              />
+              {comment.replies?.map((reply) => (
+                <CommentItem
+                  key={reply.id}
+                  comment={reply}
+                  isReply
+                  announceId={announceId}
+                  isRep={isRep}
+                  dispatch={dispatch}
+                  setParent={setParent}
+                />
+              ))}
+            </div>
           ))}
         </div>
 
@@ -97,6 +143,23 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
                 onClick={() => dispatch({ type: "REMOVE_IMAGE" })}
               >
                 <X />
+              </button>
+            </div>
+          )}
+
+          {parent && (
+            <div className="reply-to-parent">
+              <span>
+                Replying to <strong>{parent}</strong>
+              </span>
+              <button
+                className="cancel-reply"
+                onClick={() => {
+                  setParent(null);
+                  dispatch({ type: "SET_REPLY_TO", payload: null });
+                }}
+              >
+                <X size={14} />
               </button>
             </div>
           )}
@@ -143,7 +206,14 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
     </div>
   );
 }
-function CommentItem({ comment, announceId, dispatch, isRep }) {
+function CommentItem({
+  comment,
+  announceId,
+  dispatch,
+  isRep,
+  setParent,
+  isReply,
+}) {
   const { user } = useAuth();
   const likedByMe = comment.announcement_comment_likes?.some(
     (l) => l.user_id === user.id,
@@ -155,9 +225,24 @@ function CommentItem({ comment, announceId, dispatch, isRep }) {
     id: comment.id,
     queryKey: ["announcement_comments", announceId],
   });
+
+  let tag = null;
+  let restContent = comment.content;
+
+  if (isReply && comment.content.startsWith("@")) {
+    const spaceIndex = comment.content.indexOf(" ");
+    if (spaceIndex !== -1) {
+      tag = comment.content.slice(0, spaceIndex);
+      restContent = comment.content.slice(spaceIndex + 1);
+    } else {
+      tag = comment.content;
+      restContent = "";
+    }
+  }
+
   return (
     <div className="comment-container" key={comment.id}>
-      <div className="user-comment">
+      <div className={`user-comment ${isReply ? "smaller-comment-reply" : ""}`}>
         <NavLink to={`/profile/${comment.user_id}`}>
           <img
             className="user-pro"
@@ -175,8 +260,11 @@ function CommentItem({ comment, announceId, dispatch, isRep }) {
             </span>
           </div>
           <div className="comm-content">
-            <TextCollapser color="#b7521c">{comment.content}</TextCollapser>
-            <img src={comment.image} />
+            {tag && <span className="reply-tag">{tag} </span>}
+            <TextCollapser color="#b7521c">
+              {tag ? restContent : comment.content}
+            </TextCollapser>
+            {comment.image && <img src={comment.image} />}
           </div>
         </div>
       </div>
@@ -194,12 +282,14 @@ function CommentItem({ comment, announceId, dispatch, isRep }) {
           </button>
           <button
             className="reply-button"
-            onClick={() =>
+            onClick={() => {
+              const topLevelParentId = comment.parent_comment_id ?? comment.id;
+              setParent(comment.profiles?.username);
               dispatch({
                 type: "SET_REPLY_TO",
-                payload: "prent id ?",
-              })
-            }
+                payload: topLevelParentId,
+              });
+            }}
           >
             <CornerDownLeft /> Reply
           </button>

@@ -8,6 +8,7 @@ import {
   Pencil,
   Siren,
   Users,
+  X,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -75,6 +76,8 @@ function LectureDiscussion({ selectedLecture }) {
   const [activeTab, setActiveTab] = useState("Comments");
   const [commentContent, setCommentContent] = useState("");
   const [activeType, setActiveType] = useState(commentTypes[0]);
+  const [replyTo, setReplyTo] = useState(null);
+  const [replyToUser, setReplyToUser] = useState(null);
 
   const { mutate: addComment } = useAddComment(
     selectedLecture.id,
@@ -116,15 +119,23 @@ function LectureDiscussion({ selectedLecture }) {
       setIsEditing(false);
       return;
     }
+
+    const finalContent = replyToUser
+      ? `@${replyToUser} ${commentContent}`
+      : commentContent;
+
     addComment({
       user_id: user.id,
       slide_number: currentSlide,
-      content: commentContent,
+      content: finalContent,
       type: activeType.name.toLowerCase(),
       lecture_id: selectedLecture.id,
       course_id: courseId, //
+      parent_comment_id: replyTo,
     });
     setCommentContent("");
+    setReplyTo(null);
+    setReplyToUser(null);
   }
   function handleAddNote() {
     if (!noteContent) return;
@@ -153,7 +164,12 @@ function LectureDiscussion({ selectedLecture }) {
     setNoteContent(currentContent);
     setNoteId(noteId);
   }
-  console.log(isEditing);
+  function handleReply(comment) {
+    console.log("reply clicked", comment);
+    const topLevelParentId = comment.parent_comment_id ?? comment.id;
+    setReplyTo(topLevelParentId);
+    setReplyToUser(comment.profiles?.username);
+  }
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error... try again</div>;
 
@@ -170,6 +186,8 @@ function LectureDiscussion({ selectedLecture }) {
                 setNoteContent("");
                 setCommentContent("");
                 setIsEditing(false);
+                setReplyTo(null);
+                setReplyToUser(null);
               }}
               className={`discuss-btn ${activeTab === btn.name && "activated-panel"}`}
             >
@@ -187,6 +205,7 @@ function LectureDiscussion({ selectedLecture }) {
             setIsEditing={setIsEditing}
             handleEditComment={handleEditComment}
             deleteComment={deleteComment}
+            handleReply={handleReply}
           />
         ) : (
           <NotesCollection
@@ -215,6 +234,23 @@ function LectureDiscussion({ selectedLecture }) {
             );
           })}
         </div>
+
+        {activeTab === "Comments" && replyToUser && (
+          <div className="discuss-reply-to-parent">
+            <span>
+              Replying to <strong>{replyToUser}</strong>
+            </span>
+            <button
+              className="discuss-cancel-reply"
+              onClick={() => {
+                setReplyTo(null);
+                setReplyToUser(null);
+              }}
+            >
+              <X size={14} />
+            </button>
+          </div>
+        )}
 
         <textarea
           name={activeTab === "Comments" ? "slideComment" : "privateNote"}
