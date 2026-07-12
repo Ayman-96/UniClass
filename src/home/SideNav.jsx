@@ -1,4 +1,5 @@
 import "./SideNav.css";
+import { memo } from "react";
 import { NavLink } from "react-router-dom";
 import { LayoutGrid, Bell, Users, BookOpen, IdCard } from "lucide-react";
 import { Logo } from "../components/Logo.jsx";
@@ -62,4 +63,4 @@ function SideNav() {
     </nav>
   );
 }
-export default SideNav;
+export default memo(SideNav);

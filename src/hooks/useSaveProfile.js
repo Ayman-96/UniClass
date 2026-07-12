@@ -29,6 +29,7 @@ export function useSaveProfile() {
         avatar_url = data.publicUrl;
       }
 
+      // eslint-disable-next-line no-unused-vars
       const { avatar, ...rest } = profileData;
 
       const { error } = await supabase.from("profiles").insert({

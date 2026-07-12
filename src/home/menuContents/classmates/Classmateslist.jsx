@@ -7,12 +7,16 @@ import { BiMessageSquareDots } from "react-icons/bi";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { PiToggleLeftFill, PiToggleRightFill } from "react-icons/pi";
 import { useFriends, useRemoveFriend } from "../../../hooks/useFriends";
+import Chats from "./Chats";
 
 function ClassmatesList() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
+  const [openChat, setOpenChat] = useState(false);
+  const [friendId, setFriendId] = useState(null);
 
+  console.log(friendId);
   const { data: friends } = useFriends();
   const { mutate: removeFriend } = useRemoveFriend();
   const getLastSeen = (lastSeen) => {
@@ -109,7 +113,14 @@ function ClassmatesList() {
                     </div>
                     <div className="fr-right-grid">
                       <div className="fr-card-interaction">
-                        <button className="chat-friend">
+                        <button
+                          className="chat-friend"
+                          type="button"
+                          onClick={() => {
+                            setOpenChat(true);
+                            setFriendId(friend.profile?.id);
+                          }}
+                        >
                           {" "}
                           <BiMessageSquareDots />
                         </button>
@@ -144,6 +155,11 @@ function ClassmatesList() {
           </div>
         </div>
       </div>
+      {openChat && (
+        <div className="show-friend-chat">
+          <Chats friendId={friendId} setOpenChat={setOpenChat} />
+        </div>
+      )}
     </div>
   );
 }
