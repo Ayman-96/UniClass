@@ -4,13 +4,16 @@
 
 .groups {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 1.5rem;
   width: 100%;
   margin-bottom: 2.5rem;
+  gap: 2rem;
 }
 
 .group-card {
+  width: 100%;
+  min-width: 24rem;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 1.5rem;
@@ -250,4 +253,36 @@
 
 .join-placeholder-card:hover .placeholder-plus-icon {
   color: #475569;
+}
+/* Make sure the parent container is the reference point for absolute positioning */
+.gp-hd {
+  width: 100%;
+}
+
+/* Position the icon container in the top right */
+.hd-icon-wrapper {
+  position: absolute;
+  top: 22px; /* Adjust the spacing from the top edge */
+  right: 22px; /* Adjust the spacing from the right edge */
+  z-index: 10; /* Keeps the icon visible on top of the image background */
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hd-icon-wrapper svg {
+  width: 30px;
+  height: 30px;
+}
+#opened {
+  color: #597623; /* Green */
+}
+
+#closed {
+  color: #9f1515; /* Red */
+}
+
+#inv-only {
+  color: #94832f; /* Blue */
 }

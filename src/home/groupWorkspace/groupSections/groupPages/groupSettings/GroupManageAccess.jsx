@@ -14,7 +14,7 @@ function GroupManageAccess({
     {
       label: "Open",
       value: "open",
-      icon: <DoorOpen />,
+      icon: <DoorOpen />, //
       desc: "Anyone can find and join the group.",
     },
     {

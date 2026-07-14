@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./DashboardBody.css";
-import { Users } from "lucide-react";
+import { DoorClosedLocked, DoorOpen, Users } from "lucide-react";
+import { MdOutgoingMail } from "react-icons/md";
 function DashboardBody({ storedGroups }) {
   return (
     <div className="groups">
@@ -12,7 +13,18 @@ function DashboardBody({ storedGroups }) {
             className="group-card"
             style={{ boxShadow: `inset 0 6px 0 0 ${group.color}` }}
           >
-            <img src={group?.avatar_url} className="group-bg-cover" />
+            <div className="gp-hd">
+              <img src={group?.avatar_url} className="group-bg-cover" />
+              <div className="hd-icon-wrapper">
+                {group.visibility === "open" ? (
+                  <DoorOpen id="opened" />
+                ) : group.visibility === "closed" ? (
+                  <DoorClosedLocked id="closed" />
+                ) : (
+                  <MdOutgoingMail id="inv-only" />
+                )}
+              </div>
+            </div>
             <div
               className="group-avatar-badge"
               style={{

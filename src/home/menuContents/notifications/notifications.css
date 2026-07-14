@@ -40,7 +40,8 @@
 
 .notif-search-input {
   padding: 10px 16px;
-  width: 320px;
+  width: 100%;
+  min-width: 350px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-size: 14px;
@@ -297,4 +298,47 @@
 /* Add this class rule to your existing notifications.css file */
 .notif-icon-circle.removed-bg {
   background-color: rgba(239, 68, 68, 0.15) !important;
+}
+/* The wrapper containing everything on the right side */
+.notif-actions-group {
+  display: flex;
+  flex-direction: column; /* Stacks the top row and bottom button vertically */
+  align-items: flex-end; /* Aligns everything cleanly to the right side */
+  gap: 12px; /* Creates vertical space between the top row and the manage button */
+}
+
+/* The sub-container for the read-state actions */
+.read-notifications {
+  display: flex;
+  flex-direction: row; /* Forces the two buttons to sit side-by-side */
+  align-items: center;
+  gap: 12px; /* Creates horizontal space between the two buttons */
+}
+
+.manage-notify {
+  width: 100%;
+  max-width: 200px;
+  height: 40px;
+  margin-top: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+
+  /* Soft theme-matching background */
+  background-color: #f0fdf4; /* Extremely soft green tint */
+  color: #166534; /* Rich forest green text */
+  border: 1px solid #bbf7d0; /* Soft green border */
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.manage-notify:hover {
+  background-color: #dcfce7; /* Slightly richer green on hover */
+  color: #14532d;
+  border-color: #86efac;
+  box-shadow: 0 2px 4px rgba(22, 101, 52, 0.05); /* Subtle glowing shadow */
 }

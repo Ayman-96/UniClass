@@ -41,6 +41,7 @@ import {
   useMarkAllAsRead,
 } from "../../../hooks/useNotifications";
 import { GrGroup } from "react-icons/gr";
+import { RiSettings3Fill } from "react-icons/ri";
 
 const NOTIF_ICON_MAP = {
   group_invite: {
@@ -220,22 +221,28 @@ function Notifications() {
             />
           </div>
           <div className="notif-actions-group">
-            <button
-              onClick={() => markAllRead.mutate()}
-              className="btn-mark-all"
-            >
-              <Check size={16} /> Mark all as read
-            </button>
-            <button
-              onClick={() => setUnreadOnly((prev) => !prev)}
-              className={`btn-toggle-unread ${unreadOnly ? "active" : "inactive"}`}
-            >
-              Unread Only
-              {unreadOnly ? (
-                <PiToggleRightFill size={20} className="toggle-icon-active" />
-              ) : (
-                <PiToggleLeftFill size={20} />
-              )}
+            <div className="read-notifications">
+              <button
+                onClick={() => markAllRead.mutate()}
+                className="btn-mark-all"
+              >
+                <Check size={16} /> Mark all as read
+              </button>
+              <button
+                onClick={() => setUnreadOnly((prev) => !prev)}
+                className={`btn-toggle-unread ${unreadOnly ? "active" : "inactive"}`}
+              >
+                Unread Only
+                {unreadOnly ? (
+                  <PiToggleRightFill size={20} className="toggle-icon-active" />
+                ) : (
+                  <PiToggleLeftFill size={20} />
+                )}
+              </button>
+            </div>
+            <button className="manage-notify">
+              <RiSettings3Fill />
+              Manage Notifications
             </button>
           </div>
         </div>
