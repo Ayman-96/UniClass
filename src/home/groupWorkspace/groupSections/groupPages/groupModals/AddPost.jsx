@@ -105,7 +105,7 @@ function AddPost({ handlePostModal }) {
   function handleSelectMention(member) {
     const updatedContent = newPost.content?.replace(
       /@[\w-]*$/,
-      `@[${member.profiles.username}](${member.profiles.tag.toUpperCase()}) `,
+      `@[${member.profiles.username}](${member.user_id}) `,
     );
     dispatch({ type: "ADD_CONTENT", payload: updatedContent });
     setShowMentions(false);

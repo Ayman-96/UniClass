@@ -5,14 +5,11 @@ export function renderMentions(content, members = []) {
   const { groupId } = useParams();
   const { data: currentGroup } = useSingleGroup(groupId);
   if (!content) return null;
-
   // Optional: build a fresh id -> current username map, so renamed users show their NEW name
   const idToCurrentUsername = new Map(
-    members.map((m) => [m.profiles.tag, m.profiles?.username]),
+    members.map((m) => [m.profiles?.tag, m.profiles?.username]),
   );
-
   const parts = content.split(/(@\[[^\]]+\]\([^)]+\))/g);
-
   return parts.map((part, i) => {
     const match = part.match(/^@\[([^\]]+)\]\(([^)]+)\)$/);
     if (match) {
@@ -22,7 +19,7 @@ export function renderMentions(content, members = []) {
       return (
         <NavLink
           key={i}
-          to={`/profile/$}`}
+          to={`/profile/${userTag}`}
           className="mention-tag"
           style={{ color: currentGroup?.color }}
         >

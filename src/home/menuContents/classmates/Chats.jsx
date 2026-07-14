@@ -53,12 +53,16 @@ function Chats({ setOpenChat, friendId }) {
         </div>
         <div className="chat-list">
           {messages?.map((message) => {
+            const isMine = message.sender_id === me?.id;
             return (
-              <div className="messgae-card" key={message.id}>
+              <div
+                className={`messgae-card ${isMine ? "sent" : "received"}`}
+                key={message.id}
+              >
                 <div className="msg-head">
-                  {message.sender_id === me?.id
-                    ? me?.username
-                    : friend?.username}
+                  {!isMine && (
+                    <span className="sender-name">{friend?.username}</span>
+                  )}
                   <span>
                     {formatDistanceToNow(new Date(message.created_at), {
                       addSuffix: true,

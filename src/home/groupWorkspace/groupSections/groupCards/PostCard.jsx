@@ -22,8 +22,10 @@ import { useGroupMembers } from "../../../../hooks/useGroupMembers.js";
 import { renderMentions } from "../../../../components/renderMentions.jsx";
 import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
+import { useAuth } from "../../../../AuthContext.jsx";
 
 function PostCard({ post, isLiked, likeCount, toggleLike }) {
+  const { user } = useAuth();
   const { groupId } = useParams();
 
   const [copied, setCopied] = useState(false);
@@ -84,7 +86,7 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
               </p>
             </div>
           </div>
-          {isRep && (
+          {(isRep || post.author_id === user?.id) && (
             <button
               className="post-setting"
               onClick={() => setConfirmDelete(true)}
@@ -96,7 +98,7 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
             <div className="delete-confirm-row">
               <button
                 className="confirm-yes"
-                onClick={() => deletePost({ postId: post.id })}
+                onClick={() => deletePost({ postId: post.id, groupId })}
                 disabled={isPending}
               >
                 {isPending ? "Almost" : "Delete"}

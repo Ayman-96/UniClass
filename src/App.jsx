@@ -18,6 +18,7 @@ import InvitePage from "./Invitation/InvitePage";
 import GroupSettingsPage from "./home/groupWorkspace/groupSections/groupPages/groupSettings/GroupSettingsPage";
 import Classmates from "./home/menuContents/classmates/Classmates";
 import PostRedirect from "./PostRedirect/PostRedirect";
+import Notifications from "./home/menuContents/notifications/Notifications";
 function App() {
   return (
     <div>
@@ -31,7 +32,7 @@ function App() {
           {/* Nested routes for the outlet */}
           <Route index element={<UserDashboard />} />
           <Route path="dashboard" element={<UserDashboard />} />
-          <Route path="notifications" element={<Notification />} />
+          <Route path="notifications" element={<Notifications />} />
           <Route path="classmates" element={<Classmates />} />
           <Route path="profile" element={<Profile />} />
 

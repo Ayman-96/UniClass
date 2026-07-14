@@ -87,7 +87,7 @@ function AddAnnounce({ handleAnnounceModal }) {
   const [newAnnounce, dispatch] = useReducer(announceReducer, announceData);
 
   function handleSubmit() {
-    if (!newAnnounce.title && !newAnnounce.content) {
+    if (!newAnnounce.title) {
       setFillWarning(true);
       return;
     }
@@ -112,7 +112,7 @@ function AddAnnounce({ handleAnnounceModal }) {
   function handleSelectMention(member) {
     const updatedContent = newAnnounce.content?.replace(
       /@[\w-]*$/,
-      `@[${member.profiles.username}](${member.profiles.tag.toUpperCase()}) `,
+      `@[${member.profiles.username}](${member.user_id}) `,
     );
     dispatch({ type: "SET_CONTENT", payload: updatedContent });
     setShowMentions(false);

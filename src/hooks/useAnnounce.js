@@ -41,6 +41,25 @@ export function useAddAnnounce() {
         .single();
       if (error) throw error;
 
+      // Notify anyone @mentioned in the post content
+      const mentionRegex = /@\[([^\]]+)\]\(([^)]+)\)/g;
+      const mentionedIds = [
+        ...(newAnnouncement.content?.matchAll(mentionRegex) ?? []),
+      ].map((m) => m[2]);
+      if (mentionedIds.length > 0) {
+        const { error: mentionError } = await supabase.rpc(
+          "notify_mentions_by_id",
+          {
+            p_entity_type: "post",
+            p_entity_id: announcement.id,
+            p_group_id: announcement.group_id,
+            p_user_ids: mentionedIds,
+          },
+        );
+        if (mentionError)
+          console.error("Mention notify failed:", mentionError.message);
+      }
+
       let uploadedFiles = [];
       if (newAnnouncement.files?.length) {
         uploadedFiles = await Promise.all(

@@ -19,8 +19,8 @@
 }
 
 .course-card-container:hover {
-  border-color: #9fe1cb;
-  box-shadow: 0 2px 12px rgba(26, 158, 110, 0.08);
+  border-color: #37d5a1;
+  box-shadow: 8px 16px 42px rgba(0, 255, 162, 0.08);
 }
 
 /* ── Card header ── */
@@ -110,30 +110,6 @@
   height: 13px;
 }
 
-.course-card-footer div:last-child {
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
-  border: 0.5px solid #e5e4df;
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #888780;
-  transition: background 0.15s;
-}
-
-.course-card-footer div:last-child:hover {
-  background: #e1f5ee;
-  color: #0f6e3f;
-  border-color: #9fe1cb;
-}
-
-.course-card-footer div:last-child svg {
-  width: 14px;
-  height: 14px;
-}
-
 /* REMOVE IT LATER*/
 .delete-confirm-row {
   display: flex;
@@ -172,4 +148,48 @@
 }
 .confirm-no:hover {
   background: #f4f3ef;
+}
+/* Container for the buttons */
+.save-delete-course {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Adds clean spacing between the bookmark and delete buttons */
+  bottom: 16px; /* Align them evenly with the other footer elements */
+  right: 16px;
+}
+
+/* Base button styles to remove defaults and add clean interactions */
+.save-delete-course button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+/* Hover background effect */
+.save-delete-course button:hover {
+  background-color: #fcf7dbda;
+  color: #eab308;
+}
+
+.bookmark-course {
+  color: #64748b;
+}
+
+.bookmark-course.marked {
+  color: #eab308;
+}
+
+#delete-course {
+  color: #94a3b8;
+}
+
+#delete-course:hover {
+  color: #ef4444;
+  background-color: #ffebebb3;
 }
