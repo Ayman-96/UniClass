@@ -13,7 +13,7 @@ const NOTIF_KEY = ["notifications"];
 export function useNotifications() {
   const { user } = useAuth();
 
-  return useQuery({
+  const query = useQuery({
     queryKey: NOTIF_KEY,
     queryFn: async () => {
       const { data, error } = await supabase
@@ -35,6 +35,10 @@ export function useNotifications() {
     },
     enabled: !!user,
   });
+
+  const unreadCount = query.data?.filter((n) => !n.is_read).length ?? 0;
+
+  return { ...query, unreadCount };
 }
 
 /**

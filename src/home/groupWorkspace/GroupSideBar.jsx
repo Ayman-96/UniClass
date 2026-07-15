@@ -52,8 +52,8 @@ function GroupSideBar() {
     <nav className="group-nav">
       <div className="group-nav-header">
         <img src={specifiedGroup?.avatar_url} className="group-logo" />
-        <div className="group-nav-name">{specifiedGroup.name}</div>
-        <div className="group-nav-code">{specifiedGroup.group_code}</div>
+        <div className="group-nav-name">{specifiedGroup?.name}</div>
+        <div className="group-nav-code">{specifiedGroup?.group_code}</div>
       </div>
 
       <div className="group-nav-body">

@@ -16,7 +16,6 @@ function ClassmatesList() {
   const [openChat, setOpenChat] = useState(false);
   const [friendId, setFriendId] = useState(null);
 
-  console.log(friendId);
   const { data: friends } = useFriends();
   const { mutate: removeFriend } = useRemoveFriend();
   const getLastSeen = (lastSeen) => {
@@ -135,7 +134,10 @@ function ClassmatesList() {
                           <div className="sure-remove">
                             <button
                               title="Remove"
-                              onClick={() => removeFriend(friend.profile?.id)}
+                              onClick={() => {
+                                removeFriend(friend.profile?.id);
+                                setIsRemoving(false);
+                              }}
                             >
                               <CircleCheckBig />
                             </button>

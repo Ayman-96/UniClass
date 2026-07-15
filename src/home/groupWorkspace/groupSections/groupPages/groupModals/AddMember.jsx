@@ -1,5 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useGroupMembers } from "../../../../../hooks/useGroupMembers";
+import {
+  useGroupMembers,
+  useSendGroupInvites,
+} from "../../../../../hooks/useGroupMembers";
 import "./AddMember.css";
 import { Send, UserPlus2, UserRoundSearch, X } from "lucide-react";
 import { useState } from "react";
@@ -15,12 +18,13 @@ import {
 function AddMember({ handleMemberModal }) {
   const { groupId } = useParams();
   const [search, setSearch] = useState("");
-  const [isSelected, setIsSelected] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
-
+  const selectedIds = selectedFriends?.map((f) => f.profile?.id);
+  console.log(selectedFriends);
   const { data: groupMembers = [] } = useGroupMembers(groupId);
   const memberIds = new Set(groupMembers?.map((member) => member.user_id));
   const { data: friends } = useFriends();
+  const sendInvites = useSendGroupInvites();
 
   const friendsList = search
     ? friends?.filter((data) =>
@@ -123,7 +127,6 @@ function AddMember({ handleMemberModal }) {
                         className="select-invite"
                         type="button"
                         onClick={() => {
-                          setIsSelected(true);
                           setSelectedFriends((prev) => [...prev, friend]);
                         }}
                       >
@@ -137,7 +140,6 @@ function AddMember({ handleMemberModal }) {
                         className="unselect-invite"
                         type="button"
                         onClick={() => {
-                          setIsSelected(false);
                           setSelectedFriends((prev) =>
                             prev.filter(
                               (g) => g.friendshipId !== friend.friendshipId,
@@ -163,7 +165,13 @@ function AddMember({ handleMemberModal }) {
             <button onClick={handleMemberModal} className="cancel-invite-btn">
               Cancel
             </button>
-            <button className="send-invite-btn">
+            <button
+              className="send-invite-btn"
+              onClick={() => {
+                sendInvites.mutate({ groupId, recipientIds: selectedIds });
+                handleMemberModal(false);
+              }}
+            >
               <Send size={18} />
               Send Invite
             </button>

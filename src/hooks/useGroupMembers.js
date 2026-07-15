@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
 import { useAuth } from "../AuthContext";
+import { toast } from "sonner";
 
 export function useGroupMembers(groupId) {
   return useQuery({
@@ -141,6 +142,39 @@ export function useRemoveSelfAsRep(groupId) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["groupMembers", groupId] });
+    },
+  });
+}
+
+export function useSendGroupInvites() {
+  const NOTIF_KEY = ["notifications"];
+
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ groupId, recipientIds }) => {
+      const results = await Promise.allSettled(
+        recipientIds.map((recipientId) =>
+          supabase.rpc("send_group_invite", {
+            p_group_id: groupId,
+            p_recipient_id: recipientId,
+          }),
+        ),
+      );
+
+      const failed = results
+        .map((r, i) => ({ r, id: recipientIds[i] }))
+        .filter(({ r }) => r.status === "rejected" || r.value?.error);
+
+      if (failed.length > 0) {
+        throw new Error(
+          `Failed to invite ${failed.length} of ${recipientIds.length} people`,
+        );
+      }
+    },
+    onSuccess: () => {
+      toast("Invite(s) Sent");
+      queryClient.invalidateQueries({ queryKey: NOTIF_KEY });
     },
   });
 }

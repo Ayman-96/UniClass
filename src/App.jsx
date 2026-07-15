@@ -18,8 +18,11 @@ import InvitePage from "./Invitation/InvitePage";
 import GroupSettingsPage from "./home/groupWorkspace/groupSections/groupPages/groupSettings/GroupSettingsPage";
 import Classmates from "./home/menuContents/classmates/Classmates";
 import PostRedirect from "./PostRedirect/PostRedirect";
+import { useNotificationsRealtime } from "./hooks/useNotifications";
 import Notifications from "./home/menuContents/notifications/Notifications";
+import SettingsPage from "./signingPages/SettingsPage";
 function App() {
+  useNotificationsRealtime();
   return (
     <div>
       <Routes>
@@ -35,6 +38,7 @@ function App() {
           <Route path="notifications" element={<Notifications />} />
           <Route path="classmates" element={<Classmates />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<SettingsPage />} />
 
           <Route path="group/:groupId" element={<GroupWorkSpace />}>
             <Route index element={<GroupCoursesPage />} />

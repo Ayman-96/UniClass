@@ -4,6 +4,7 @@ import { useState, memo } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { Menu, X, Search, Bell, Settings, User2 } from "lucide-react";
 import { useProfile } from "../hooks/useSaveProfile";
+import { useNotifications } from "../hooks/useNotifications";
 function Homepage() {
   const [isOpenSideBar, setIsOpenSideBar] = useState(false);
 
@@ -34,6 +35,8 @@ const HomeHeader = memo(function HomeHeader({
   setIsOpenSideBar,
 }) {
   const { data: myProfile } = useProfile();
+  const { unreadCount } = useNotifications();
+  console.log(unreadCount);
   return (
     <div className="header-container">
       <div className="header-left">
@@ -51,9 +54,12 @@ const HomeHeader = memo(function HomeHeader({
       </div>
 
       <div className="header-right">
-        <button className="notifications-btn">
+        <NavLink
+          to="notifications"
+          className={`notifications-btn ${unreadCount > 0 ? "has-unread" : ""}`}
+        >
           <Bell />
-        </button>
+        </NavLink>
 
         <NavLink to="settings" className="settings-btn">
           <Settings />
