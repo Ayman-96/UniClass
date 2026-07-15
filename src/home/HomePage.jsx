@@ -55,7 +55,7 @@ const HomeHeader = memo(function HomeHeader({
           <Bell />
         </button>
 
-        <NavLink to="" className="settings-btn">
+        <NavLink to="settings" className="settings-btn">
           <Settings />
         </NavLink>
 

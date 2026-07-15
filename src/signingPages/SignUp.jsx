@@ -15,11 +15,17 @@ function SignUp() {
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const signInWithGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/home` },
+      options: {
+        redirectTo: `${window.location.origin}/home`,
+        queryParams: {
+          prompt: "select_account",
+        },
+      },
     });
   };
 
@@ -36,23 +42,27 @@ function SignUp() {
       setError("Password must be at least 8 characters");
       return;
     }
-    if (!agreed) {
-      setError("You have to agree to the terms");
-      return;
-    }
+    // if (!agreed) {
+    //   setError("You have to agree to the terms");
+    //   return;
+    // }
+    setError(null);
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/home`,
+      },
     });
     setLoading(false);
 
     if (error) {
-      setError("Wrong email or password");
+      setError(error.message);
     } else if (data?.user?.identities?.length === 0) {
       await supabase.auth.signOut();
       setError("An account with this email already exists");
-    } else await supabase.auth.signInWithPassword({ email, password });
+    } else setSuccess(true);
   };
   return (
     <div className="sign-up-modal">
@@ -63,50 +73,59 @@ function SignUp() {
           <p>Join Your Group & Start Discussions</p>
         </div>
       </div>
-
-      <div className="signin-body">
-        <div className="user-input">
-          <label htmlFor="email">Email</label>
-          <Mail className="user-icon" />
-          <input
-            type="email"
-            placeholder="you@university.edu"
-            onChange={(e) => setEmail(e.target.value)}
-          />
+      {success ? (
+        <div className="signup-success">
+          <h2>Check your email</h2>
+          <p>
+            We sent a confirmation link to <strong>{email}</strong>. Click it to
+            activate your account.
+          </p>
         </div>
+      ) : (
+        <div className="signin-body">
+          <div className="user-input">
+            <label htmlFor="email">Email</label>
+            <Mail className="user-icon" />
+            <input
+              type="email"
+              placeholder="you@university.edu"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-        <div className="user-input">
-          <label htmlFor="password">Password</label>
-          <LockKeyhole className="icon pass-icon" />
-          <input
-            type={showPass ? "text" : "password"}
-            placeholder="Type a strong password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="eye-btn" onClick={() => setShowPass((p) => !p)}>
-            {showPass ? <Eye size={16} /> : <EyeOff size={16} />}
-          </button>
-        </div>
+          <div className="user-input">
+            <label htmlFor="password">Password</label>
+            <LockKeyhole className="icon pass-icon" />
+            <input
+              type={showPass ? "text" : "password"}
+              placeholder="Type a strong password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button className="eye-btn" onClick={() => setShowPass((p) => !p)}>
+              {showPass ? <Eye size={16} /> : <EyeOff size={16} />}
+            </button>
+          </div>
 
-        <div className="user-input">
-          <label htmlFor="password">Confirm Password</label>
-          <LockKeyhole className="icon pass-icon" />
-          <input
-            type={showConfirmPass ? "text" : "password"}
-            placeholder="Repeat the password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <button
-            className="eye-btn"
-            onClick={() => setShowConfirmPass((p) => !p)}
-          >
-            {showConfirmPass ? <Eye size={16} /> : <EyeOff size={16} />}
-          </button>
+          <div className="user-input">
+            <label htmlFor="password">Confirm Password</label>
+            <LockKeyhole className="icon pass-icon" />
+            <input
+              type={showConfirmPass ? "text" : "password"}
+              placeholder="Repeat the password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <button
+              className="eye-btn"
+              onClick={() => setShowConfirmPass((p) => !p)}
+            >
+              {showConfirmPass ? <Eye size={16} /> : <EyeOff size={16} />}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="signup-action">
-        <div className="terms-row">
+        {/* <div className="terms-row">
           <input
             type="checkbox"
             id="agreement"
@@ -117,20 +136,23 @@ function SignUp() {
             I agree to the <span>Terms of Service</span> and{" "}
             <span>Privacy Policy</span>
           </label>
-        </div>
+        </div> */}
 
         <div className="absolute-loading">{loading && <LoadingSpinner />}</div>
         {error && <p className="signup-error">{error}</p>}
 
         <div className="create-btns">
-          <button className="create-acc-btn" onClick={signUp}>
+          <button
+            className="create-acc-btn"
+            onClick={signUp}
+            disabled={loading}
+          >
             {loading ? "Checking..." : "Create Account"}
           </button>
-
           <p>or continue with</p>
 
           <button className="sign-with-google" onClick={signInWithGoogle}>
-            <FcGoogle /> Sign in with Google
+            <FcGoogle /> Sign Up with Google
           </button>
         </div>
 

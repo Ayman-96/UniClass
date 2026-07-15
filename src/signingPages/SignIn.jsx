@@ -116,7 +116,7 @@ function SignIn() {
           <p>or continue with</p>
 
           <button className="sign-with-google" onClick={signInWithGoogle}>
-            <FcGoogle /> Sign in with Google
+            <FcGoogle /> Sign In with Google
           </button>
 
           <div className="no-acc-signup">
