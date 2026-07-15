@@ -39,9 +39,12 @@ import {
   useNotifications,
   useMarkAsRead,
   useMarkAllAsRead,
+  useRespondToInvite,
+  useNotificationPreferences,
 } from "../../../hooks/useNotifications";
-import { GrGroup } from "react-icons/gr";
 import { RiSettings3Fill } from "react-icons/ri";
+import { GrGroup } from "react-icons/gr";
+import ManageNotifications from "./ManageNotifications";
 
 const NOTIF_ICON_MAP = {
   group_invite: {
@@ -152,30 +155,34 @@ const FILTER_TYPE_MAP = {
   system: ["system"],
 };
 
-function entityLink(n) {
+function entityLink(n = []) {
   if (n.type === "chat_message") return `/home/classmates`;
   if (n.type.startsWith("friend_")) return `/profile/${n.actor?.id ?? ""}`;
   if (n.entity_type === "post")
-    return `/home/group/${n.group_id}/posts?highlight=${n.entity_id}`;
+    return `/home/group/${n?.group_id}/posts?highlight=${n.entity_id}`;
   if (
     n.entity_type === "post_comment" ||
     n.entity_type === "announcement_comment"
   )
-    return `/groups/${n.group_id}`;
+    return `/home/group/${n?.group_id}/posts?highlight=${n.entity_id}`;
   if (n.entity_type === "discussion")
     return `/lectures/${n.metadata?.lecture_id ?? ""}`;
   if (n.entity_type === "group" || n.entity_type === "course")
-    return `/groups/${n.group_id}`;
+    return `/home/group/${n?.group_id}`;
   return "/notifications";
 }
 
 function Notifications() {
+  const [openSettings, setOpenSettings] = useState(false);
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [activeFilter, setActiveFilter] = useState("all_notifications");
   const [search, setSearch] = useState("");
+  const { preferences, savePreferences, isSaving } =
+    useNotificationPreferences();
 
   const { data: notifications = [], isLoading } = useNotifications();
   const markAllRead = useMarkAllAsRead();
+
   const filtered = useMemo(() => {
     let list = notifications;
     if (unreadOnly) list = list.filter((n) => !n.is_read);
@@ -240,13 +247,25 @@ function Notifications() {
                 )}
               </button>
             </div>
-            <button className="manage-notify">
-              <RiSettings3Fill />
-              Manage Notifications
+            <button
+              className="manage-notify"
+              type="button"
+              onClick={() => setOpenSettings(true)}
+            >
+              <RiSettings3Fill /> Manage Notifications{" "}
             </button>
           </div>
         </div>
 
+        {openSettings && (
+          <ManageNotifications
+            isOpen={openSettings}
+            onClose={() => setOpenSettings(false)}
+            preferences={preferences}
+            onSave={savePreferences}
+            isSaving={isSaving}
+          />
+        )}
         <NotificationsList notifications={filtered} isLoading={isLoading} />
       </div>
     </div>
@@ -299,12 +318,16 @@ function NotificationsList({ notifications, isLoading }) {
 
 function NotificationRow({ n }) {
   const markRead = useMarkAsRead();
+  const respondInvite = useRespondToInvite();
 
   const { Icon, color, sideBorderColor } = NOTIF_ICON_MAP[n.type] ?? {
     Icon: Bell,
     color: "#94a3b8",
     sideBorderColor: "transparent",
   };
+
+  const isPendingGroupInvite =
+    n.type === "group_invite" && n.metadata?.status === "pending";
 
   const isRemoval = n.type === "group_removed";
 
@@ -336,6 +359,30 @@ function NotificationRow({ n }) {
         </div>
         {n.body && <span className="notif-body-text">{n.body}</span>}
       </div>
+
+      {isPendingGroupInvite && (
+        <div
+          onClick={(e) => e.preventDefault()}
+          className="notif-action-buttons"
+        >
+          <button
+            onClick={() =>
+              respondInvite.mutate({ notificationId: n.id, accept: true })
+            }
+            className="btn-accept"
+          >
+            Accept
+          </button>
+          <button
+            onClick={() =>
+              respondInvite.mutate({ notificationId: n.id, accept: false })
+            }
+            className="btn-decline"
+          >
+            Decline
+          </button>
+        </div>
+      )}
     </NavLink>
   );
 }

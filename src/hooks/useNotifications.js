@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { supabase } from "../supabase";
 import { useAuth } from "../AuthContext";
+import { toast } from "sonner";
 
 const NOTIF_KEY = ["notifications"];
 
@@ -168,4 +169,45 @@ export function useRespondFriendRequest() {
       queryClient.invalidateQueries({ queryKey: ["friends"] });
     },
   });
+}
+
+export function useNotificationPreferences() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  const { data: preferences, isLoading } = useQuery({
+    queryKey: ["notification_preferences", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("notification_preferences")
+        .select("prefs")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+      return data?.prefs ?? {}; // empty object = everything defaults to true
+    },
+    enabled: !!user?.id,
+  });
+
+  const { mutate: savePreferences, isPending: isSaving } = useMutation({
+    mutationFn: async (prefs) => {
+      const { error } = await supabase.from("notification_preferences").upsert({
+        user_id: user.id,
+        prefs,
+        updated_at: new Date().toISOString(),
+      });
+
+      if (error) throw error;
+    },
+    onSuccess: (_data, prefs) => {
+      queryClient.setQueryData(["notification_preferences", user.id], prefs);
+      toast.success("Notification preferences updated");
+    },
+    onError: () => {
+      toast.error("Couldn't save preferences. Try again.");
+    },
+  });
+
+  return { preferences, isLoading, savePreferences, isSaving };
 }
