@@ -5,6 +5,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { Menu, X, Search, Bell, Settings, User2 } from "lucide-react";
 import { useProfile } from "../hooks/useSaveProfile";
 import { useNotifications } from "../hooks/useNotifications";
+import { Logo } from "../components/Logo";
 function Homepage() {
   const [isOpenSideBar, setIsOpenSideBar] = useState(false);
 
@@ -36,7 +37,6 @@ const HomeHeader = memo(function HomeHeader({
 }) {
   const { data: myProfile } = useProfile();
   const { unreadCount } = useNotifications();
-  console.log(unreadCount);
   return (
     <div className="header-container">
       <div className="header-left">
@@ -45,12 +45,8 @@ const HomeHeader = memo(function HomeHeader({
           onClick={() => setIsOpenSideBar((prev) => !prev)}
         >
           {isOpenSideBar ? <X /> : <Menu />}
-        </button>
-
-        <div className="search-bar">
-          <Search className="search-icon" />
-          <input className="search-input" placeholder="Search" />
-        </div>
+        </button>{" "}
+        <Logo titleColor="#17775c" />
       </div>
 
       <div className="header-right">

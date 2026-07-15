@@ -1,7 +1,14 @@
 import "./SideNav.css";
 import { memo } from "react";
 import { NavLink } from "react-router-dom";
-import { LayoutGrid, Bell, Users, BookOpen, IdCard } from "lucide-react";
+import {
+  LayoutGrid,
+  Bell,
+  Users,
+  BookOpen,
+  IdCard,
+  GraduationCap,
+} from "lucide-react";
 import { Logo } from "../components/Logo.jsx";
 import { FaDoorOpen } from "react-icons/fa6";
 import { useSignOut } from "../hooks/useAuthActions.js";
@@ -20,7 +27,15 @@ function SideNav() {
   return (
     <nav className="side-nav">
       <div className="side-nav-logo">
-        <Logo />
+        <NavLink to="/Home" className="logo">
+          <div className="uniclass-logo">
+            <img src="/AppFavicon.png" alt="UniCLass" />
+          </div>
+          <div className="plat-name">
+            <h2>UniClass</h2>
+            <p>Student Learning Platform</p>
+          </div>
+        </NavLink>
       </div>
 
       <h2 className="sideNav-titles">MENU</h2>

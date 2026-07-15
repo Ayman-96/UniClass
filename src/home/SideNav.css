@@ -152,3 +152,33 @@
 .sign-out-btn svg {
   font-size: 1.2rem;
 }
+.uniclass-logo {
+  /* 1. Dimensions of the green box */
+  width: 54px; /* Adjust this size to match your layout */
+  height: 54px;
+  aspect-ratio: 1 / 1; /* Keeps it a perfect square */
+
+  /* 2. Styling the green box */
+  background-color: #eaf6f4; /* The light mint-green background color */
+  border-radius: 12px; /* Smooth rounded corners */
+
+  /* 3. Centering the image inside */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 4. Padding & Safety */
+  padding: 8px; /* Prevents the logo from touching the very edge */
+  box-sizing: border-box; /* Keeps padding inside the defined width/height */
+  overflow: hidden; /* Ensures nothing bleeds out of the rounded corners */
+}
+
+.uniclass-logo img {
+  /* 5. Making the image fit */
+
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  transform: scale(1.15);
+  object-fit: contain; /* Scales the image perfectly without stretching or cropping */
+}
