@@ -22,13 +22,13 @@ export const colorOptions = [
 
 export const seasons = ["fall", "spring", "summer", "winter"];
 
-export const courseIcons = [
-  <Database />,
-  <CodeXml />,
-  <Cpu />,
-  <SquarePi />,
-  <Earth />,
-];
+export const COURSE_ICON_MAP = {
+  database: Database,
+  code: CodeXml,
+  cpu: Cpu,
+  math: SquarePi,
+  earth: Earth,
+};
 const fileTypeStyles = {
   "application/pdf": {
     icon: FileTextIcon,

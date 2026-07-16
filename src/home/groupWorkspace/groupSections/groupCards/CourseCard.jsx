@@ -1,11 +1,12 @@
 import "./CourseCard.css";
 import { useState } from "react";
 import { Files, LibraryBig, Trash2, UserStar } from "lucide-react";
-import { useDeleteCourse } from "../../../../hooks/useCourses";
+import { useDeleteCourse, useSavedCourses } from "../../../../hooks/useCourses";
 import { useNavigate, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep";
-import { courseIcons } from "../../../../data/addCourseData.jsx";
+import { COURSE_ICON_MAP } from "../../../../data/addCourseData.jsx";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
+import { toast } from "sonner";
 
 function CourseCard({ course }) {
   const { groupId } = useParams();
@@ -13,7 +14,11 @@ function CourseCard({ course }) {
   const navigate = useNavigate();
   const { mutate: deleteCourse, isPending } = useDeleteCourse();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [markCourse, setMarkCourse] = useState(false);
+
+  const { saveCourse, unsaveCourse, savedCourses, isSaved } = useSavedCourses();
+  const saved = isSaved(course.id);
+
+  const CourseIcon = COURSE_ICON_MAP[course.icon] || LibraryBig;
   return (
     <div
       className="course-card-container"
@@ -21,7 +26,7 @@ function CourseCard({ course }) {
     >
       <div style={{ height: "5px", background: course.color || "#1a9e6e" }} />
       <div className="course-card-header">
-        {courseIcons[course.icon] || <LibraryBig />}
+        {<CourseIcon />}
         <div
           className="course-season-badge"
           style={{
@@ -47,13 +52,21 @@ function CourseCard({ course }) {
         <div className="save-delete-course">
           {!confirmDelete && (
             <button
-              className={`bookmark-course ${markCourse ? "marked" : ""}`}
+              className={`bookmark-course ${saved ? "marked" : ""}`}
               onClick={(e) => {
                 e.stopPropagation();
-                setMarkCourse((prev) => !prev);
+                if (saved) {
+                  unsaveCourse.mutate(course.id);
+                  return;
+                }
+                if (savedCourses.length >= 6) {
+                  toast.error("You can only save up to 6 courses");
+                  return;
+                }
+                saveCourse.mutate(course.id);
               }}
             >
-              {markCourse ? <FaBookmark /> : <FaRegBookmark />}
+              {saved ? <FaBookmark /> : <FaRegBookmark />}
             </button>
           )}
           {!confirmDelete && isRep && (

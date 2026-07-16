@@ -1,8 +1,8 @@
 import "./AddCourse.css";
 import {
   colorOptions,
+  COURSE_ICON_MAP,
   seasons,
-  courseIcons,
 } from "../../../../../data/addCourseData";
 import { useParams } from "react-router-dom";
 import RequiredWarning from "./RequiredWarning";
@@ -165,17 +165,17 @@ function AddCourse({ handleCourseModal }) {
           <div className="add-course-details">
             <label htmlFor="courseIcon">Icon</label>
             <div className="course-icons-select">
-              {courseIcons.map((icon, i) => {
+              {Object.entries(COURSE_ICON_MAP).map(([key, Icon]) => {
                 return (
                   <div
-                    key={i}
-                    className={`icon-opt ${selectedIcon === i ? "selected-icon" : ""}`}
+                    key={key}
+                    className={`icon-opt ${selectedIcon === key ? "selected-icon" : ""}`}
                     onClick={() => {
-                      (dispatch({ type: "SET_ICON", payload: i }),
-                        setSelectedIcon(i));
+                      (dispatch({ type: "SET_ICON", payload: key }),
+                        setSelectedIcon(key));
                     }}
                   >
-                    {icon}
+                    <Icon />
                   </div>
                 );
               })}
