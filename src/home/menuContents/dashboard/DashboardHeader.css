@@ -12,9 +12,25 @@
 .dashbord-title-sec h2 {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #0f172a; /* Sharp deep slate tone */
   margin-bottom: 0.35rem;
   letter-spacing: -0.02em;
+  background: linear-gradient(
+    120deg,
+    #00a86b,
+    /* UniClass Green */ #ebdcb9,
+    /* Creamy Sand Yellow */ #a2e2c4,
+    /* Soft Mint transition */ #00a86b /* Loop back to Green */
+  );
+  background-size: 300% 300%;
+
+  /* Clamps gradient inside the text */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* Fallback */
+
+  /* Animation behavior */
+  animation: brandGradientMove 5s ease infinite;
 }
 
 .dashbord-title-sec p {
@@ -23,29 +39,66 @@
   font-weight: 400;
 }
 
-/* 🟢 PREMIUM SOLID EMBARKATION ACTION BUTTON */
 .new-hub-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background-color: #0d6855; /* Your specific brand emerald hue */
   color: #ffffff;
   border: none;
   padding: 0.75rem 1.25rem;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 600;
   font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   cursor: pointer;
+  position: relative;
+  overflow: hidden; /* Keeps the shimmer clipped inside the button */
   transition:
-    background-color 0.15s ease,
+    background-color 0.2s ease,
     transform 0.1s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+/* The Shimmer Element */
+.new-hub-button::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 30%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  animation: buttonShimmer 4s infinite linear;
+}
+
+/* Hover & Click States */
 .new-hub-button:hover {
-  background-color: #0a5243;
+  background-color: #004d40;
+}
+.new-hub-button svg {
+  transition: transform 0.3s ease; /* Smooth transition for the icon */
+}
+.new-hub-button:hover svg {
+  transform: scale(1.15) rotate(90deg); /* Slightly enlarges and rotates the plus sign */
+}
+.new-hub-button:active {
+  transform: scale(0.97);
 }
 
-.new-hub-button:active {
-  transform: scale(0.98);
+/* Shimmer Animation Loop */
+@keyframes buttonShimmer {
+  0% {
+    left: -60%;
+  }
+  15% {
+    left: 130%;
+  }
+  100% {
+    left: 130%;
+  }
 }

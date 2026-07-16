@@ -285,15 +285,6 @@
 #inv-only {
   color: #94832f; /* Blue */
 }
-/* The parent list container handles full-width and vertical centering */
-.groups {
-  width: 100%;
-  min-height: 50vh; /* Gives height to drop down in the white space */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
 
 /* Empty State Wrapper */
 .no-group-container {

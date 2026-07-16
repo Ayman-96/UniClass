@@ -2,7 +2,7 @@ import "./Homepage.css";
 import SideNav from "./SideNav";
 import { useState, memo } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { Menu, X, Search, Bell, Settings, User2 } from "lucide-react";
+import { Menu, X, Bell, Settings, User2 } from "lucide-react";
 import { useProfile } from "../hooks/useSaveProfile";
 import { useNotifications } from "../hooks/useNotifications";
 import { Logo } from "../components/Logo";
