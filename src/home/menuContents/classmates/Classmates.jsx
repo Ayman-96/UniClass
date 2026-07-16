@@ -6,10 +6,17 @@ import ClassmatesList from "./Classmateslist";
 import ReceivedRequests from "./ReceivedRequests";
 import ClassmatesHeader from "./ClassmatesHeader";
 import ClassmatesShortcuts from "./ClassmatesShortcuts";
+import { useFriendRequests } from "../../../hooks/useFriends";
 
 function Classmates() {
   const [activeTab, setActiveTab] = useState(0);
   const [openAddCard, setOpenAddCard] = useState(false);
+
+  const { received } = useFriendRequests();
+  const { sent3 } = useFriendRequests();
+  const pendingRequests = received?.data;
+  const sentRequests = sent?.data;
+
   return (
     <div className="classmates-section">
       <div className="classmaates-main-page">
@@ -17,13 +24,15 @@ function Classmates() {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           setOpenAddCard={setOpenAddCard}
+          pendingRequests={pendingRequests}
+          sentRequests={sentRequests}
         />
         {activeTab === 0 ? (
           <ClassmatesList />
         ) : activeTab === 1 ? (
-          <ReceivedRequests />
+          <ReceivedRequests pendingRequests={pendingRequests} />
         ) : (
-          <SentRequests />
+          <SentRequests sentRequests={sentRequests} />
         )}
       </div>
       <div className="classmates-side-card">

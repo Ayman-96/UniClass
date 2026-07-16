@@ -1,16 +1,10 @@
 import { NavLink } from "react-router-dom";
-import {
-  useCancelFriendRequest,
-  useFriendRequests,
-} from "../../../hooks/useFriends";
+import { useCancelFriendRequest } from "../../../hooks/useFriends";
 import { GoDotFill } from "react-icons/go";
 import { TbSendOff } from "react-icons/tb";
 import { formatDistanceToNow } from "date-fns";
 
-function SentRequests() {
-  const { sent } = useFriendRequests();
-  const sentRequests = sent?.data;
-
+function SentRequests({ sentRequests }) {
   const { mutate: cancelRequest } = useCancelFriendRequest();
 
   return (

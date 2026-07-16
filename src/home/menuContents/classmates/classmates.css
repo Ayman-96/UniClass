@@ -654,7 +654,7 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #2a96c5;
+  color: rgb(178, 17, 103);
 
   white-space: nowrap;
 }
@@ -662,7 +662,7 @@
 .received-requested-status span {
   display: flex;
   font-size: 8px;
-  color: #2a96c5;
+  color: rgb(178, 17, 103);
 }
 
 .received-fr-right-grid {
@@ -1138,4 +1138,18 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+.warning-friend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  font-weight: bold;
+  line-height: 1;
+  border: none;
+  box-sizing: border-box;
 }

@@ -9,18 +9,17 @@ import { useState } from "react";
 import { useFriends } from "../../../../../hooks/useFriends";
 import { GoDotFill } from "react-icons/go";
 import {
-  FaPersonBurst,
-  FaPersonCircleCheck,
-  FaPersonCirclePlus,
-  FaPersonCircleXmark,
-} from "react-icons/fa6";
+  BsPersonFillAdd,
+  BsPersonFillCheck,
+  BsPersonFillUp,
+  BsPersonFillX,
+} from "react-icons/bs";
 
 function AddMember({ handleMemberModal }) {
   const { groupId } = useParams();
   const [search, setSearch] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
   const selectedIds = selectedFriends?.map((f) => f.profile?.id);
-  console.log(selectedFriends);
   const { data: groupMembers = [] } = useGroupMembers(groupId);
   const memberIds = new Set(groupMembers?.map((member) => member.user_id));
   const { data: friends } = useFriends();
@@ -77,7 +76,7 @@ function AddMember({ handleMemberModal }) {
                     className="selected-to-invite"
                     key={selected.friendshipId}
                   >
-                    <FaPersonBurst size={16} />
+                    <BsPersonFillUp size={20} />
                     {selected.profile?.username}{" "}
                   </div>
                 );
@@ -119,7 +118,7 @@ function AddMember({ handleMemberModal }) {
                       <div className="already-member">
                         Already Member
                         <span>
-                          <FaPersonCircleCheck size={16} />
+                          <BsPersonFillCheck size={22} />
                         </span>
                       </div>
                     ) : !selectedFriends.includes(friend) ? (
@@ -132,7 +131,7 @@ function AddMember({ handleMemberModal }) {
                       >
                         Select{" "}
                         <span>
-                          <FaPersonCirclePlus />
+                          <BsPersonFillAdd size={22} />
                         </span>
                       </button>
                     ) : (
@@ -147,7 +146,7 @@ function AddMember({ handleMemberModal }) {
                           );
                         }}
                       >
-                        Unselect <FaPersonCircleXmark />
+                        Unselect <BsPersonFillX size={22} />
                       </button>
                     )}
                   </div>

@@ -1,16 +1,10 @@
 import { NavLink } from "react-router-dom";
-import {
-  useFriendRequests,
-  useRespondFriendRequest,
-} from "../../../hooks/useFriends";
+import { useRespondFriendRequest } from "../../../hooks/useFriends";
 import { GoDotFill } from "react-icons/go";
 import { formatDistanceToNow } from "date-fns";
 import { FaUserCheck, FaUserTimes } from "react-icons/fa";
 
-function ReceivedRequests() {
-  const { received } = useFriendRequests();
-  const pendingRequests = received?.data;
-
+function ReceivedRequests({ pendingRequests }) {
   const { mutate: respond } = useRespondFriendRequest();
   return (
     <div className="cm-list-container">
