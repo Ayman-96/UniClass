@@ -68,7 +68,18 @@
   font-size: 14px;
   cursor: pointer;
 }
-
+.no-new-notify {
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background-color: #170e37;
+  color: rgb(255, 252, 236);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
 .btn-toggle-unread {
   display: flex;
   align-items: center;

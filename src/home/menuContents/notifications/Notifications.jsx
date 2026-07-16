@@ -45,6 +45,7 @@ import {
 import { RiSettings3Fill } from "react-icons/ri";
 import { GrGroup } from "react-icons/gr";
 import ManageNotifications from "./ManageNotifications";
+import { GiNightSleep } from "react-icons/gi";
 
 const NOTIF_ICON_MAP = {
   group_invite: {
@@ -179,7 +180,7 @@ function Notifications() {
   const [search, setSearch] = useState("");
   const { preferences, savePreferences, isSaving } =
     useNotificationPreferences();
-
+  const { unreadCount } = useNotifications();
   const { data: notifications = [], isLoading } = useNotifications();
   const markAllRead = useMarkAllAsRead();
 
@@ -229,23 +230,35 @@ function Notifications() {
           </div>
           <div className="notif-actions-group">
             <div className="read-notifications">
-              <button
-                onClick={() => markAllRead.mutate()}
-                className="btn-mark-all"
-              >
-                <Check size={16} /> Mark all as read
-              </button>
-              <button
-                onClick={() => setUnreadOnly((prev) => !prev)}
-                className={`btn-toggle-unread ${unreadOnly ? "active" : "inactive"}`}
-              >
-                Unread Only
-                {unreadOnly ? (
-                  <PiToggleRightFill size={20} className="toggle-icon-active" />
-                ) : (
-                  <PiToggleLeftFill size={20} />
-                )}
-              </button>
+              {unreadCount.length ? (
+                <button
+                  onClick={() => markAllRead.mutate()}
+                  className="btn-mark-all"
+                >
+                  <Check size={16} /> Mark all as read
+                </button>
+              ) : (
+                <div className="no-new-notify">
+                  {" "}
+                  <GiNightSleep size={16} /> No new notifications yet
+                </div>
+              )}
+              {unreadCount.length && (
+                <button
+                  onClick={() => setUnreadOnly((prev) => !prev)}
+                  className={`btn-toggle-unread ${unreadOnly ? "active" : "inactive"}`}
+                >
+                  Unread Only
+                  {unreadOnly ? (
+                    <PiToggleRightFill
+                      size={20}
+                      className="toggle-icon-active"
+                    />
+                  ) : (
+                    <PiToggleLeftFill size={20} />
+                  )}
+                </button>
+              )}
             </div>
             <button
               className="manage-notify"
