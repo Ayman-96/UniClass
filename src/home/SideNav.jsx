@@ -1,19 +1,16 @@
 import "./SideNav.css";
 import { memo } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  LayoutGrid,
-  Bell,
-  Users,
-  BookOpen,
-  IdCard,
-  GraduationCap,
-} from "lucide-react";
-import { Logo } from "../components/Logo.jsx";
+import { LayoutGrid, Bell, Users, BookOpen, IdCard } from "lucide-react";
 import { FaDoorOpen } from "react-icons/fa6";
 import { useSignOut } from "../hooks/useAuthActions.js";
+import { useSavedCourses } from "../hooks/useCourses.js";
+import { COURSE_ICON_MAP } from "../data/addCourseData.jsx";
 function SideNav() {
   const { mutate: signOut, isPending } = useSignOut();
+  const { savedCourses } = useSavedCourses();
+  console.log(savedCourses);
+
   const menuSections = [
     {
       id: 1,
@@ -59,13 +56,30 @@ function SideNav() {
 
       <h2 className="sideNav-titles">MY COURSES</h2>
       <div className="sideNav-classes-section">
-        <NavLink to="/home/class/ds101" className="sidebar-link">
-          <div className="sidebar-link-left">
-            <BookOpen className="sidebar-icon" />
-            <span>Data Structures</span>
-          </div>
-          <span className="status-dot ds-dot"></span>
-        </NavLink>
+        {savedCourses?.map((course) => {
+          console.log(course);
+          const CourseIcon = COURSE_ICON_MAP[course.icon] || BookOpen;
+          return (
+            <NavLink
+              key={course.id}
+              to={`/home/group/${course.group_id}/courses/${course.id}`}
+              className="sidebar-link"
+            >
+              <div className="saved-course-name">
+                <CourseIcon
+                  className="sidebar-icon"
+                  style={{ color: course.color }}
+                />
+                <span className="course-name-text">{course.name}</span>
+              </div>
+
+              <span
+                className="status-dot ds-dot"
+                style={{ background: course.color }}
+              ></span>
+            </NavLink>
+          );
+        })}
       </div>
 
       <button

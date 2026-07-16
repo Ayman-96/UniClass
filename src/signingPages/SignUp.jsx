@@ -4,8 +4,8 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabase";
+import { NavLink } from "react-router-dom";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
-import { Logo } from "../components/Logo";
 function SignUp() {
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
@@ -13,7 +13,7 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showConfirmPass, setShowConfirmPass] = useState(false);
-  const [agreed, setAgreed] = useState(false);
+  // const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
@@ -67,7 +67,15 @@ function SignUp() {
   return (
     <div className="sign-up-modal">
       <div className="signup-header">
-        <Logo />
+        <NavLink to="/Home" className="logo">
+          <div className="uniclass-logo">
+            <img src="/AppFavicon.png" alt="UniCLass" />
+          </div>
+          <div className="plat-name">
+            <h2>UniClass</h2>
+            <p>Student Learning Platform</p>
+          </div>
+        </NavLink>
         <div className="sin-hed-title">
           <h1>Create an Account for Free!</h1>
           <p>Join Your Group & Start Discussions</p>

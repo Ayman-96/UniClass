@@ -5,7 +5,6 @@ import { FcGoogle } from "react-icons/fc";
 import "./SignIn.css";
 import { Link, NavLink } from "react-router-dom";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
-import { Logo } from "../components/Logo";
 function SignIn() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -55,7 +54,15 @@ function SignIn() {
   return (
     <div className="sign-in-modal">
       <div className="signin-header">
-        <Logo />
+        <NavLink to="/Home" className="logo">
+          <div className="uniclass-logo">
+            <img src="/AppFavicon.png" alt="UniCLass" />
+          </div>
+          <div className="plat-name">
+            <h2>UniClass</h2>
+            <p>Student Learning Platform</p>
+          </div>
+        </NavLink>
         <div className="sin-hed-title">
           <h1>Welcome Back</h1>
           <p>Sign in to your account</p>

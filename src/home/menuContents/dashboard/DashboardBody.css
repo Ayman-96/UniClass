@@ -10,7 +10,6 @@
   margin-bottom: 2.5rem;
   gap: 2rem;
 }
-
 .group-card {
   width: 100%;
   min-width: 24rem;
@@ -285,4 +284,107 @@
 
 #inv-only {
   color: #94832f; /* Blue */
+}
+/* The parent list container handles full-width and vertical centering */
+.groups {
+  width: 100%;
+  min-height: 50vh; /* Gives height to drop down in the white space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Empty State Wrapper */
+.no-group-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin: auto; /* Dead centers both axes */
+  padding: 40px 20px;
+}
+
+/* Title text with animated green & creamy sand yellow gradient */
+.no-group-yet {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+
+  /* Brand-matching color gradient */
+  background: linear-gradient(
+    120deg,
+    #00a86b,
+    /* UniClass Green */ #ebdcb9,
+    /* Creamy Sand Yellow */ #a2e2c4,
+    /* Soft Mint transition */ #00a86b /* Loop back to Green */
+  );
+  background-size: 300% 300%;
+
+  /* Clamps gradient inside the text */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* Fallback */
+
+  /* Animation behavior */
+  animation: brandGradientMove 5s ease infinite;
+}
+
+/* Subtext description */
+.no-group-sub {
+  font-size: 1rem;
+  color: #c4c4c4; /* Clean dark slate gray */
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   3. ANIMATION KEYFRAMES
+   ========================================================================== */
+@keyframes brandGradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+/* ==========================================================================
+   SMALL SCREENS STYLES (Mobile & Tablet)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 1. Reset your groups grid for mobile so cards stack nicely */
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(100%, 1fr)
+    ); /* Force full width on mobile */
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* 2. Adjust the empty state spacing so it doesn't push off the screen */
+  .no-group-container {
+    display: block;
+    margin: 30px auto; /* Reduced margin for smaller screens */
+    padding: 15px;
+  }
+
+  /* 3. Scale down the heading size so it doesn't wrap awkwardly */
+  .no-group-yet {
+    font-size: 1.4rem;
+    line-weight: 1.2;
+  }
+
+  /* 4. Scale down the subtitle text */
+  .no-group-sub {
+    font-size: 0.9rem;
+  }
 }
