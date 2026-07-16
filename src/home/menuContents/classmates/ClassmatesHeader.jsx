@@ -19,14 +19,14 @@ function ClassmatesHeader({
       id: 1,
       label: "Received Requests",
       icon: <MdOutlineEmojiPeople size={26} />,
-      warning: pendingRequests.length > 0,
+      warning: pendingRequests?.length > 0,
       color: "rgb(178, 17, 103)",
     },
     {
       id: 2,
       label: "Sent Requests",
       icon: <BsPersonWalking size={24} />,
-      warning: sentRequests.length > 0,
+      warning: sentRequests?.length > 0,
       color: "rgb(234, 176, 29)",
     },
   ];

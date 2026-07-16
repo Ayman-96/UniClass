@@ -13,7 +13,7 @@ function Classmates() {
   const [openAddCard, setOpenAddCard] = useState(false);
 
   const { received } = useFriendRequests();
-  const { sent3 } = useFriendRequests();
+  const { sent } = useFriendRequests();
   const pendingRequests = received?.data;
   const sentRequests = sent?.data;
 

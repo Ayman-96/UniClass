@@ -99,6 +99,7 @@ function GroupMembersHeader({ groupData, countRep }) {
           className="code-copy"
           style={{
             border: `2px dashed ${groupData?.color}`,
+            backgroundColor: groupData?.color + "22",
           }}
         >
           <p>{groupData?.group_code}</p>

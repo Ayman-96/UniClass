@@ -92,8 +92,8 @@ const NOTIF_ICON_MAP = {
   },
   comment_reply: {
     Icon: MessageSquareReply,
-    color: "#4f46e5",
-    sideBorderColor: "#4f46e5",
+    color: "#46e5b3",
+    sideBorderColor: "#46e5b3",
   },
   course_added: {
     Icon: BookOpen,
@@ -162,15 +162,16 @@ function entityLink(n = []) {
   if (n.entity_type === "post")
     return `/home/group/${n?.group_id}/posts?highlight=${n.entity_id}`;
   if (
+    // issue
     n.entity_type === "post_comment" ||
     n.entity_type === "announcement_comment"
   )
     return `/home/group/${n?.group_id}/posts?highlight=${n.entity_id}`;
   if (n.entity_type === "discussion")
-    return `/lectures/${n.metadata?.lecture_id ?? ""}`;
+    return `/home/group/${n?.group_id}/courses`;
   if (n.entity_type === "group" || n.entity_type === "course")
     return `/home/group/${n?.group_id}`;
-  return "/notifications";
+  return "/home/notifications";
 }
 
 function Notifications() {
@@ -230,7 +231,7 @@ function Notifications() {
           </div>
           <div className="notif-actions-group">
             <div className="read-notifications">
-              {unreadCount.length ? (
+              {unreadCount ? (
                 <button
                   onClick={() => markAllRead.mutate()}
                   className="btn-mark-all"

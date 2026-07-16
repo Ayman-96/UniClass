@@ -26,7 +26,7 @@ function CourseCard({ course }) {
     >
       <div style={{ height: "5px", background: course.color || "#1a9e6e" }} />
       <div className="course-card-header">
-        {<CourseIcon />}
+        <CourseIcon />
         <div
           className="course-season-badge"
           style={{

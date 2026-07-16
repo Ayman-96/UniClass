@@ -1,22 +1,31 @@
 import "./CourseSidebar.css";
 import { Link, useParams } from "react-router-dom";
-import { BookCopy, FileIcon, House, LockIcon, Plus } from "lucide-react";
+import {
+  BookCopy,
+  BookOpen,
+  FileIcon,
+  House,
+  LockIcon,
+  Plus,
+} from "lucide-react";
 import { useCourses } from "../../../../../hooks/useCourses";
 import useLectureStore from "../../../../../store/useLectureStore";
 import { useAddLectures, useLectures } from "../../../../../hooks/useLectures";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
 import { useIsRep } from "../../../../../hooks/useIsRep";
+import { COURSE_ICON_MAP } from "../../../../../data/addCourseData";
 
 function CourseSidebar() {
   const { courseId, groupId } = useParams();
   const { data: isRep } = useIsRep(groupId);
 
   const { mutate: addLecture } = useAddLectures();
-  const { data: storedCourses } = useCourses(groupId);
+  const { data: storedCourses = [] } = useCourses(groupId);
   const { selectedLectureId, selectedLecture, setSelectedLecture } =
     useLectureStore();
   const { data: storedLectures, isLoading, isError } = useLectures(courseId);
   const courseDetails = storedCourses?.find((course) => course.id === courseId);
+  const CourseIcon = COURSE_ICON_MAP[courseDetails?.icon] || BookOpen;
 
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error Occured!</div>;
@@ -50,7 +59,15 @@ function CourseSidebar() {
         </Link>
       </div>
       <div className="lec-nav-head">
-        <div className="course-icon"></div>
+        <div
+          className="course-icon"
+          style={{
+            backgroundColor: courseDetails?.color + "10", // ← hex opacity (13%)
+            color: courseDetails?.color,
+          }}
+        >
+          <CourseIcon size={34} />
+        </div>
         <div className="course-detail">
           <p>{courseDetails?.name}</p>
 
