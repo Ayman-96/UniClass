@@ -117,7 +117,7 @@ function JoinClass() {
           anchored to the lecture slide and linked to everyone else's
           questions."
         </p>
-        <p>Yara A. · Computer Science, Year 2</p>
+        <p>Lune S. · Computer Science, Year 3</p>
       </div>
       <div className="join-right">
         <h2>Join your class today</h2>

@@ -11,8 +11,23 @@
   font-family: "DM Sans", sans-serif;
   margin: 0 auto;
   margin-top: 5%;
+  animation: uniclassModalGlow 4s ease-in-out infinite;
 }
-
+@keyframes uniclassModalGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 32px rgba(13, 104, 85, 0.18),
+      0 0 60px rgba(0, 168, 107, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 8px 32px rgba(13, 104, 85, 0.22),
+      0 0 80px rgba(0, 168, 107, 0.22),
+      0 0 0 1px rgba(255, 255, 255, 0.6);
+  }
+}
 /* ── header ── */
 
 .signin-header {

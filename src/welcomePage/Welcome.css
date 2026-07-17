@@ -59,7 +59,7 @@ body {
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px inset var(--brand-green);
 }
 
 .sign a:last-child {
@@ -141,6 +141,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  border: 4px inset var(--brand-green);
 }
 
 /* Right Side (Beige) */
@@ -240,8 +241,6 @@ body {
   padding: 5rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  border-left: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
 }
 
 .lower-up > div {
@@ -312,6 +311,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border-top: 2px inset var(--brand-green);
+  border-right: 2px solid var(--brand-green);
+
+  border: 10px inset var(--brand-green);
 }
 
 .join-right h2 {
@@ -409,8 +412,9 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #e5e7eb; /* The elegant light-gray dividing line */
+  border-top: none; /* The elegant light-gray dividing line */
   font-size: 0.875rem;
+  margin-top: 5px;
   background-color: #ffffff;
 }
 
