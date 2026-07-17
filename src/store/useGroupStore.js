@@ -6,6 +6,10 @@ const useGroupStore = create((set) => ({
     set({
       currentGroup: group,
     }),
+  clearCurrentGroup: () =>
+    set({
+      currentGroup: null,
+    }),
 }));
 export default useGroupStore;
 

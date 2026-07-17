@@ -196,7 +196,6 @@ export function useLeaveGroup() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const clearCurrentGroup = useGroupStore((s) => s.clearCurrentGroup);
-
   return useMutation({
     mutationFn: async (groupId) => {
       const { error } = await supabase.rpc("leave_group", {
@@ -212,8 +211,8 @@ export function useLeaveGroup() {
       navigate("/groups");
     },
     onError: (error) => {
-      if (error.message?.includes("REP_CANNOT_LEAVE")) {
-        toast.error("Transfer the ownership to a member before leaving");
+      if (error.message?.includes("MODERATOR_CANNOT_LEAVE")) {
+        toast.error("Transfer the ownership to another member before leaving");
       } else {
         toast.error(error.message || "Couldn't leave the group");
       }

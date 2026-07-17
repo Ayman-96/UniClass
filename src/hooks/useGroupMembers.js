@@ -82,6 +82,7 @@ export function usePromoteToRep(groupId) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["groupMembers", groupId] });
+      queryClient.invalidateQueries({ queryKey: ["group-activity", groupId] });
     },
   });
 }
@@ -98,6 +99,7 @@ export function useRemoveAsRep(groupId) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["groupMembers", groupId] });
+      queryClient.invalidateQueries({ queryKey: ["group-activity", groupId] });
     },
   });
 }
@@ -124,6 +126,7 @@ export function usePromoteToMod(groupId) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["groupMembers", groupId] });
+      queryClient.invalidateQueries({ queryKey: ["group-activity", groupId] });
     },
   });
 }

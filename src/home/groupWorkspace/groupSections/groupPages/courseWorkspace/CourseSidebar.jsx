@@ -14,8 +14,10 @@ import { useAddLectures, useLectures } from "../../../../../hooks/useLectures";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
 import { useIsRep } from "../../../../../hooks/useIsRep";
 import { COURSE_ICON_MAP } from "../../../../../data/addCourseData";
+import { useAuth } from "../../../../../AuthContext";
 
 function CourseSidebar() {
+  const { user } = useAuth();
   const { courseId, groupId } = useParams();
   const { data: isRep } = useIsRep(groupId);
 
@@ -43,7 +45,7 @@ function CourseSidebar() {
         .replace(/\.[^/.]+$/, "")
         .replace(/[-_]/g, " "),
       pdfFile: file,
-      uploaded_by: "REP",
+      uploaded_by: user.id,
       slide_count: 0,
     });
   }

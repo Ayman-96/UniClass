@@ -705,3 +705,10 @@
   color: #8a8a8a;
   font-size: 13px;
 }
+.activity-actor {
+  color: #1a9e78;
+}
+
+.activity-entity {
+  color: #3ba0e0;
+}

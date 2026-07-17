@@ -29,6 +29,7 @@ function GroupSettingsPage() {
 
   useEffect(() => {
     if (groupData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setChangeData({
         allow_members_to_post: groupData.allow_members_to_post,
         require_approval: groupData.require_approval,

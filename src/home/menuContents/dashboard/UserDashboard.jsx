@@ -76,7 +76,10 @@ function UserDashboard() {
   return (
     <div className="dashboard-page">
       <div className="dashbord-header">
-        <DashboardHeader handleOpenNewGroup={handleOpenNewGroup} />
+        <DashboardHeader
+          handleOpenNewGroup={handleOpenNewGroup}
+          storedGroups={storedGroups}
+        />
       </div>
 
       <div className="dashbord-body">

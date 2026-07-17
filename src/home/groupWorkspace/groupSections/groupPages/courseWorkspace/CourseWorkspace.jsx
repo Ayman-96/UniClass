@@ -13,7 +13,7 @@ function CourseWorkspace() {
   const { courseId } = useParams();
   const { selectedLecture } = useLectureStore();
   const [isOpenDiscussion, setIsOpenDiscussion] = useState(false);
-  const { data: storedLectures, isLoading, isError } = useLectures(courseId);
+  const { isLoading, isError } = useLectures(courseId);
 
   function handleOpenDiscussion() {
     setIsOpenDiscussion((prev) => !prev);

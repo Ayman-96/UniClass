@@ -3,7 +3,6 @@ import "./DashboardBody.css";
 import { DoorClosedLocked, DoorOpen, Users } from "lucide-react";
 import { MdOutgoingMail } from "react-icons/md";
 function DashboardBody({ storedGroups }) {
-  console.log(storedGroups);
   return (
     <div className="groups">
       {storedGroups.length ? (
