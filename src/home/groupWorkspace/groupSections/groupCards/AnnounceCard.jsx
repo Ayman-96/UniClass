@@ -106,7 +106,7 @@ function AnnounceCard({
         {!confirmDelete && isRep && (
           <div
             onClick={() => setConfirmDelete(true)}
-            style={{ color: "#aa1e12" }}
+            style={{ color: "#aa1e12", marginRight: "10px" }}
           >
             <Trash2 size={14} />
           </div>

@@ -24,7 +24,12 @@ function CourseCard({ course }) {
       className="course-card-container"
       onClick={() => navigate(`${course.id}`)}
     >
-      <div style={{ height: "5px", background: course.color || "#1a9e6e" }} />
+      <div
+        style={{
+          height: "5px",
+          background: course.color || "#1a9e6e",
+        }}
+      />
       <div className="course-card-header">
         <CourseIcon />
         <div

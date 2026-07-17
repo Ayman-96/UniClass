@@ -1,11 +1,15 @@
 .dashboard-page {
   width: 100%;
   padding: 1.3rem 2.5rem;
-  background-color: #f8fafc;
-  min-height: 100vh;
+  height: 100vh; /* fixed height, not min-height */
+  overflow-y: auto; /* this element now owns the scroll */
   box-sizing: border-box;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge */
 }
-
+.dashboard-page::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Brave */
+}
 .dashbord-header {
   width: 100%;
 }
@@ -13,4 +17,20 @@
 .dashbord-body {
   width: 100%;
   margin-top: 1.5rem;
+}
+.dev-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  margin-top: 2rem;
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.dev-tag svg {
+  color: #0d9488;
+  width: 14px;
+  height: 14px;
 }

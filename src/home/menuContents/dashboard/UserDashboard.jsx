@@ -6,6 +6,8 @@ import { useAuth } from "../../../AuthContext.jsx";
 import NewGroupForm from "../newGroup/NewGroupForm";
 import { useGroups, useAddGroup } from "../../../hooks/useGroups";
 import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
+import AnimatedBackground from "../../../animated/AnimatedBackground.jsx";
+import { IoIosHeart } from "react-icons/io";
 const groupsData = {
   groupId: "",
   groupName: "",
@@ -74,29 +76,37 @@ function UserDashboard() {
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Something went wrong</div>;
   return (
-    <div className="dashboard-page">
-      <div className="dashbord-header">
-        <DashboardHeader
-          handleOpenNewGroup={handleOpenNewGroup}
-          storedGroups={storedGroups}
-        />
-      </div>
-
-      <div className="dashbord-body">
-        <DashboardBody storedGroups={storedGroups} />
-      </div>
-
-      <div className="open-group-form">
-        {popNewGroup && (
-          <NewGroupForm
-            dispatch={dispatch}
-            fillWarning={fillWarning}
-            handleCreateGroup={handleCreateGroup}
+    <AnimatedBackground>
+      <div className="dashboard-page">
+        <div className="dashbord-header">
+          <DashboardHeader
             handleOpenNewGroup={handleOpenNewGroup}
+            storedGroups={storedGroups}
           />
-        )}
+        </div>
+
+        <div className="dashbord-body">
+          <DashboardBody
+            handleOpenNewGroup={handleOpenNewGroup}
+            storedGroups={storedGroups}
+          />
+        </div>
+
+        <div className="open-group-form">
+          {popNewGroup && (
+            <NewGroupForm
+              dispatch={dispatch}
+              fillWarning={fillWarning}
+              handleCreateGroup={handleCreateGroup}
+              handleOpenNewGroup={handleOpenNewGroup}
+            />
+          )}
+        </div>
+        <p className="dev-tag">
+          Made with <IoIosHeart /> by Ayman
+        </p>
       </div>
-    </div>
+    </AnimatedBackground>
   );
 }
 

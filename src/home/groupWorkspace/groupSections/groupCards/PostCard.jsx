@@ -55,6 +55,11 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
     addSuffix: true,
   });
   function handleCopy(postId) {
+    if (!navigator.clipboard) {
+      toast.error("Clipboard not available in this browser");
+      return;
+    }
+
     navigator.clipboard
       .writeText(`${window.location.origin}/post/${postId}`)
       .then(() => {

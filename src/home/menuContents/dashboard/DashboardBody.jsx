@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import "./DashboardBody.css";
-import { DoorClosedLocked, DoorOpen, Users } from "lucide-react";
+import { DoorClosedLocked, DoorOpen, PlusIcon, Users } from "lucide-react";
 import { MdOutgoingMail } from "react-icons/md";
-function DashboardBody({ storedGroups }) {
+function DashboardBody({ handleOpenNewGroup, storedGroups }) {
   return (
     <div className="groups">
       {storedGroups.length ? (
@@ -72,6 +72,9 @@ function DashboardBody({ storedGroups }) {
           <span className="no-group-sub">
             Create or explore groups to get started!
           </span>
+          <button className="new-hub-button2" onClick={handleOpenNewGroup}>
+            New Group <PlusIcon />
+          </button>
         </div>
       )}
     </div>

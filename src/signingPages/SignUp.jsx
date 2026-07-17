@@ -4,7 +4,6 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabase";
-import { NavLink } from "react-router-dom";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 import AnimatedBackground from "../animated/AnimatedBackground";
 import { Logo } from "../components/Logo";

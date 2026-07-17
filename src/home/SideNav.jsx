@@ -57,7 +57,6 @@ function SideNav() {
       <h2 className="sideNav-titles">MY COURSES</h2>
       <div className="sideNav-classes-section">
         {savedCourses?.map((course) => {
-          console.log(course);
           const CourseIcon = COURSE_ICON_MAP[course.icon] || BookOpen;
           return (
             <NavLink
