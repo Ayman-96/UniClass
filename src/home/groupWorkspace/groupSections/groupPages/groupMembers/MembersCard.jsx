@@ -35,6 +35,7 @@ function MembersCard() {
             groupData={group}
             groupMembers={groupMembers}
           />
+          <GroupActivity groupId={groupId} />
         </div>
         <div className="body-right">
           <RepsList
@@ -43,7 +44,6 @@ function MembersCard() {
             groupData={group}
             countRep={countRep}
           />
-          <GroupActivity groupMembers={groupMembers} />
         </div>
       </div>
     </div>
