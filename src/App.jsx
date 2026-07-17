@@ -20,43 +20,51 @@ import Classmates from "./home/menuContents/classmates/Classmates";
 import PostRedirect from "./PostRedirect/PostRedirect";
 import { useNotificationsRealtime } from "./hooks/useNotifications";
 import Notifications from "./home/menuContents/notifications/Notifications";
-import SettingsPage from "./signingPages/SettingsPage";
+import SettingsPage from "./settings/SettingsPage";
+import DesktopOnlyGate from "./home/DesktopOnlyGate";
+import { useGlobalMessageToast } from "./hooks/useChats";
 function App() {
+  useGlobalMessageToast();
   useNotificationsRealtime();
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Welcome />} />
-        <Route path="/signIn" element={<SignIn />} />
-        <Route path="/resetPassword" element={<ResetPassword />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/setup" element={<OnBoarding />} />
-        <Route path="/home" element={<Homepage />}>
-          {/* Nested routes for the outlet */}
-          <Route index element={<UserDashboard />} />
-          <Route path="dashboard" element={<UserDashboard />} />
-          <Route path="notifications" element={<Notifications />} />
-          <Route path="classmates" element={<Classmates />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="settings" element={<SettingsPage />} />
+      <DesktopOnlyGate>
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/signIn" element={<SignIn />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/setup" element={<OnBoarding />} />
+          <Route path="/home" element={<Homepage />}>
+            {/* Nested routes for the outlet */}
+            <Route index element={<UserDashboard />} />
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="classmates" element={<Classmates />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="settings" element={<SettingsPage />} />
 
-          <Route path="group/:groupId" element={<GroupWorkSpace />}>
-            <Route index element={<GroupCoursesPage />} />
-            <Route path="courses" element={<GroupCoursesPage />} />
-            <Route path="posts" element={<GroupPostsPage />} />
-            <Route path="members" element={<GroupMembersPage />} />
-            <Route path="announcements" element={<GroupAnnouncementsPage />} />
-            <Route path="settings" element={<GroupSettingsPage />} />
+            <Route path="group/:groupId" element={<GroupWorkSpace />}>
+              <Route index element={<GroupCoursesPage />} />
+              <Route path="courses" element={<GroupCoursesPage />} />
+              <Route path="posts" element={<GroupPostsPage />} />
+              <Route path="members" element={<GroupMembersPage />} />
+              <Route
+                path="announcements"
+                element={<GroupAnnouncementsPage />}
+              />
+              <Route path="settings" element={<GroupSettingsPage />} />
+            </Route>
           </Route>
-        </Route>
-        <Route path="/profile/:userId" element={<Profile />} />
-        <Route // Flat - compeletely separate
-          path="/home/group/:groupId/courses/:courseId"
-          element={<CourseWorkspace />}
-        />
-        <Route path="/join/:groupId" element={<InvitePage />} />
-        <Route path="/post/:postId" element={<PostRedirect />} />
-      </Routes>
+          <Route path="/profile/:userId" element={<Profile />} />
+          <Route // Flat - compeletely separate
+            path="/home/group/:groupId/courses/:courseId"
+            element={<CourseWorkspace />}
+          />
+          <Route path="/join/:groupId" element={<InvitePage />} />
+          <Route path="/post/:postId" element={<PostRedirect />} />
+        </Routes>
+      </DesktopOnlyGate>
     </div>
   );
 }

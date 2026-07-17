@@ -11,10 +11,10 @@ export function Logo({
   return (
     <NavLink to="/Home" className="logo">
       <div
-        className="plat-logo"
+        className="uniclass-logo"
         style={{ background: backgroundColor, color: logoColor }}
       >
-        <GraduationCap />
+        <img src="/AppFavicon.png" alt="UniCLass" />
       </div>
       <div className="plat-name">
         <h2 style={{ color: titleColor }}>UniClass</h2>
