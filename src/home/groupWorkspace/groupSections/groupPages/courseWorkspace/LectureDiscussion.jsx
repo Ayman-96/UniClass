@@ -114,8 +114,6 @@ function LectureDiscussion({ selectedLecture }) {
     if (isEditing) {
       editComment({ commentId: commentId, newContent: commentContent });
       setCommentContent("");
-      console.log(commentContent);
-      console.log(commentId);
       setIsEditing(false);
       return;
     }
@@ -165,7 +163,6 @@ function LectureDiscussion({ selectedLecture }) {
     setNoteId(noteId);
   }
   function handleReply(comment) {
-    console.log("reply clicked", comment);
     const topLevelParentId = comment.parent_comment_id ?? comment.id;
     setReplyTo(topLevelParentId);
     setReplyToUser(comment.profiles?.username);

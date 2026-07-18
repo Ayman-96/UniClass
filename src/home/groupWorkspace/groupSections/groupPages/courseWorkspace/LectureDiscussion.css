@@ -51,6 +51,33 @@
   line-height: 1.2;
 }
 
+/* PIN */
+.discuss-card {
+  position: relative;
+}
+
+.is-pinned-discussion {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: #ffffff;
+  border: 1px solid #0d9488;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.is-pinned-discussion svg {
+  width: 15px;
+  height: 15px;
+  color: #0d9488;
+  transform: scaleX(-1);
+}
+
 /* ── 2. Discussion Tabs ── */
 .discussion-buttons {
   display: flex;
@@ -124,7 +151,13 @@
   font-size: 12px;
   font-weight: 700;
 }
-
+.user-avatar-discussion img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
 .user-avatar-discussion span {
   font-size: 14px;
   font-weight: 600;

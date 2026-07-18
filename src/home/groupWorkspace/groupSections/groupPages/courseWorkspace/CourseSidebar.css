@@ -132,6 +132,7 @@
   cursor: pointer;
   transition: background 0.15s;
   border: 0.5px solid transparent;
+  text-decoration: none;
 }
 
 .lec-item:hover {

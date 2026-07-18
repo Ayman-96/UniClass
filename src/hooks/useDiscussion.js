@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
 import { useAuth } from "../AuthContext";
+import { toast } from "sonner";
 
 export function useDiscussion(lectureId, slideNumber) {
   return useQuery({
@@ -8,9 +9,10 @@ export function useDiscussion(lectureId, slideNumber) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("discussions")
-        .select(`*, discussion_like(*), profiles(username)`)
+        .select(`*, discussion_like(*), profiles(username,avatar_url)`)
         .eq("lecture_id", lectureId)
         .eq("slide_number", slideNumber)
+        .order("is_pinned", { ascending: false })
         .order("created_at", { ascending: true });
 
       if (error) throw error;
@@ -132,6 +134,24 @@ export function useToggleLike(lectureId, slideNumber) {
     },
     onError: (error) => {
       console.log("Error from discussions : " + error);
+    },
+  });
+}
+export function useTogglePinDiscussion(lectureId) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (discussionId) => {
+      const { error } = await supabase.rpc("toggle_pin_discussion", {
+        p_discussion_id: discussionId,
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["discussions", lectureId] });
+    },
+    onError: (error) => {
+      toast.error(error.message || "Couldn't pin discussion");
     },
   });
 }

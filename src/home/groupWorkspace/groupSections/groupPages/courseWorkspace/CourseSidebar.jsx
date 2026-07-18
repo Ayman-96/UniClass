@@ -1,5 +1,5 @@
 import "./CourseSidebar.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import {
   BookCopy,
   BookOpen,
@@ -9,7 +9,6 @@ import {
   Plus,
 } from "lucide-react";
 import { useCourses } from "../../../../../hooks/useCourses";
-import useLectureStore from "../../../../../store/useLectureStore";
 import { useAddLectures, useLectures } from "../../../../../hooks/useLectures";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
 import { useIsRep } from "../../../../../hooks/useIsRep";
@@ -18,13 +17,13 @@ import { useAuth } from "../../../../../AuthContext";
 
 function CourseSidebar() {
   const { user } = useAuth();
-  const { courseId, groupId } = useParams();
+  const { courseId, groupId, lectureId } = useParams();
   const { data: isRep } = useIsRep(groupId);
 
   const { mutate: addLecture } = useAddLectures();
   const { data: storedCourses = [] } = useCourses(groupId);
-  const { selectedLectureId, selectedLecture, setSelectedLecture } =
-    useLectureStore();
+  const { data: lectures } = useLectures(courseId);
+  const selectedLecture = lectures?.find((l) => l.id === lectureId);
   const { data: storedLectures, isLoading, isError } = useLectures(courseId);
   const courseDetails = storedCourses?.find((course) => course.id === courseId);
   const CourseIcon = COURSE_ICON_MAP[courseDetails?.icon] || BookOpen;
@@ -98,10 +97,10 @@ function CourseSidebar() {
             {selectedLecture ? selectedLecture.title : courseDetails?.name}
           </p>
           {storedLectures.map((lecture, i) => (
-            <div
+            <NavLink
               key={lecture.id}
-              onClick={() => setSelectedLecture(lecture)}
-              className={`lec-item ${selectedLectureId === lecture.id ? "active" : ""}`}
+              to={`lectures/${lecture.id}`}
+              className={`lec-item ${selectedLecture.id === lecture.id ? "active" : ""}`}
             >
               <div className="lec-icon">
                 <FileIcon />
@@ -113,7 +112,7 @@ function CourseSidebar() {
                   {lecture.slide_count} slides
                 </p>
               </div>
-            </div>
+            </NavLink>
           ))}
           <div className="lecture-nav-foote">
             {isRep && (

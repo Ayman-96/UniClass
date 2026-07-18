@@ -6,12 +6,12 @@ import CourseSidebar from "./CourseSidebar";
 import { useParams } from "react-router-dom";
 import LectureDiscussion from "./LectureDiscussion";
 import { useLectures } from "../../../../../hooks/useLectures";
-import useLectureStore from "../../../../../store/useLectureStore";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
 
 function CourseWorkspace() {
-  const { courseId } = useParams();
-  const { selectedLecture } = useLectureStore();
+  const { courseId, lectureId } = useParams();
+  const { data: lectures } = useLectures(courseId);
+  const selectedLecture = lectures?.find((l) => l.id === lectureId);
   const [isOpenDiscussion, setIsOpenDiscussion] = useState(false);
   const { isLoading, isError } = useLectures(courseId);
 

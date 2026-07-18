@@ -15,13 +15,19 @@ import { Document, Page, pdfjs } from "react-pdf";
 import useLectureStore from "../../../../../store/useLectureStore";
 import { Logo } from "../../../../../components/Logo";
 import handleDownload from "../../../../../components/DownloadFile";
+import { useParams } from "react-router-dom";
+import { useLectures } from "../../../../../hooks/useLectures";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 function LectureView() {
   const BASE_SCALE = 0.8;
   const pdfRef = useRef(null);
+
+  const { courseId, lectureId } = useParams();
+  const { data: lectures } = useLectures(courseId);
+  const selectedLecture = lectures?.find((l) => l.id === lectureId);
+
   const { setCurrentSlide } = useLectureStore();
-  const { selectedLecture } = useLectureStore();
   const [numPages, setNumPages] = useState(null);
   const [scale, setScale] = useState(BASE_SCALE);
   const [pageNumber, setPageNumber] = useState(1);

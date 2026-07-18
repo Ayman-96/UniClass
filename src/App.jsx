@@ -23,6 +23,7 @@ import GroupMembersPage from "./home/groupWorkspace/groupSections/groupPages/Gro
 import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/groupPages/GroupAnnouncementsPage";
 import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/CourseWorkspace";
 import GroupSettingsPage from "./home/groupWorkspace/groupSections/groupPages/groupSettings/GroupSettingsPage";
+import LectureView from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/LectureView";
 function App() {
   useGlobalMessageToast();
   useNotificationsRealtime();
@@ -60,7 +61,9 @@ function App() {
           <Route // Flat - compeletely separate
             path="/home/group/:groupId/courses/:courseId"
             element={<CourseWorkspace />}
-          />
+          >
+            <Route path="lectures/:lectureId" element={<LectureView />} />
+          </Route>
           <Route path="/join/:groupId" element={<InvitePage />} />
           <Route path="/post/:postId" element={<PostRedirect />} />
         </Routes>
