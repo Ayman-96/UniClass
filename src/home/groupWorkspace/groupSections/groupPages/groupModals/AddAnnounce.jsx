@@ -136,7 +136,6 @@ function AddAnnounce({ handleAnnounceModal }) {
       onClick: () => "",
     },
   ];
-  console.log(members);
   return (
     <div className="add-post-overlay">
       <div className="add-post-modal">

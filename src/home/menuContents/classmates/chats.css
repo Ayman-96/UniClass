@@ -203,7 +203,7 @@
   color: #999;
 }
 
-.add-img-btn {
+.add-chat-img-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -211,23 +211,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   flex-shrink: 0;
   transition: background 0.15s ease;
 }
+.add-chat-img-btn svg {
+  width: 20px;
+  height: 20px;
+}
 
-.add-img-btn:hover {
-  background: #ebebeb;
+.add-chat-img-btn:hover {
+  background: #eefcfa;
   color: #1a9e78;
 }
 
-.post-comment {
-  background: #1a9e78;
+.send-chat {
+  background: none;
   border: none;
   cursor: pointer;
-  color: #fff;
+  color: #059669;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -240,17 +244,18 @@
     transform 0.1s ease;
 }
 
-.post-comment:hover {
-  background: #158567;
+.send-chat:hover {
+  background: #eaefee;
+  color: #0cd054;
 }
 
-.post-comment:active {
+.send-chat:active {
   transform: scale(0.94);
 }
 
-.post-comment svg {
-  width: 16px;
-  height: 16px;
+.send-chat svg {
+  width: 20px;
+  height: 20px;
 }
 .messgae-card.sent {
   align-self: flex-end;

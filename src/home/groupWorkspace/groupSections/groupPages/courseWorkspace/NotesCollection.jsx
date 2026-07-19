@@ -24,15 +24,16 @@ function NotesCollection({
         return (
           <div key={note.id} className="discuss-card">
             <div className="discuss-header">
-              <div className="user-avatar-discussion">
+              {/* <div className="user-avatar-discussion">
                 SK <span>profilename</span>
-              </div>
+              </div> */}
               <div
                 className="discussion-type"
                 style={{ backgroundColor: color }}
               >
                 <p>
-                  <LockKeyholeIcon /> private note
+                  <LockKeyholeIcon strokeWidth={2.8} />{" "}
+                  <span> private {note.type}</span>
                 </p>
               </div>
               <div className="shared-time">

@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
-import { useMemo, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useAuth } from "../../../../AuthContext.jsx";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
 import { NavLink, useParams } from "react-router-dom";
@@ -42,6 +42,8 @@ function commentReducer(state, action) {
 }
 
 function PostComments({ setOpenComments, storedComments, postId }) {
+  const inputRef = useRef(null);
+  const imgInputRef = useRef(null);
   const { groupId } = useParams();
   const { user } = useAuth();
   const { mutate: addComment, isPending, isError } = useAddComment();
@@ -91,6 +93,11 @@ function PostComments({ setOpenComments, storedComments, postId }) {
     () => groupComments(storedComments ?? []),
     [storedComments],
   );
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [parent]);
+
   if (isError) return <div>Error Occured...</div>;
   return (
     <div className="post-comment-section">
@@ -162,22 +169,28 @@ function PostComments({ setOpenComments, storedComments, postId }) {
             <img src={me?.avatar_url || ""} />
             <input
               type="text"
+              id="comment-input"
               value={newComment.content}
               placeholder="Write a comment..."
               onChange={(e) => {
                 dispatch({ type: "SET_CONTENT", payload: e.target.value });
               }}
+              ref={inputRef}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleAddComment();
+              }}
             />
             <button
               className="add-img-btn"
               onClick={() => {
-                document.getElementById("comment-img").click();
+                imgInputRef.current?.click();
               }}
             >
               <Image />
             </button>
             <input
               id="comment-img"
+              ref={imgInputRef}
               hidden
               type="file"
               onChange={(e) =>

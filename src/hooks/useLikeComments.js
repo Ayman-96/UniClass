@@ -35,7 +35,7 @@ export function useLikeComments({ table, idColumn, id, queryKey }) {
       queryClient.invalidateQueries({ queryKey });
     },
     onError: (error) => {
-      console.log(`Error toggling like on ${table}: ` + error.message);
+      console.error(`Error toggling like on ${table}: ` + error.message);
     },
   });
 }

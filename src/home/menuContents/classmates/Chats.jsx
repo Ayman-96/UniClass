@@ -9,13 +9,16 @@ import useChatUIStore from "../../../store/useChatUiStore";
 
 function Chats({ setOpenChat, friendId }) {
   const listEndRef = useRef(null);
+  const inputRef = useRef(null);
+  const imgInputRef = useRef(null);
+
   const [text, setText] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
   const { data: me } = useProfile();
   const { data: friend } = useProfile(friendId);
   const { data: messages = [], isPending } = useMessages(friendId);
-  const { mutate: sendMessage } = useSendMessage();
+  const { mutate: sendMessage, isPending: isSending } = useSendMessage();
 
   function handleSendChat() {
     sendMessage(
@@ -43,6 +46,10 @@ function Chats({ setOpenChat, friendId }) {
   useEffect(() => {
     listEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
   return (
     <div className="chatting-section">
       <div className="chat-sheet">
@@ -110,26 +117,32 @@ function Chats({ setOpenChat, friendId }) {
               onChange={(e) => {
                 setText(e.target.value);
               }}
+              ref={inputRef}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSendChat();
+              }}
             />
             <button
-              className="add-img-btn"
+              className="add-chat-img-btn"
               onClick={() => {
-                document.getElementById("chat-img").click();
+                imgInputRef.current?.click();
               }}
             >
               <Image />
             </button>
             <input
               id="chat-img"
+              ref={imgInputRef}
               hidden
               type="file"
               onChange={(e) => setImageFile(e.target.files[0])}
             />
             {(text || imageFile) && (
               <button
-                className="post-comment"
+                disabled={isSending}
+                className="send-chat"
                 onClick={handleSendChat}
-                style={{ color: "#059669" }}
+                style={isSending ? { color: "#dceae5" } : {}}
               >
                 <SendHorizonal />
               </button>

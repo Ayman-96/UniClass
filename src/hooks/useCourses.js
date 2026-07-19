@@ -31,7 +31,6 @@ export function useAddCourse() {
       return data;
     },
     onSuccess: (data) => {
-      console.log("✅ Course created:", data);
       queryClient.invalidateQueries({ queryKey: ["courses", data.group_id] });
     },
     onError: (error) => {
@@ -56,7 +55,7 @@ export function useDeleteCourse() {
       queryClient.invalidateQueries({ queryKey: ["saved-courses"] });
     },
     onError: (error) => {
-      console.log("❌ Failed to delete:", error.message);
+      console.error("❌ Failed to delete:", error.message);
     },
   });
 }

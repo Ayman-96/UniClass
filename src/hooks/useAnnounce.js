@@ -93,7 +93,6 @@ export function useAddAnnounce() {
       return { ...announcement, announcement_files: uploadedFiles };
     },
     onSuccess: (data) => {
-      console.log("✅ Announcement created:", data);
       queryClient.invalidateQueries({
         queryKey: ["announcements", data.group_id],
       });
@@ -119,7 +118,7 @@ export function useDeleteAnnounce() {
       queryClient.invalidateQueries({ queryKey: ["announcements"] });
     },
     onError: (error) => {
-      console.log("❌ Failed to delete:", error.message);
+      console.error("❌ Failed to delete:", error.message);
     },
   });
 }

@@ -40,7 +40,7 @@ export function useAddComment(lectureId, slideNumber) {
       }); // invalidates only this lecture+slide
     },
     onError: (error) => {
-      console.log("Error from discussions : " + error);
+      console.error("Error from discussions : " + error);
     },
   });
 }
@@ -63,7 +63,7 @@ export function useDeleteComment(userId, lectureId, slideNumber) {
       });
     },
     onError: (error) => {
-      console.log("Error from discussions : " + error);
+      console.error("Error from discussions : " + error);
     },
   });
 }
@@ -133,7 +133,7 @@ export function useToggleLike(lectureId, slideNumber) {
       });
     },
     onError: (error) => {
-      console.log("Error from discussions : " + error);
+      console.error("Error from discussions : " + error);
     },
   });
 }

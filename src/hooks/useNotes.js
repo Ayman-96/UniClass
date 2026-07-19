@@ -41,7 +41,6 @@ export function useAddNote(lectureId, slideNumber) {
       });
     },
     onError: (error) => {
-      console.log("Error from Notes : ");
       console.error(error);
     },
   });
@@ -92,7 +91,7 @@ export function useDeleteNote(lectureId, slideNumber) {
       });
     },
     onError: (error) => {
-      console.log("Error from notes : " + error);
+      console.error("Error from notes : " + error);
     },
   });
 }

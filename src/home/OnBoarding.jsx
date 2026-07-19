@@ -69,8 +69,6 @@ function OnBoarding() {
   const [newProfile, dispatch] = useReducer(profileReducer, userData);
 
   function handleSetProfile() {
-    console.log(" saving profile", newProfile);
-
     if (
       !newProfile.fullName ||
       !newProfile.username ||
@@ -97,13 +95,11 @@ function OnBoarding() {
       {
         onSuccess: () => {
           navigate("/home");
-          console.log("first saving profile", newProfile);
         },
         onError: (err) => setError(err.message),
       },
     );
   }
-  console.log(newProfile.avatar);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error Occured...</div>;
   return (

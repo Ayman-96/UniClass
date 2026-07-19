@@ -96,11 +96,11 @@ function CourseSidebar() {
           <p className="rotated-lecture-name">
             {selectedLecture ? selectedLecture.title : courseDetails?.name}
           </p>
-          {storedLectures.map((lecture, i) => (
+          {storedLectures?.map((lecture, i) => (
             <NavLink
               key={lecture.id}
               to={`lectures/${lecture.id}`}
-              className={`lec-item ${selectedLecture.id === lecture.id ? "active" : ""}`}
+              className={`lec-item ${selectedLecture?.id === lecture.id ? "active" : ""}`}
             >
               <div className="lec-icon">
                 <FileIcon />

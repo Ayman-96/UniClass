@@ -77,7 +77,6 @@ function DiscussionCard({
         <button
           onClick={() => {
             handleReply(comment);
-            document.getElementById("discussion").focus();
           }}
         >
           <Undo2 /> Reply

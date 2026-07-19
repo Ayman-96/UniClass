@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useAddComment,
   useDeleteComment,
@@ -61,6 +61,8 @@ const commentTypes = [
   },
 ];
 function LectureDiscussion({ selectedLecture }) {
+  const inputRef = useRef(null);
+
   const { user } = useAuth();
 
   const { courseId } = useParams();
@@ -167,6 +169,12 @@ function LectureDiscussion({ selectedLecture }) {
     setReplyTo(topLevelParentId);
     setReplyToUser(comment.profiles?.username);
   }
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [replyTo, activeTab, isEditing, parent]);
+
+  console.log(isEditing);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error... try again</div>;
 
@@ -251,12 +259,18 @@ function LectureDiscussion({ selectedLecture }) {
 
         <textarea
           name={activeTab === "Comments" ? "slideComment" : "privateNote"}
+          ref={inputRef}
           id="discussion"
           value={activeTab === "Comments" ? commentContent : noteContent}
           onChange={(e) => {
             activeTab === "Comments"
               ? setCommentContent(e.target.value)
               : setNoteContent(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter")
+              if (activeTab === "Comments") handleAddComment();
+              else handleAddNote();
           }}
           placeholder={
             activeTab === "Comments"

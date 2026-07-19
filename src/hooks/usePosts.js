@@ -94,7 +94,6 @@ export function useAddPost() {
       return { ...post, post_files: uploadedFiles };
     },
     onSuccess: (data) => {
-      console.log("✅ Post created:", data);
       queryClient.invalidateQueries({ queryKey: ["posts", data.group_id] });
     },
     onError: (error) => {

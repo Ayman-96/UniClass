@@ -9,7 +9,6 @@ import { COURSE_ICON_MAP } from "../data/addCourseData.jsx";
 function SideNav() {
   const { mutate: signOut, isPending } = useSignOut();
   const { savedCourses } = useSavedCourses();
-  console.log(savedCourses);
 
   const menuSections = [
     {
