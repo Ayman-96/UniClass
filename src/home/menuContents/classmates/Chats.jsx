@@ -9,6 +9,7 @@ import useChatUIStore from "../../../store/useChatUiStore";
 
 function Chats({ setOpenChat, friendId }) {
   const listEndRef = useRef(null);
+  const inputRef = useRef(null);
   const [text, setText] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
@@ -43,6 +44,10 @@ function Chats({ setOpenChat, friendId }) {
   useEffect(() => {
     listEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
   return (
     <div className="chatting-section">
       <div className="chat-sheet">
@@ -109,6 +114,10 @@ function Chats({ setOpenChat, friendId }) {
               placeholder="Write Something..."
               onChange={(e) => {
                 setText(e.target.value);
+              }}
+              ref={inputRef}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSendChat();
               }}
             />
             <button

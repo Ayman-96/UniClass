@@ -166,9 +166,8 @@
 
 .discussion-type {
   font-size: 12px;
-  font-weight: 500;
-  background: #f4f4f4;
-  color: #666;
+  font-weight: 600;
+  color: #070707;
   padding: 4px 10px;
   border-radius: 12px;
   display: flex;
@@ -279,7 +278,7 @@
   width: 100%;
   min-height: 80px;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
   border-radius: 8px;
   font-family: inherit;
   font-size: 14px;

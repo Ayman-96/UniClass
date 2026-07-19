@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
-import { useMemo, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useAuth } from "../../../../AuthContext.jsx";
 import { NavLink, useParams } from "react-router-dom";
 import { useIsRep } from "../../../../hooks/useIsRep.js";
@@ -46,6 +46,8 @@ function commentReducer(state, action) {
 }
 
 function AnnounceComments({ setOpenComments, storedComments, announceId }) {
+  const inputRef = useRef(null);
+
   const { user } = useAuth();
   const { groupId } = useParams();
   const { data: isRep } = useIsRep(groupId);
@@ -96,6 +98,10 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
     () => groupComments(storedComments ?? []),
     [storedComments],
   );
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   if (isError) return <div>Error Occured...</div>;
   return (
@@ -168,11 +174,16 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
             <img src={me?.avatar_url || ""} />
             <input
               type="text"
+              id="add-comment-announce"
               className="ann-input"
               value={newComment.content}
               placeholder="Write a comment..."
               onChange={(e) => {
                 dispatch({ type: "SET_CONTENT", payload: e.target.value });
+              }}
+              ref={inputRef}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleAddComment();
               }}
             />
             <button
@@ -289,6 +300,7 @@ function CommentItem({
                 type: "SET_REPLY_TO",
                 payload: topLevelParentId,
               });
+              document.getElementById("add-comment-announce").focus();
             }}
           >
             <CornerDownLeft /> Reply

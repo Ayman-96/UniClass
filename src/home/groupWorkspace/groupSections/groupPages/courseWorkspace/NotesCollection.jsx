@@ -18,21 +18,22 @@ function NotesCollection({
   return (
     <>
       {storedNotes?.map((note) => {
+        console.log(note);
         const color = commentTypes.find(
           (t) => t.name.toLowerCase() === note.type,
         ).color;
         return (
           <div key={note.id} className="discuss-card">
             <div className="discuss-header">
-              <div className="user-avatar-discussion">
+              {/* <div className="user-avatar-discussion">
                 SK <span>profilename</span>
-              </div>
+              </div> */}
               <div
                 className="discussion-type"
                 style={{ backgroundColor: color }}
               >
                 <p>
-                  <LockKeyholeIcon /> private note
+                  <LockKeyholeIcon /> private {note.type}
                 </p>
               </div>
               <div className="shared-time">
