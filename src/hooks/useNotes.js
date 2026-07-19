@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
 import { useAuth } from "../AuthContext";
+import { uploadCommentImage } from "./useUploadImage";
+
 export function useNotes(lectureId, slideNumber) {
   const { user } = useAuth();
   return useQuery({
@@ -24,10 +26,20 @@ export function useAddNote(lectureId, slideNumber) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (newNote) => {
+    mutationFn: async ({ imgFile, ...newNote }) => {
+      let img_url = null;
+
+      if (imgFile) {
+        img_url = await uploadCommentImage(
+          imgFile,
+          "discussion-images",
+          user.id,
+        );
+      }
+
       const { data, error } = await supabase
         .from("notes")
-        .insert(newNote)
+        .insert({ ...newNote, img_url })
         .eq("user_id", user.id)
         .select()
         .single();

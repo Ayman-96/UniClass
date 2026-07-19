@@ -6,12 +6,13 @@ import {
   MessagesSquare,
   NotebookPen,
   Pencil,
+  ImageIcon,
   Siren,
   Users,
   X,
 } from "lucide-react";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   useAddComment,
   useDeleteComment,
@@ -62,6 +63,7 @@ const commentTypes = [
 ];
 function LectureDiscussion({ selectedLecture }) {
   const inputRef = useRef(null);
+  const imgInputRef = useRef(null);
 
   const { user } = useAuth();
 
@@ -77,6 +79,7 @@ function LectureDiscussion({ selectedLecture }) {
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState("Comments");
   const [commentContent, setCommentContent] = useState("");
+  const [commentImg, setCommentImg] = useState(null);
   const [activeType, setActiveType] = useState(commentTypes[0]);
   const [replyTo, setReplyTo] = useState(null);
   const [replyToUser, setReplyToUser] = useState(null);
@@ -108,10 +111,15 @@ function LectureDiscussion({ selectedLecture }) {
     currentSlide,
   );
 
-  // needs userId after Auth
   const { data: storedNotes } = useNotes(selectedLecture.id, currentSlide);
+
+  const imagePreviewUrl = useMemo(() => {
+    if (!commentImg) return null;
+    return URL.createObjectURL(commentImg);
+  }, [commentImg]);
+
   function handleAddComment() {
-    if (!commentContent) return;
+    if (!commentContent && !commentImg) return;
 
     if (isEditing) {
       editComment({ commentId: commentId, newContent: commentContent });
@@ -132,16 +140,19 @@ function LectureDiscussion({ selectedLecture }) {
       lecture_id: selectedLecture.id,
       course_id: courseId, //
       parent_comment_id: replyTo,
+      imgFile: commentImg,
     });
     setCommentContent("");
+    setCommentImg(null);
     setReplyTo(null);
     setReplyToUser(null);
   }
+
   function handleAddNote() {
-    if (!noteContent) return;
+    console.log(commentImg);
+    if (!noteContent && !commentImg) return;
 
     if (isEditing) {
-      console.log("noteId:", noteId);
       editNote({ noteId: noteId, newContent: noteContent });
       setNoteContent("");
       setIsEditing(false);
@@ -153,8 +164,10 @@ function LectureDiscussion({ selectedLecture }) {
       content: noteContent,
       type: activeType.name.toLowerCase(),
       lecture_id: selectedLecture.id,
+      imgFile: commentImg,
     });
     setNoteContent("");
+    setCommentImg(null);
   }
   function handleEditComment(commentId, currentContent) {
     setCommentContent(currentContent);
@@ -172,9 +185,9 @@ function LectureDiscussion({ selectedLecture }) {
 
   useEffect(() => {
     inputRef.current?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [replyTo, activeTab, isEditing, parent]);
 
-  console.log(isEditing);
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error... try again</div>;
 
@@ -238,6 +251,33 @@ function LectureDiscussion({ selectedLecture }) {
               </button>
             );
           })}
+          {commentImg ? (
+            <div className="added-discuss-image">
+              <img src={imagePreviewUrl} />
+              <button
+                className="remove-discuss-img"
+                onClick={() => setCommentImg(null)}
+              >
+                <X />
+              </button>
+            </div>
+          ) : (
+            <button
+              className="add-discuss-img-btn"
+              onClick={() => {
+                imgInputRef.current?.click();
+              }}
+            >
+              <ImageIcon />
+            </button>
+          )}
+          <input
+            id="discussion-img"
+            ref={imgInputRef}
+            hidden
+            type="file"
+            onChange={(e) => setCommentImg(e.target.files[0])}
+          />
         </div>
 
         {activeTab === "Comments" && replyToUser && (

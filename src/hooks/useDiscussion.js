@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
 import { useAuth } from "../AuthContext";
 import { toast } from "sonner";
-
+import { uploadCommentImage } from "./useUploadImage";
 export function useDiscussion(lectureId, slideNumber) {
   return useQuery({
     queryKey: ["discussions", lectureId, slideNumber],
@@ -25,10 +25,20 @@ export function useAddComment(lectureId, slideNumber) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (newComment) => {
+    mutationFn: async ({ imgFile, ...newComment }) => {
+      let img_url = null;
+
+      if (imgFile) {
+        img_url = await uploadCommentImage(
+          imgFile,
+          "discussion-images",
+          newComment.user_id,
+        );
+      }
+
       const { data, error } = await supabase
         .from("discussions")
-        .insert(newComment)
+        .insert({ ...newComment, img_url })
         .select()
         .single();
       if (error) throw error;
@@ -37,7 +47,7 @@ export function useAddComment(lectureId, slideNumber) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["discussions", lectureId, slideNumber],
-      }); // invalidates only this lecture+slide
+      });
     },
     onError: (error) => {
       console.error("Error from discussions : " + error);

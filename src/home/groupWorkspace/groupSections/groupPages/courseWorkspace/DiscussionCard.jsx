@@ -36,7 +36,6 @@ function DiscussionCard({
       restContent = "";
     }
   }
-
   return (
     <div
       className={`discuss-card ${isReply ? "discuss-smaller-reply" : ""}`}
@@ -72,6 +71,10 @@ function DiscussionCard({
         {tag && <span className="discuss-reply-tag">{tag} </span>}
         {tag ? restContent : comment.content}
       </p>
+
+      <div className="discussion-image">
+        <img src={comment.img_url} />
+      </div>
 
       <div className="discuss-reaction">
         <button
