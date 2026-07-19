@@ -74,7 +74,12 @@ function DiscussionCard({
       </p>
 
       <div className="discuss-reaction">
-        <button onClick={() => handleReply(comment)}>
+        <button
+          onClick={() => {
+            handleReply(comment);
+            document.getElementById("discussion").focus();
+          }}
+        >
           <Undo2 /> Reply
         </button>
         <button onClick={() => toggleLike({ discussionId: comment.id })}>

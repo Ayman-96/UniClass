@@ -5,6 +5,7 @@ import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
 import { useMessages, useSendMessage } from "../../../hooks/useChats";
 import { SendHorizonal, X, Image } from "lucide-react";
 import { useProfile } from "../../../hooks/useSaveProfile";
+import useChatUIStore from "../../../store/useChatUiStore";
 
 function Chats({ setOpenChat, friendId }) {
   const listEndRef = useRef(null);
@@ -47,17 +48,22 @@ function Chats({ setOpenChat, friendId }) {
       <div className="chat-sheet">
         <div className="chat-sec-header">
           <div>{messages?.length} messages</div>
-          <button onClick={() => setOpenChat(false)}>
+          <button
+            onClick={() => {
+              (setOpenChat(false),
+                useChatUIStore.getState().setOpenChatWithUserId(null));
+            }}
+          >
             <X />
           </button>
         </div>
         <div className="chat-list">
-          {messages?.map((message) => {
+          {messages?.map((message, i) => {
             const isMine = message.sender_id === me?.id;
             return (
               <div
                 className={`messgae-card ${isMine ? "sent" : "received"}`}
-                key={message.id}
+                key={i}
               >
                 <div className="msg-head">
                   {!isMine && (
@@ -120,7 +126,11 @@ function Chats({ setOpenChat, friendId }) {
               onChange={(e) => setImageFile(e.target.files[0])}
             />
             {(text || imageFile) && (
-              <button className="post-comment" onClick={handleSendChat}>
+              <button
+                className="post-comment"
+                onClick={handleSendChat}
+                style={{ color: "#059669" }}
+              >
                 <SendHorizonal />
               </button>
             )}

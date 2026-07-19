@@ -11,7 +11,7 @@ import SettingsPage from "./settings/SettingsPage";
 import DesktopOnlyGate from "./home/DesktopOnlyGate";
 import PostRedirect from "./PostRedirect/PostRedirect";
 import ResetPassword from "./signingPages/ResetPassword";
-import { useGlobalMessageToast } from "./hooks/useGlobalMessage";
+import { useGlobalMessageToast } from "./hooks/useGlobalMessageToast";
 import GroupWorkSpace from "./home/groupWorkspace/GroupWorkspace";
 import Classmates from "./home/menuContents/classmates/Classmates";
 import { useNotificationsRealtime } from "./hooks/useNotifications";

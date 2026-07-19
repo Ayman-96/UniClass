@@ -8,6 +8,7 @@ import { CircleCheckBig, CircleX } from "lucide-react";
 import { PiToggleLeftFill, PiToggleRightFill } from "react-icons/pi";
 import { useFriends, useRemoveFriend } from "../../../hooks/useFriends";
 import Chats from "./Chats";
+import useChatUIStore from "../../../store/useChatUiStore";
 
 function ClassmatesList() {
   const [search, setSearch] = useState("");
@@ -118,6 +119,9 @@ function ClassmatesList() {
                           onClick={() => {
                             setOpenChat(true);
                             setFriendId(friend.profile?.id);
+                            useChatUIStore
+                              .getState()
+                              .setOpenChatWithUserId(friend.profile?.id);
                           }}
                         >
                           {" "}

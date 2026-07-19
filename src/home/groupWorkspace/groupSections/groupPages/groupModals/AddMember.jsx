@@ -88,7 +88,7 @@ function AddMember({ handleMemberModal }) {
             <label htmlFor="classmates">Friends</label>
             {friendsList?.map((friend) => {
               return (
-                <div className="friend-card" key={friend.friendshipId}>
+                <div className="friend-card-inv" key={friend.friendshipId}>
                   <div className="fr-left-grid">
                     <img src={friend.profile?.avatar_url} />
                     <div>

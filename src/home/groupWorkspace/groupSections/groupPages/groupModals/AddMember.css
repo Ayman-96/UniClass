@@ -174,17 +174,19 @@
   display: block;
 }
 
-.friend-card {
-  display: flex;
-  align-items: center;
+.friend-card-inv {
   padding: 12px 16px;
   border: 1px solid #eaeaea;
   border-radius: 10px;
   background-color: #ffffff;
   transition: all 0.2s ease;
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 150px minmax(140px, auto);
+  align-items: center;
+  gap: 16px;
 }
 
-.friend-card:hover {
+.friend-card-inv:hover {
   background-color: #fafafa;
 }
 
