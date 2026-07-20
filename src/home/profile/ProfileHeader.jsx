@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ChevronLeft,
   CircleX,
@@ -15,6 +15,8 @@ import { LiaHourglassHalfSolid } from "react-icons/lia";
 import { useNavigate } from "react-router-dom";
 import { LuCircleArrowOutUpLeft } from "react-icons/lu";
 import { useAuth } from "../../AuthContext";
+import useLightboxStore from "../../store/useLightboxStore";
+import { toast } from "sonner";
 
 function ProfileHeader({
   userId,
@@ -24,19 +26,52 @@ function ProfileHeader({
   changeData,
   imagesList,
   hasAnyImage,
-  handleAvatar,
-  handleBanner,
   setChangeData,
   handleRemoveImg,
-  handleBackground,
   handleEditProfile,
   handleSaveProfile,
+  previewBackgroundUrl,
+  setTempBackground,
+  tempBackground,
+  setIsEditing,
+  tempAvatar,
+  setTempAvatar,
+  isSaving,
 }) {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [tempBanner, setTempBanner] = useState(null);
+
+  const previewAvatarUrl = useMemo(() => {
+    if (!tempAvatar) return null;
+    return URL.createObjectURL(tempAvatar);
+  }, [tempAvatar]);
+
+  const previewBannerUrl = useMemo(() => {
+    if (!tempBanner) return null;
+    return URL.createObjectURL(tempBanner);
+  }, [tempBanner]);
+
+  useEffect(() => {
+    return () => {
+      if (previewAvatarUrl) URL.revokeObjectURL(previewAvatarUrl);
+      if (previewBannerUrl) URL.revokeObjectURL(previewBannerUrl);
+      if (previewBackgroundUrl) URL.revokeObjectURL(previewBackgroundUrl);
+    };
+  }, [previewAvatarUrl, previewBannerUrl, previewBackgroundUrl]);
+
+  function handleCancelChanges() {
+    setChangeData({});
+    setTempAvatar(null);
+    setTempBanner(null);
+    setTempBackground(null);
+    setIsEditing(false);
+    toast.warning("Changes Discarded");
+  }
   const { data: friendStatus } = useFriendshipStatuses(userId ? [userId] : []);
   const [openRemoveList, setOpenRemoveList] = useState(false);
   const { mutate: sendRequest } = useSendFriendRequest();
+
   return (
     <div
       className="profile-header"
@@ -85,7 +120,14 @@ function ProfileHeader({
       </div>
 
       {userInfo?.banner_url && (
-        <img className="banner-img" src={userInfo.banner_url} />
+        <img
+          className="banner-img"
+          src={previewBannerUrl || userInfo?.banner_url}
+          onClick={() => {
+            if (!isEditing)
+              useLightboxStore.getState().openLightbox(userInfo.banner_url);
+          }}
+        />
       )}
 
       <input
@@ -93,7 +135,9 @@ function ProfileHeader({
         type="file"
         hidden
         onClick={(e) => e.stopPropagation()}
-        onChange={(e) => handleBanner(e.target.files[0])}
+        onChange={(e) => {
+          setTempBanner(e.target.files[0]);
+        }}
       />
 
       <div className="pro-pic">
@@ -102,16 +146,21 @@ function ProfileHeader({
           type="file"
           hidden
           onClick={(e) => e.stopPropagation()}
-          onChange={(e) => handleAvatar(e.target.files[0])}
+          onChange={(e) => {
+            setTempAvatar(e.target.files[0]);
+          }}
         />
         <button
           className={`${isEditing && "editing-avatar"}`}
           onClick={(e) => {
             e.stopPropagation();
             if (isEditing) document.getElementById("avatar").click();
+            else useLightboxStore.getState().openLightbox(userInfo?.avatar_url);
           }}
         >
-          {userInfo?.avatar_url && <img src={userInfo.avatar_url} />}
+          {userInfo?.avatar_url && (
+            <img src={previewAvatarUrl || userInfo?.avatar_url} />
+          )}
         </button>
       </div>
 
@@ -163,17 +212,29 @@ function ProfileHeader({
           <div className="edit-btns">
             <button
               className="save-profile-info"
-              onClick={(e) => {
+              disabled={isSaving}
+              onClick={async (e) => {
                 e.stopPropagation();
-                handleSaveProfile();
+                await handleSaveProfile(tempAvatar, tempBanner, tempBackground);
                 handleEditProfile();
               }}
             >
               {isPending ? "Hold on..." : " Save Changes"}
             </button>
+            <button
+              className="cancel-profile-changes"
+              disabled={isSaving}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelChanges();
+              }}
+            >
+              {isPending ? "Hold on..." : "Cancel Changes"}
+            </button>
 
             <button
               className="change-banner-img"
+              disabled={isSaving}
               onClick={(e) => {
                 e.stopPropagation();
                 if (isEditing) document.getElementById("banner").click();
@@ -184,6 +245,7 @@ function ProfileHeader({
 
             <button
               className="change-background-img"
+              disabled={isSaving}
               onClick={(e) => {
                 e.stopPropagation();
                 if (isEditing) document.getElementById("background").click();
@@ -196,8 +258,12 @@ function ProfileHeader({
               id="background"
               type="file"
               hidden
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) => handleBackground(e.target.files[0])}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              onChange={(e) => {
+                setTempBackground(e.target.files[0]);
+              }}
             />
           </div>
         )

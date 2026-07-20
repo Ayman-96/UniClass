@@ -79,6 +79,9 @@ export function useUpdateProfile() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["profile", data.id] });
     },
+    onError: (error) => {
+      console.error("update failed:", error);
+    },
   });
 }
 

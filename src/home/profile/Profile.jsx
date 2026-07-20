@@ -1,6 +1,6 @@
 import "./Profile.css";
 import ProfileBody from "./ProfileBody";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProfileFooter from "./ProfileFooter";
 import ProfileHeader from "./ProfileHeader";
 import { fetchProfile } from "../../data/ProfileData";
@@ -8,19 +8,23 @@ import { useProfile, useUpdateProfile } from "../../hooks/useSaveProfile";
 import { uploadCommentImage } from "../../hooks/useUploadImage";
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner.jsx";
 import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 function Profile() {
   const { userId } = useParams();
   // HOOKS
   const { data: userInfo } = useProfile(userId);
-  const { mutate: updateProfile, isError, isPending } = useUpdateProfile();
+  const { mutateAsync: updateProfile, isError, isPending } = useUpdateProfile();
 
   // STATES
   const [changeData, setChangeData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-
+  const [tempBackground, setTempBackground] = useState(null);
+  const [tempAvatar, setTempAvatar] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
   // EFFECT
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (userInfo) setChangeData(userInfo);
   }, [userInfo]);
 
@@ -29,6 +33,10 @@ function Profile() {
   const hasAnyImage = Boolean(
     userInfo?.avatar_url || userInfo?.background_url || userInfo?.banner_url,
   );
+  const previewBackgroundUrl = useMemo(() => {
+    if (!tempBackground) return null;
+    return URL.createObjectURL(tempBackground);
+  }, [tempBackground]);
 
   // CONSTANT
   const imagesList = [
@@ -41,21 +49,40 @@ function Profile() {
   function handleEditProfile() {
     setIsEditing((prev) => !prev);
   }
-  function handleSaveProfile() {
-    updateProfile({ userId: userInfo.id, updates: changeData });
+
+  async function handleSaveProfile(avatar, banner, bg) {
+    const toastId = toast.loading("Updating Profile");
+    setIsSaving(true);
+    try {
+      const avatarUrl = avatar
+        ? await uploadCommentImage(avatar, "avatars", userInfo.id)
+        : null;
+      const bannerUrl = banner
+        ? await uploadCommentImage(banner, "banners", userInfo.id)
+        : null;
+      const bgUrl = bg
+        ? await uploadCommentImage(bg, "backgrounds", userInfo.id)
+        : null;
+
+      await updateProfile({
+        userId: userInfo.id,
+        updates: {
+          ...changeData,
+          avatar_url: avatar ? avatarUrl : userInfo?.avatar_url,
+          banner_url: banner ? bannerUrl : userInfo?.banner_url,
+          background_url: bg ? bgUrl : userInfo?.background_url,
+        },
+      });
+
+      toast.success("Profile Updated Successfully", { id: toastId });
+    } catch (error) {
+      console.error("Save profile failed:", error);
+      toast.error("Failed to update profile", { id: toastId });
+    } finally {
+      setIsSaving(false);
+    }
   }
-  async function handleAvatar(file) {
-    const avatarUrl = await uploadCommentImage(file, "avatars", userInfo.id);
-    updateProfile({ userId: userInfo.id, updates: { avatar_url: avatarUrl } });
-  }
-  async function handleBackground(file) {
-    const bgUrl = await uploadCommentImage(file, "backgrounds", userInfo.id);
-    updateProfile({ userId: userInfo.id, updates: { background_url: bgUrl } });
-  }
-  async function handleBanner(file) {
-    const bannerUrl = await uploadCommentImage(file, "banners", userInfo.id);
-    updateProfile({ userId: userInfo.id, updates: { banner_url: bannerUrl } });
-  }
+
   function handleRemoveImg(imgUrl) {
     updateProfile({ userId: userInfo.id, updates: { [imgUrl]: null } });
   }
@@ -65,7 +92,10 @@ function Profile() {
   return (
     <div className="user-profile">
       {userInfo?.background_url && (
-        <img className="background-img" src={userInfo.background_url} />
+        <img
+          className="background-img"
+          src={previewBackgroundUrl || userInfo.background_url}
+        />
       )}
 
       <ProfileHeader
@@ -76,13 +106,17 @@ function Profile() {
         changeData={changeData}
         imagesList={imagesList}
         hasAnyImage={hasAnyImage}
-        handleAvatar={handleAvatar}
-        handleBanner={handleBanner}
         setChangeData={setChangeData}
         handleRemoveImg={handleRemoveImg}
-        handleBackground={handleBackground}
         handleEditProfile={handleEditProfile}
         handleSaveProfile={handleSaveProfile}
+        previewBackgroundUrl={previewBackgroundUrl}
+        setTempBackground={setTempBackground}
+        tempBackground={tempBackground}
+        setIsEditing={setIsEditing}
+        tempAvatar={tempAvatar}
+        setTempAvatar={setTempAvatar}
+        isSaving={isSaving}
       />
 
       {isPending && <LoadingSpinner />}

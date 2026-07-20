@@ -627,6 +627,7 @@
    ========================================== */
 .profile-header .save-profile-info,
 .profile-header .change-background-img,
+.cancel-profile-changes,
 .profile-header .change-banner-img {
   display: flex; /* Changed from inline-flex to flex */
   align-items: center;
@@ -655,6 +656,7 @@
 /* Hover & Push Actions */
 .profile-header .save-profile-info:hover,
 .profile-header .change-background-img:hover,
+.cancel-profile-changes,
 .profile-header .change-banner-img:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
@@ -662,6 +664,7 @@
 
 .profile-header .save-profile-info:active,
 .profile-header .change-background-img:active,
+.cancel-profile-changes,
 .profile-header .change-banner-img:active {
   transform: translateY(0);
 }
