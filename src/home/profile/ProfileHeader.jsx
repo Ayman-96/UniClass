@@ -121,7 +121,7 @@ function ProfileHeader({
 
       {userInfo?.banner_url && (
         <img
-          className="banner-img"
+          className={`banner-img ${isEditing ? "" : "zoom-img"}`}
           src={previewBannerUrl || userInfo?.banner_url}
           onClick={() => {
             if (!isEditing)
@@ -159,7 +159,10 @@ function ProfileHeader({
           }}
         >
           {userInfo?.avatar_url && (
-            <img src={previewAvatarUrl || userInfo?.avatar_url} />
+            <img
+              src={previewAvatarUrl || userInfo?.avatar_url}
+              className={`${isEditing ? "" : "zoom-img"}`}
+            />
           )}
         </button>
       </div>

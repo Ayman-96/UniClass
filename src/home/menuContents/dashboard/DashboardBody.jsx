@@ -5,7 +5,6 @@ import { DoorClosedLocked, DoorOpen, PlusIcon, Users } from "lucide-react";
 import { MdOutgoingMail } from "react-icons/md";
 import { useGroupActivitySummary } from "../../../hooks/useGroupActivity";
 import { formatActivityText } from "../../../data/groupActivityText";
-import { FiActivity } from "react-icons/fi";
 import { BiSolidNotification } from "react-icons/bi";
 
 function DashboardBody({ handleOpenNewGroup, storedGroups }) {

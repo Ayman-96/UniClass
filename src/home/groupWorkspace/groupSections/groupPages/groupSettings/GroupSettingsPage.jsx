@@ -17,6 +17,9 @@ import { useIsModerator } from "../../../../../hooks/useIsRep";
 import { TbLogout2 } from "react-icons/tb";
 
 function GroupSettingsPage() {
+  const [tempAvatar, setTempAvatar] = useState(null);
+  const [tempBanner, setTempBanner] = useState(null);
+
   const { groupId } = useParams();
   const navigate = useNavigate();
   const { data: groupData } = useSingleGroup(groupId);
@@ -72,12 +75,18 @@ function GroupSettingsPage() {
           setChangeData={setChangeData}
           handleSave={handleSave}
           onCancel={() => setIsEdinig(false)}
+          tempAvatar={tempAvatar}
+          tempBanner={tempBanner}
+          setTempAvatar={setTempAvatar}
+          setTempBanner={setTempBanner}
         />
         <GroupDesign
           groupData={groupData}
           isEditing={isEditing}
           changeData={changeData}
           setChangeData={setChangeData}
+          setTempAvatar={setTempAvatar}
+          setTempBanner={setTempBanner}
         />
 
         <GroupManageAccess

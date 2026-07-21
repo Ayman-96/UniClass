@@ -33,6 +33,7 @@ import {
   useNotes,
 } from "../../../../../hooks/useNotes";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
+import useLightboxStore from "../../../../../store/useLightboxStore";
 const discussBtns = [
   {
     name: "Comments",
@@ -253,7 +254,13 @@ function LectureDiscussion({ selectedLecture }) {
           })}
           {commentImg ? (
             <div className="added-discuss-image">
-              <img src={imagePreviewUrl} />
+              <img
+                className="zoom-img"
+                src={imagePreviewUrl}
+                onClick={() => {
+                  useLightboxStore.getState().openLightbox(imagePreviewUrl);
+                }}
+              />
               <button
                 className="remove-discuss-img"
                 onClick={() => setCommentImg(null)}

@@ -130,11 +130,6 @@ function AddAnnounce({ handleAnnounceModal }) {
       icon: <AtSign />,
       onClick: () => handleMentionButtonClick(),
     },
-    {
-      text: "Link",
-      icon: <Link />,
-      onClick: () => "",
-    },
   ];
   return (
     <div className="add-post-overlay">

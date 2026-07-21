@@ -124,12 +124,6 @@ function AddPost({ handlePostModal }) {
       icon: <AtSign />,
       onClick: () => handleMentionButtonClick(),
     },
-    {
-      id: "links",
-      text: "Add Link",
-      icon: <Link />,
-      onClick: () => "",
-    },
   ];
   return (
     <div className="add-post-overlay">

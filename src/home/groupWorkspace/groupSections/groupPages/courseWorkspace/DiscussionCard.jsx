@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useIsRep } from "../../../../../hooks/useIsRep";
 import { BsPinAngle, BsPinAngleFill } from "react-icons/bs";
 import { useTogglePinDiscussion } from "../../../../../hooks/useDiscussion";
+import useLightboxStore from "../../../../../store/useLightboxStore";
 
 function DiscussionCard({
   comment,
@@ -73,7 +74,13 @@ function DiscussionCard({
       </p>
 
       <div className="discussion-image">
-        <img src={comment.img_url} />
+        <img
+          className="zoom-img"
+          src={comment.img_url}
+          onClick={() => {
+            useLightboxStore.getState().openLightbox(comment.img_url);
+          }}
+        />
       </div>
 
       <div className="discuss-reaction">

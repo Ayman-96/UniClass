@@ -23,6 +23,8 @@ import { useGroupMembers } from "../../../../hooks/useGroupMembers";
 import handleDownload from "../../../../components/DownloadFile";
 import { formatFileSize, getFileStyle } from "../../../../data/addCourseData";
 import { renderMentions } from "../../../../components/renderMentions";
+import useLightboxStore from "../../../../store/useLightboxStore.js";
+
 function AnnounceCard({
   announce,
   myVote,
@@ -144,6 +146,9 @@ function AnnounceCard({
             src={announce.img_url}
             alt="post attachment"
             className="announce-img"
+            onClick={() =>
+              useLightboxStore.getState().openLightbox(announce.img_url)
+            }
           />
         )}
       </div>

@@ -391,7 +391,7 @@
   /* 3. Scale down the heading size so it doesn't wrap awkwardly */
   .no-group-yet {
     font-size: 1.4rem;
-    line-weight: 1.2;
+    line-height: 1.2;
   }
 
   /* 4. Scale down the subtitle text */

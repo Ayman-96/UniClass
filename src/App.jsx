@@ -24,11 +24,13 @@ import GroupAnnouncementsPage from "./home/groupWorkspace/groupSections/groupPag
 import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/CourseWorkspace";
 import GroupSettingsPage from "./home/groupWorkspace/groupSections/groupPages/groupSettings/GroupSettingsPage";
 import LectureView from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/LectureView";
+import Lightbox from "./components/Lightbox";
 function App() {
   useGlobalMessageToast();
   useNotificationsRealtime();
   return (
     <div>
+      <Lightbox />
       <DesktopOnlyGate>
         <Routes>
           <Route path="/" element={<Welcome />} />

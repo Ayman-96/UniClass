@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { CodeXml, FileCog, Wrench } from "lucide-react";
 import { IoIosCreate } from "react-icons/io";
 import { useIsRep } from "../../../../../hooks/useIsRep";
@@ -11,8 +11,29 @@ function GroupSettingsHeader({
   setChangeData,
   handleSave,
   onCancel,
+  tempAvatar,
+  tempBanner,
+  setTempAvatar,
+  setTempBanner,
 }) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const previewAvatarUrl = useMemo(() => {
+    if (!tempAvatar) return null;
+    return URL.createObjectURL(tempAvatar);
+  }, [tempAvatar]);
+
+  const previewBannerUrl = useMemo(() => {
+    if (!tempBanner) return null;
+    return URL.createObjectURL(tempBanner);
+  }, [tempBanner]);
+
+  useEffect(() => {
+    return () => {
+      if (previewAvatarUrl) URL.revokeObjectURL(previewAvatarUrl);
+      if (previewBannerUrl) URL.revokeObjectURL(previewBannerUrl);
+    };
+  }, [previewAvatarUrl, previewBannerUrl]);
 
   const unchangableData = [
     {
@@ -36,11 +57,14 @@ function GroupSettingsHeader({
   return (
     <div className="gp-info-container">
       {groupData?.banner_url && (
-        <img className="grp-banner-img" src={groupData.banner_url} />
+        <img
+          className="grp-banner-img"
+          src={previewBannerUrl || groupData.banner_url}
+        />
       )}
       <div className="gp-avatar">
         <img
-          src={groupData?.avatar_url}
+          src={previewAvatarUrl || groupData?.avatar_url}
           style={{ border: `3px solid ${groupData?.color}` }}
         />
       </div>
@@ -89,6 +113,8 @@ function GroupSettingsHeader({
               onClick={() => {
                 setChangeData(groupData);
                 onCancel();
+                setTempAvatar(null);
+                setTempBanner(null);
               }}
             >
               Cancel

@@ -43,6 +43,9 @@
   margin-bottom: 8px;
   object-fit: cover;
   display: block;
+  cursor:
+    url("/zoom-in-area.svg") 16 16,
+    zoom-in;
 }
 
 .group-nav-name {

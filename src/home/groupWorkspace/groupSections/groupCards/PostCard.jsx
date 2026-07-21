@@ -23,6 +23,7 @@ import { renderMentions } from "../../../../components/renderMentions.jsx";
 import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
 import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
 import { useAuth } from "../../../../AuthContext.jsx";
+import useLightboxStore from "../../../../store/useLightboxStore.js";
 
 function PostCard({ post, isLiked, likeCount, toggleLike }) {
   const { user } = useAuth();
@@ -127,6 +128,9 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
               src={post.img_url}
               alt="post attachment"
               className="post-img"
+              onClick={() =>
+                useLightboxStore.getState().openLightbox([post.img_url])
+              }
             />
           )}
 

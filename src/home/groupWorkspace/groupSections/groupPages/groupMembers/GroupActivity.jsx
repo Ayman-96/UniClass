@@ -1,13 +1,23 @@
-import { useGroupActivity } from "../../../../../hooks/useGroupActivity";
+import {
+  useGroupActivity,
+  useMarkGroupActivitySeen,
+} from "../../../../../hooks/useGroupActivity";
 import { formatDistanceToNow } from "date-fns";
 import { ActivityIcon } from "lucide-react";
 import {
   formatActivityText,
   GROUP_ACTIVITY_ICON_MAP,
 } from "../../../../../data/groupActivityText";
+import { useEffect } from "react";
 
 export default function GroupActivity({ groupId }) {
   const { data: activity = [], isLoading } = useGroupActivity(groupId);
+  const markSeen = useMarkGroupActivitySeen();
+
+  useEffect(() => {
+    if (groupId) markSeen.mutate(groupId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupId]);
 
   return (
     <div className="activity-card">

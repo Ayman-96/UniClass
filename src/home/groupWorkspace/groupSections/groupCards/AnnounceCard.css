@@ -130,7 +130,11 @@
   height: 16px;
   stroke-width: 2;
 }
-
+.announce-img {
+  cursor:
+    url("/zoom-in-area.svg") 16 16,
+    zoom-in;
+}
 /* Action Buttons Grid on Right */
 .announced-buttons {
   display: flex;

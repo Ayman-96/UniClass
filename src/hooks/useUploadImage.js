@@ -1,7 +1,7 @@
 import { supabase } from "../supabase";
 
 export async function uploadCommentImage(file, bucket, userId) {
-  const ext = file.name.split(".").pop();
+  const ext = file?.name.split(".").pop();
   const path = `${userId}/${Date.now()}.${ext}`;
 
   const { error } = await supabase.storage

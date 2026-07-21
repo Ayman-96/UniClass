@@ -17,6 +17,7 @@ import { NavLink, useParams } from "react-router-dom";
 import TextCollapser from "../../../../components/TextExpnder.jsx";
 import { useLikeComments } from "../../../../hooks/useLikeComments.js";
 import { useProfile } from "../../../../hooks/useSaveProfile.js";
+import useLightboxStore from "../../../../store/useLightboxStore.js";
 
 const initialState = {
   content: "",
@@ -98,6 +99,17 @@ function PostComments({ setOpenComments, storedComments, postId }) {
     inputRef.current?.focus();
   }, [parent]);
 
+  const previewUrl = useMemo(() => {
+    if (!newComment.image) return null;
+    return URL.createObjectURL(newComment.image);
+  }, [newComment.image]);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
   if (isError) return <div>Error Occured...</div>;
   return (
     <div className="post-comment-section">
@@ -138,9 +150,14 @@ function PostComments({ setOpenComments, storedComments, postId }) {
         <div className="write-comment-section">
           {newComment.image && (
             <div className="added-image">
-              <img src={URL.createObjectURL(newComment.image)} />
+              <img
+                src={previewUrl}
+                onClick={() =>
+                  useLightboxStore.getState().openLightbox(previewUrl)
+                }
+              />
               <button
-                className="remove-img"
+                className="remove-img-comment"
                 onClick={() => dispatch({ type: "REMOVE_IMAGE" })}
               >
                 <X />
@@ -235,6 +252,7 @@ function CommentItem({ comment, postId, isRep, dispatch, setParent, isReply }) {
       restContent = "";
     }
   }
+
   return (
     <div className="comment-container" key={comment.id}>
       <div className={`user-comment ${isReply ? "smaller-comment-reply" : ""}`}>
@@ -258,7 +276,14 @@ function CommentItem({ comment, postId, isRep, dispatch, setParent, isReply }) {
             <TextCollapser color="#1a9e78">
               {tag ? restContent : comment.content}
             </TextCollapser>
-            {comment.image && <img src={comment.image} />}
+            {comment.image && (
+              <img
+                src={comment.image}
+                onClick={() => {
+                  useLightboxStore.getState().openLightbox(comment.image);
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

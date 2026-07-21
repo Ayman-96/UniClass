@@ -145,6 +145,9 @@
   object-fit: cover;
   max-height: 300px;
   border: 0.5px solid #e5e4df;
+  cursor:
+    url("/zoom-in-area.svg") 16 16,
+    zoom-in;
 }
 
 /* ── Stats row (likes • comments) ── */

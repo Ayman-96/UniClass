@@ -12,7 +12,7 @@ import { HiUserGroup } from "react-icons/hi";
 import { LuCopyCheck } from "react-icons/lu";
 import InvitationCard from "./InvitationCard";
 import { MdOutgoingMail } from "react-icons/md";
-
+import useLightboxStore from "../../../../../store/useLightboxStore";
 function GroupMembersHeader({ groupData, countRep }) {
   const [copied, setCopied] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -57,12 +57,21 @@ function GroupMembersHeader({ groupData, countRep }) {
   return (
     <div className="gp-members-header">
       {groupData?.banner_url && (
-        <img className="group-banner-img" src={groupData?.banner_url} />
+        <img
+          className="group-banner-img"
+          src={groupData?.banner_url}
+          onClick={() =>
+            useLightboxStore.getState().openLightbox(groupData?.banner_url)
+          }
+        />
       )}
       <div className="header-left-col">
         <img
           src={groupData?.avatar_url}
           style={{ border: `3px solid ${groupData?.color}` }}
+          onClick={() =>
+            useLightboxStore.getState().openLightbox(groupData?.avatar_url)
+          }
         />
       </div>
 

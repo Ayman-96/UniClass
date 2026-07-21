@@ -169,6 +169,9 @@
   border: 1px solid var(--pc-border);
   object-fit: cover;
   background: var(--pc-border);
+  cursor:
+    url("/zoom-in-area.svg") 16 16,
+    zoom-in;
 }
 .comm-content img {
   max-width: 100%;
@@ -261,9 +264,12 @@
   border: 1px solid var(--pc-border);
   object-fit: cover;
   background: var(--pc-bubble);
+  cursor:
+    url("/zoom-in-area.svg") 16 16,
+    zoom-in;
 }
 
-.remove-img {
+.remove-img-comment {
   position: absolute;
   top: -6px;
   right: -6px;
@@ -280,7 +286,7 @@
   padding: 0;
 }
 
-.remove-img svg {
+.remove-img-comment svg {
   width: 10px;
   height: 10px;
 }
@@ -370,7 +376,7 @@
 .comm-interactions button:focus-visible,
 .add-img-btn:focus-visible,
 .post-comment:focus-visible,
-.remove-img:focus-visible {
+.remove-img-comment:focus-visible {
   outline: 2px solid var(--pc-green);
   outline-offset: 2px;
 }

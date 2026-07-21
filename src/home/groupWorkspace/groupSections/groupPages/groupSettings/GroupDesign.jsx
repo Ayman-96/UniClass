@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { Camera, ImageIcon, InspectionPanel } from "lucide-react";
+import { toast } from "sonner";
 
-function GroupDesign({ groupData, isEditing, changeData, setChangeData }) {
+function GroupDesign({
+  groupData,
+  isEditing,
+  changeData,
+  setChangeData,
+  setTempAvatar,
+  setTempBanner,
+}) {
   const [selectedColor, setSelectedColor] = useState(groupData?.color);
-
   const colorOptions = [
     "#00a86b", // Emerald Green
     "#065f46", // Deep Forest Green
@@ -28,9 +35,11 @@ function GroupDesign({ groupData, isEditing, changeData, setChangeData }) {
               type="file"
               hidden
               onClick={(e) => e.stopPropagation()}
-              onChange={(e) =>
-                setChangeData({ ...changeData, avatarFile: e.target.files[0] })
-              }
+              onChange={(e) => {
+                setChangeData({ ...changeData, avatarFile: e.target.files[0] });
+                setTempAvatar(e.target.files[0]);
+                toast.message("Updating...");
+              }}
             />
             <button
               className={`${isEditing ? "editing-grp-avatar" : ""}`}
@@ -65,9 +74,11 @@ function GroupDesign({ groupData, isEditing, changeData, setChangeData }) {
               type="file"
               hidden
               onClick={(e) => e.stopPropagation()}
-              onChange={(e) =>
-                setChangeData({ ...changeData, bannerFile: e.target.files[0] })
-              }
+              onChange={(e) => {
+                setChangeData({ ...changeData, bannerFile: e.target.files[0] });
+                setTempBanner(e.target.files[0]);
+                toast.message("Updating...");
+              }}
             />
             <button
               className={`${isEditing ? "editing-grp-avatar" : ""}`}
