@@ -9,7 +9,6 @@ import { useProfile } from "../../../../../hooks/useSaveProfile.js";
 import {
   AtSign,
   ImagePlus,
-  Link,
   Megaphone,
   Paperclip,
   ShieldCheck,

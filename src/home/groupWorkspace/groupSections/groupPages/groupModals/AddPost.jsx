@@ -2,7 +2,6 @@ import "./AddPost.css";
 import {
   AtSign,
   ImagePlus,
-  Link,
   MessageSquarePlus,
   Paperclip,
   Send,
