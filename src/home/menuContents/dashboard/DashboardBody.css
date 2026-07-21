@@ -194,7 +194,7 @@
    🔔 BOTTOM STATUS FOLLOWER TABS
    ========================================================================== */
 .group-subtitle {
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid #9fb1a4;
   margin-top: auto;
   padding-top: 0.85rem;
   display: flex;
@@ -210,7 +210,16 @@
   color: #94a3b8;
 }
 
+.new-act-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
 .group-news {
+  line-height: 1;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

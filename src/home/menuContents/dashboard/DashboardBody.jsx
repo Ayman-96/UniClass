@@ -1,12 +1,36 @@
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import "./DashboardBody.css";
 import { DoorClosedLocked, DoorOpen, PlusIcon, Users } from "lucide-react";
 import { MdOutgoingMail } from "react-icons/md";
+import { useGroupActivitySummary } from "../../../hooks/useGroupActivity";
+import { formatActivityText } from "../../../data/groupActivityText";
+import { FiActivity } from "react-icons/fi";
+import { BiSolidNotification } from "react-icons/bi";
+
 function DashboardBody({ handleOpenNewGroup, storedGroups }) {
+  const groupIds = useMemo(() => storedGroups.map((g) => g.id), [storedGroups]);
+  const { data: activitySummary = [] } = useGroupActivitySummary(groupIds);
+
+  const summaryByGroup = useMemo(
+    () => Object.fromEntries(activitySummary.map((s) => [s.group_id, s])),
+    [activitySummary],
+  );
+
   return (
     <div className="groups">
       {storedGroups.length ? (
         storedGroups.map((group) => {
+          const summary = summaryByGroup[group.id];
+          const unread = summary?.unread_count ?? 0;
+          const latestText = summary?.latest_type
+            ? formatActivityText({
+                type: summary.latest_type,
+                metadata: summary.latest_metadata,
+                actor: { username: summary.latest_actor_username },
+              })
+            : null;
+
           return (
             <Link
               to={`/home/group/${group.id}/courses`}
@@ -55,13 +79,22 @@ function DashboardBody({ handleOpenNewGroup, storedGroups }) {
                 </div>
                 <div className="courses-count-row">
                   <span>{group.courses[0]?.count ?? 0} Courses</span>
-                  <span className="pill-badge alert">X new</span>
+                  {unread > 0 && (
+                    <span className="pill-badge alert">{unread} new</span>
+                  )}
                 </div>
               </div>
 
               <div className="group-subtitle">
-                <p className="num-of-lecs">\</p>
-                <div className="group-news">ex: new Leacture</div>
+                <div className="new-act-icon">
+                  <BiSolidNotification
+                    size={18}
+                    style={{ color: group.color }}
+                  />
+                </div>
+                <div className="group-news">
+                  {latestText || "No recent activity"}
+                </div>
               </div>
             </Link>
           );
