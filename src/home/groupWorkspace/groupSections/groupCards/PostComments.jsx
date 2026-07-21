@@ -305,6 +305,7 @@ function CommentItem({ comment, postId, isRep, dispatch, setParent, isReply }) {
               const topLevelParentId = comment.parent_comment_id ?? comment.id;
               setParent(comment.profiles?.username);
               dispatch({ type: "SET_REPLY_TO", payload: topLevelParentId });
+              document.getElementById("comment-input").focus();
             }}
           >
             <CornerDownLeft /> Reply

@@ -107,6 +107,7 @@ function DiscussionCard({
               onClick={() => {
                 setIsEditing(true);
                 handleEditComment(comment.id, comment.content);
+                document.getElementById("discussion").focus();
               }}
             >
               <SquarePen />

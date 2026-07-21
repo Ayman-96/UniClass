@@ -18,6 +18,7 @@ function NotesCollection({
   return (
     <>
       {storedNotes?.map((note) => {
+        console.log(note);
         const color = commentTypes.find(
           (t) => t.name.toLowerCase() === note.type,
         ).color;

@@ -207,6 +207,7 @@ function LectureDiscussion({ selectedLecture }) {
                 setIsEditing(false);
                 setReplyTo(null);
                 setReplyToUser(null);
+                document.getElementById("discussion").focus();
               }}
               className={`discuss-btn ${activeTab === btn.name && "activated-panel"}`}
             >

@@ -326,6 +326,7 @@ function CommentItem({
                 type: "SET_REPLY_TO",
                 payload: topLevelParentId,
               });
+              document.getElementById("add-comment-announce").focus();
             }}
           >
             <CornerDownLeft /> Reply
