@@ -157,12 +157,14 @@ const FILTER_TYPE_MAP = {
 };
 
 function entityLink(n = []) {
+  if (n.entity_type === "lecture") {
+    return `/home/group/${n?.group_id}/courses/${n?.metadata?.course_id}/lectures/${n?.entity_id}`;
+  }
   if (n.type === "chat_message") return `/home/classmates`;
   if (n.type.startsWith("friend_")) return `/profile/${n.actor?.id ?? ""}`;
   if (n.entity_type === "post")
     return `/home/group/${n?.group_id}/posts?highlight=${n.entity_id}`;
   if (
-    // issue
     n.entity_type === "post_comment" ||
     n.entity_type === "announcement_comment"
   )
@@ -170,7 +172,7 @@ function entityLink(n = []) {
   if (n.entity_type === "discussion")
     return `/home/group/${n?.group_id}/courses`;
   if (n.entity_type === "group" || n.entity_type === "course")
-    return `/home/group/${n?.group_id}`;
+    return `/home/group/${n?.group_id}/courses`;
   return "/home/notifications";
 }
 
