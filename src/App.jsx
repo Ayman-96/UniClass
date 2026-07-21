@@ -25,6 +25,7 @@ import CourseWorkspace from "./home/groupWorkspace/groupSections/groupPages/cour
 import GroupSettingsPage from "./home/groupWorkspace/groupSections/groupPages/groupSettings/GroupSettingsPage";
 import LectureView from "./home/groupWorkspace/groupSections/groupPages/courseWorkspace/LectureView";
 import Lightbox from "./components/Lightbox";
+import NotFound from "./NotFound/NotFound";
 function App() {
   useGlobalMessageToast();
   useNotificationsRealtime();
@@ -68,6 +69,8 @@ function App() {
           </Route>
           <Route path="/join/:groupId" element={<InvitePage />} />
           <Route path="/post/:postId" element={<PostRedirect />} />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </DesktopOnlyGate>
     </div>

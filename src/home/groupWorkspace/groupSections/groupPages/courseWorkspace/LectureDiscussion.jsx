@@ -150,7 +150,6 @@ function LectureDiscussion({ selectedLecture }) {
   }
 
   function handleAddNote() {
-    console.log(commentImg);
     if (!noteContent && !commentImg) return;
 
     if (isEditing) {
