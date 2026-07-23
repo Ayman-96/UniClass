@@ -1,5 +1,5 @@
 import "./AnimatedBackground.css";
-import bgImage from "../assets/bg-hero.png";
+import bgImage from "../assets/bg-hero.webp";
 
 export default function AnimatedBackground({ children }) {
   return (

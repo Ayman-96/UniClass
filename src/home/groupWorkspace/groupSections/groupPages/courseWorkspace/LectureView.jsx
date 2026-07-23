@@ -9,6 +9,7 @@ import {
   Shrink,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { supabase } from "../../../../../supabase";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -28,6 +29,7 @@ function LectureView() {
   const selectedLecture = lectures?.find((l) => l.id === lectureId);
 
   const { setCurrentSlide } = useLectureStore();
+  const [signedPdfUrl, setSignedPdfUrl] = useState(null);
   const [numPages, setNumPages] = useState(null);
   const [scale, setScale] = useState(BASE_SCALE);
   const [pageNumber, setPageNumber] = useState(1);
@@ -51,6 +53,22 @@ function LectureView() {
     setCurrentSlide(pageNumber);
   }, [pageNumber, setCurrentSlide]);
 
+  useEffect(() => {
+    if (!selectedLecture?.pdf_url) return;
+
+    const path = selectedLecture.pdf_url.split("/lecture-pdfs/")[1];
+
+    supabase.storage
+      .from("lecture-pdfs")
+      .createSignedUrl(path, 3600) // 1 hour
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Failed to get signed URL:", error.message);
+          return;
+        }
+        setSignedPdfUrl(data.signedUrl);
+      });
+  }, [selectedLecture]);
   if (!selectedLecture)
     return (
       <div className="no-lecture-selected">
@@ -98,7 +116,7 @@ function LectureView() {
             className="download-pdf-btn"
             onClick={() =>
               handleDownload(
-                selectedLecture.pdf_url,
+                signedPdfUrl,
                 selectedLecture.title,
                 "Lecture Downloaded",
               )
@@ -145,7 +163,7 @@ function LectureView() {
           <ChevronLeft />
         </button>
 
-        <Document file={selectedLecture.pdf_url} onLoadSuccess={onLoadSuccess}>
+        <Document file={signedPdfUrl} onLoadSuccess={onLoadSuccess}>
           <Page pageNumber={pageNumber} scale={scale} width={1000} />
         </Document>
 

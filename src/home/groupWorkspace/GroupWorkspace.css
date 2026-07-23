@@ -1,12 +1,23 @@
 /* GroupWorkspace.css */
 
 .group-page {
+  position: relative;
   display: flex;
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
+.group-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../../assets/bg-hero.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
 .group-space-left {
   flex-shrink: 0;
 }
@@ -18,4 +29,6 @@
   flex-direction: column;
   overflow: auto;
   padding-left: 2rem;
+  position: relative;
+  z-index: 1;
 }

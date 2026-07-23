@@ -1,5 +1,4 @@
 import { toast } from "sonner";
-import { useAuth } from "../AuthContext";
 import { supabase } from "../supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
@@ -39,7 +38,6 @@ export function useAddGroup() {
         p_group_code: newGroup.group_code,
         p_description: newGroup.description,
         p_color: newGroup.color,
-        p_rep_id: newGroup.rep_id,
         p_rep_name: newGroup.rep_name,
       });
 
@@ -62,13 +60,11 @@ export function useAddGroup() {
 
 export function useJoinGroup() {
   const queryClient = useQueryClient();
-  const { user } = useAuth();
 
   return useMutation({
     mutationFn: async (code) => {
       const { data, error } = await supabase.rpc("join_group_by_code", {
         p_code: code,
-        p_user_id: user.id,
       });
 
       if (error) {

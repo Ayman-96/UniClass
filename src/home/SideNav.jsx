@@ -16,8 +16,8 @@ function SideNav() {
       title: "Dashboard",
       icon: <LayoutGrid className="sidebar-icon" />,
     },
-    { id: 2, title: "Notifications", icon: <Bell className="sidebar-icon" /> },
-    { id: 3, title: "Classmates", icon: <Users className="sidebar-icon" /> },
+    { id: 2, title: "Classmates", icon: <Users className="sidebar-icon" /> },
+    { id: 3, title: "Notifications", icon: <Bell className="sidebar-icon" /> },
     { id: 4, title: "Profile", icon: <IdCard className="sidebar-icon" /> },
   ];
   return (

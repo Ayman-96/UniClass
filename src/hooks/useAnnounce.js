@@ -64,6 +64,7 @@ export function useAddAnnounce() {
       if (newAnnouncement.files?.length) {
         uploadedFiles = await Promise.all(
           newAnnouncement.files.map(async (file) => {
+            console.log(newAnnouncement);
             const filePath = `${newAnnouncement.author_id}/${Date.now()}-${file.name}`;
             const { error: uploadError } = await supabase.storage
               .from("announcement-files")

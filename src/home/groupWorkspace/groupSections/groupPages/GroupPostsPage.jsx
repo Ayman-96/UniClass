@@ -47,7 +47,7 @@ function GroupPostsPage() {
       </div>
 
       <div className="storedPosts-cards">
-        {storedPosts.map((post) => {
+        {storedPosts?.map((post) => {
           const postLikes =
             likes?.filter((like) => like.post_id === post.id) ?? [];
           const isLiked = postLikes.some((like) => like.user_id === user.id);

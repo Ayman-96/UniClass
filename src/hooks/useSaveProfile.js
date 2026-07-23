@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
 import { useAuth } from "../AuthContext";
+import { toast } from "sonner";
 
 export function useSaveProfile() {
   return useMutation({
@@ -39,7 +40,14 @@ export function useSaveProfile() {
         avatar_url,
       });
 
-      if (error) throw new Error(error.message);
+      if (error) {
+        if (error.code === "23505") {
+          throw new Error(
+            "That username is already taken. Please choose another.",
+          );
+        }
+        throw new Error(error.message);
+      }
     },
   });
 }
@@ -73,7 +81,14 @@ export function useUpdateProfile() {
         .eq("id", userId)
         .select()
         .single();
-      if (error) throw error;
+      if (error) {
+        if (error.code === "23505") {
+          throw new Error(
+            "That username is already taken. Please choose another.",
+          );
+        }
+        throw error;
+      }
       return data;
     },
     onSuccess: (data) => {
@@ -81,6 +96,7 @@ export function useUpdateProfile() {
     },
     onError: (error) => {
       console.error("update failed:", error);
+      toast.error(error.message);
     },
   });
 }

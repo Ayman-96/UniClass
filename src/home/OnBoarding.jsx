@@ -17,6 +17,8 @@ import { useSaveProfile } from "../hooks/useSaveProfile";
 import { useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
+import { toast } from "sonner";
+import OnboardingTour from "../components/OnboardingTour"; // adjust path to wherever you put it
 
 const userData = {
   fullName: "",
@@ -63,6 +65,7 @@ function profileReducer(state, action) {
 }
 function OnBoarding() {
   const [error, setError] = useState(null);
+  const [showTour, setShowTour] = useState(false);
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const { mutate: saveProfile, isLoading, isError } = useSaveProfile();
@@ -94,7 +97,8 @@ function OnBoarding() {
       },
       {
         onSuccess: () => {
-          navigate("/home");
+          toast.success("Welcome to UniClass!");
+          setShowTour(true);
         },
         onError: (err) => setError(err.message),
       },
@@ -103,65 +107,68 @@ function OnBoarding() {
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error Occured...</div>;
   return (
-    <div className="onboarding-overlay">
-      {error && <p className="error-msg">{error}</p>}
-      <div className="onboarding-header">
-        <div
-          className="steps-bar"
-          style={{ "--progress": `${(step / 3) * 100}%` }}
-        ></div>
-        <div className="steps-count">Step {step} of 3</div>
-        <div className="step-title">
-          <h1>
-            {step === 1
-              ? "Tell Us About Yourself"
-              : step === 2
-                ? "Where Do You Study?"
-                : "You're All Set!"}
-          </h1>
-          <p>
-            {" "}
-            {step === 1
-              ? "Introduce Yourself to UniClass!"
-              : step === 2
-                ? "Let Others Know Your Current Career"
-                : "Your Profile is Ready to GO!"}
-          </p>
+    <>
+      <div className="onboarding-overlay">
+        {error && <p className="error-msg">{error}</p>}
+        <div className="onboarding-header">
+          <div
+            className="steps-bar"
+            style={{ "--progress": `${(step / 3) * 100}%` }}
+          ></div>
+          <div className="steps-count">Step {step} of 3</div>
+          <div className="step-title">
+            <h1>
+              {step === 1
+                ? "Tell Us About Yourself"
+                : step === 2
+                  ? "Where Do You Study?"
+                  : "You're All Set!"}
+            </h1>
+            <p>
+              {" "}
+              {step === 1
+                ? "Introduce Yourself to UniClass!"
+                : step === 2
+                  ? "Let Others Know Your Current Career"
+                  : "Your Profile is Ready to GO!"}
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className="onboarding-body">
-        {step === 1 ? (
-          <PersonalInfo dispatch={dispatch} />
-        ) : step === 2 ? (
-          <AcademicCareer dispatch={dispatch} />
-        ) : (
-          <AllSet dispatch={dispatch} newProfile={newProfile} />
-        )}
-      </div>
-
-      <div className="oboarding-footer">
-        <div className="onboarding-btns">
-          {step > 1 && (
-            <button
-              onClick={() => {
-                setStep((prev) => prev - 1);
-                setError(null);
-              }}
-            >
-              <CircleArrowLeft />
-            </button>
+        <div className="onboarding-body">
+          {step === 1 ? (
+            <PersonalInfo dispatch={dispatch} />
+          ) : step === 2 ? (
+            <AcademicCareer dispatch={dispatch} />
+          ) : (
+            <AllSet dispatch={dispatch} newProfile={newProfile} />
           )}
-          <button
-            onClick={
-              step < 3 ? () => setStep((prev) => prev + 1) : handleSetProfile
-            }
-          >
-            {step < 3 ? "Continue" : "Go to Dashboard"}
-          </button>
+        </div>
+
+        <div className="oboarding-footer">
+          <div className="onboarding-btns">
+            {step > 1 && (
+              <button
+                onClick={() => {
+                  setStep((prev) => prev - 1);
+                  setError(null);
+                }}
+              >
+                <CircleArrowLeft />
+              </button>
+            )}
+            <button
+              onClick={
+                step < 3 ? () => setStep((prev) => prev + 1) : handleSetProfile
+              }
+            >
+              {step < 3 ? "Continue" : "Go to Dashboard"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      {showTour && <OnboardingTour onFinish={() => navigate("/home")} />}
+    </>
   );
 }
 export default OnBoarding;

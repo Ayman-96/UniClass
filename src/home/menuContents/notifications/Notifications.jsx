@@ -46,6 +46,8 @@ import { RiSettings3Fill } from "react-icons/ri";
 import { GrGroup } from "react-icons/gr";
 import ManageNotifications from "./ManageNotifications";
 import { GiNightSleep } from "react-icons/gi";
+import { useAuth } from "../../../AuthContext";
+import { useProfile } from "../../../hooks/useSaveProfile";
 
 const NOTIF_ICON_MAP = {
   group_invite: {
@@ -177,6 +179,9 @@ function entityLink(n = []) {
 }
 
 function Notifications() {
+  const { user } = useAuth();
+  const { data: profile } = useProfile(user?.id);
+  console.log(profile);
   const [openSettings, setOpenSettings] = useState(false);
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [activeFilter, setActiveFilter] = useState("all_notifications");
@@ -208,6 +213,9 @@ function Notifications() {
 
   return (
     <div className="notif-container">
+      {profile?.background_url && (
+        <img className="background-img" src={profile?.background_url} />
+      )}
       <div className="notif-sidebar">
         <NotificationFilter
           notifications={notifications}

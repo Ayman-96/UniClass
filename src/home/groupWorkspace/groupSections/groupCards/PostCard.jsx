@@ -69,6 +69,7 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
         setTimeout(() => setCopied(false), 2000);
       });
   }
+
   if (isPending) return <LoadingSpinner />;
   if (isError) return <div>Error Occured...</div>;
   return (
@@ -80,14 +81,14 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
         <div className="post-head">
           <div className="author-info">
             <NavLink to={`/profile/${post.author_id}`}>
-              <img src={post.profiles.avatar_url} className="author-pro-pic" />
+              <img src={post.profiles?.avatar_url} className="author-pro-pic" />
             </NavLink>
             <div className="author-name">
-              <p>{post.profiles.username}</p>
+              <p>{post.profiles?.username}</p>
               <p>
                 {postedTime} •{" "}
                 <span style={{ color: currentGroup?.color }}>
-                  {post.profiles.role}{" "}
+                  {post.profiles?.role}{" "}
                 </span>
               </p>
             </div>
