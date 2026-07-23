@@ -15,6 +15,7 @@ import {
   useSendFriendRequest,
 } from "../../../../../hooks/useFriends";
 import { FaPeopleArrows, FaUserPlus } from "react-icons/fa6";
+import defaultAvatar from "../../../../../assets/default-avatar.svg";
 
 function MembersList({ groupData, groupMembers, user }) {
   const [search, setSearch] = useState("");
@@ -102,7 +103,10 @@ function MembersList({ groupData, groupMembers, user }) {
           return (
             <div className="member-card" key={memberId}>
               <NavLink to={`/profile/${memberId}`} className="user-avatar-card">
-                <img src={member.profiles.avatar_url} alt="user-avatar" />
+                <img
+                  src={member.profiles.avatar_url || defaultAvatar}
+                  alt="user-avatar"
+                />
               </NavLink>
 
               <div className="member-name">

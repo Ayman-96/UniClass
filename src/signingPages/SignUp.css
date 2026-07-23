@@ -376,3 +376,62 @@
 .no-acc-signup {
   margin: 0 auto;
 }
+/* Container takes up full available width/height of its parent */
+.signup-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.signup-success h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a; /* Dark slate */
+  margin: 0 0 0.75rem 0;
+}
+
+.signup-success p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #475569; /* Muted text */
+  margin: 0 0 1.75rem 0;
+}
+
+.signup-success p strong {
+  color: #1a9e78;
+  word-break: break-all; /* Prevents long emails from breaking container bounds */
+}
+
+/* Link styled cleanly to match your primary button style */
+.signup-success a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  background-color: #1a9e78; /* Primary color */
+  box-shadow: 0 0 0 3px rgba(26, 158, 120, 0.1);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  box-sizing: border-box;
+}
+
+.signup-success a:hover {
+  background-color: #95e6b7;
+}
+
+.signup-success a:active {
+  transform: scale(0.98);
+}

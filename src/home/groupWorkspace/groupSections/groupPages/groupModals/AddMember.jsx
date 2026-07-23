@@ -6,6 +6,8 @@ import {
 import "./AddMember.css";
 import { Send, UserPlus2, UserRoundSearch, X } from "lucide-react";
 import { useState } from "react";
+import defaultAvatar from "../../../../../assets/default-avatar.svg";
+
 import { useFriends } from "../../../../../hooks/useFriends";
 import { GoDotFill } from "react-icons/go";
 import {
@@ -90,7 +92,7 @@ function AddMember({ handleMemberModal }) {
               return (
                 <div className="friend-card-inv" key={friend.friendshipId}>
                   <div className="fr-left-grid">
-                    <img src={friend.profile?.avatar_url} />
+                    <img src={friend.profile?.avatar_url || defaultAvatar} />
                     <div>
                       <p>{friend.profile?.full_name}</p>
                       <p>

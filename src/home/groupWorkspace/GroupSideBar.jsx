@@ -1,6 +1,8 @@
 import "./GroupSideBar.css";
 import { useGroups } from "../../hooks/useGroups";
 import { NavLink, useParams } from "react-router-dom";
+import defaultAvatar from "../../assets/default-avatar.svg";
+
 import LoadingSpinner from "../../components/loadingSpinner/LoadingSpinner";
 import {
   BookOpen,
@@ -75,7 +77,7 @@ function GroupSideBar() {
       >
         <img
           className="rep-acc-img"
-          src={moderator?.[0]?.profiles?.avatar_url}
+          src={moderator?.[0]?.profiles?.avatar_url || defaultAvatar}
         />
         <div className="refer-to-rep" style={{ color: specifiedGroup?.color }}>
           Rep <span>{moderator?.[0]?.profiles?.username}</span>

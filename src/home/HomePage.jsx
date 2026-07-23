@@ -2,9 +2,10 @@ import "./Homepage.css";
 import SideNav from "./SideNav";
 import { useState, memo } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { Menu, X, Bell, Settings, User2, GraduationCap } from "lucide-react";
+import { Menu, X, Bell, Settings, GraduationCap } from "lucide-react";
 import { useProfile } from "../hooks/useSaveProfile";
 import { useNotifications } from "../hooks/useNotifications";
+import defaultAvatar from "../assets/default-avatar.svg";
 function Homepage() {
   const [isOpenSideBar, setIsOpenSideBar] = useState(false);
 
@@ -69,13 +70,10 @@ const HomeHeader = memo(function HomeHeader({
         </NavLink>
 
         <NavLink to="profile" className="profile-btn">
-          {myProfile?.avatar_url ? (
-            <img src={myProfile?.avatar_url} className="my-pro-avatar" />
-          ) : (
-            <span className="my-pro-no-avatar">
-              <User2 />
-            </span>
-          )}
+          <img
+            src={myProfile?.avatar_url || defaultAvatar}
+            className="my-pro-avatar"
+          />
           <p style={{ color: myProfile?.fullname_color }}>
             {myProfile?.username}
           </p>

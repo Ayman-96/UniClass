@@ -8,6 +8,7 @@ import ClassmatesHeader from "./ClassmatesHeader";
 import ClassmatesShortcuts from "./ClassmatesShortcuts";
 import { useFriendRequests } from "../../../hooks/useFriends";
 import AnimatedBackground from "../../../animated/AnimatedBackground";
+import defaultAvatar from "../../../assets/default-avatar.svg";
 
 function Classmates() {
   const [activeTab, setActiveTab] = useState(0);
@@ -30,20 +31,32 @@ function Classmates() {
             sentRequests={sentRequests}
           />
           {activeTab === 0 ? (
-            <ClassmatesList />
+            <ClassmatesList defaultAvatar={defaultAvatar} />
           ) : activeTab === 1 ? (
-            <ReceivedRequests pendingRequests={pendingRequests} />
+            <ReceivedRequests
+              pendingRequests={pendingRequests}
+              defaultAvatar={defaultAvatar}
+            />
           ) : (
-            <SentRequests sentRequests={sentRequests} />
+            <SentRequests
+              sentRequests={sentRequests}
+              defaultAvatar={defaultAvatar}
+            />
           )}
         </div>
         <div className="classmates-side-card">
-          <ClassmatesShortcuts setActiveTab={setActiveTab} />
+          <ClassmatesShortcuts
+            setActiveTab={setActiveTab}
+            defaultAvatar={defaultAvatar}
+          />
         </div>
 
         {openAddCard ? (
           <div className="add-friend-mockup">
-            <AddFriend setOpenAddCard={setOpenAddCard} />
+            <AddFriend
+              setOpenAddCard={setOpenAddCard}
+              defaultAvatar={defaultAvatar}
+            />
           </div>
         ) : (
           ""

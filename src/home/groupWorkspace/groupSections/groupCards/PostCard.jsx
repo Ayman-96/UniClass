@@ -21,9 +21,9 @@ import handleDownload from "../../../../components/DownloadFile.js";
 import { useGroupMembers } from "../../../../hooks/useGroupMembers.js";
 import { renderMentions } from "../../../../components/renderMentions.jsx";
 import { useDeletePost, usePostComments } from "../../../../hooks/usePosts";
-import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner.jsx";
 import { useAuth } from "../../../../AuthContext.jsx";
 import useLightboxStore from "../../../../store/useLightboxStore.js";
+import defaultAvatar from "../../../../assets/default-avatar.svg";
 
 function PostCard({ post, isLiked, likeCount, toggleLike }) {
   const { user } = useAuth();
@@ -37,7 +37,7 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
   const { data: currentGroup } = useSingleGroup(groupId);
   const { data: storedComments = [] } = usePostComments(post.id);
   const { data: groupMember = [] } = useGroupMembers(groupId);
-  const { mutate: deletePost, isPending, isError } = useDeletePost();
+  const { mutate: deletePost, isPending } = useDeletePost();
 
   const [searchParams] = useSearchParams();
   const highlightId = searchParams.get("highlight");
@@ -70,8 +70,6 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
       });
   }
 
-  if (isPending) return <LoadingSpinner />;
-  if (isError) return <div>Error Occured...</div>;
   return (
     <div
       className={`post-overylay ${post.id === highlightId ? "post-highlighted" : ""}`}
@@ -81,7 +79,10 @@ function PostCard({ post, isLiked, likeCount, toggleLike }) {
         <div className="post-head">
           <div className="author-info">
             <NavLink to={`/profile/${post.author_id}`}>
-              <img src={post.profiles?.avatar_url} className="author-pro-pic" />
+              <img
+                src={post.profiles?.avatar_url || defaultAvatar}
+                className="author-pro-pic"
+              />
             </NavLink>
             <div className="author-name">
               <p>{post.profiles?.username}</p>

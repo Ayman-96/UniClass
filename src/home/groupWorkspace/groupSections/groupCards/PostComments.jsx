@@ -18,6 +18,7 @@ import TextCollapser from "../../../../components/TextExpnder.jsx";
 import { useLikeComments } from "../../../../hooks/useLikeComments.js";
 import { useProfile } from "../../../../hooks/useSaveProfile.js";
 import useLightboxStore from "../../../../store/useLightboxStore.js";
+import defaultAvatar from "../../../../assets/default-avatar.svg";
 
 const initialState = {
   content: "",
@@ -183,7 +184,7 @@ function PostComments({ setOpenComments, storedComments, postId }) {
           )}
 
           <div className="commenting">
-            <img src={me?.avatar_url || ""} />
+            <img src={me?.avatar_url || defaultAvatar} />
             <input
               type="text"
               id="comment-input"
@@ -259,7 +260,7 @@ function CommentItem({ comment, postId, isRep, dispatch, setParent, isReply }) {
         <NavLink to={`/profile/${comment.user_id}`}>
           <img
             className="user-pro"
-            src={comment.profiles?.avatar_url || null}
+            src={comment.profiles?.avatar_url || defaultAvatar}
           />
         </NavLink>
         <div className="user-comm">

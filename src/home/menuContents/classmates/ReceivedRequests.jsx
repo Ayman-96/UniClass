@@ -4,7 +4,7 @@ import { GoDotFill } from "react-icons/go";
 import { formatDistanceToNow } from "date-fns";
 import { FaUserCheck, FaUserTimes } from "react-icons/fa";
 
-function ReceivedRequests({ pendingRequests }) {
+function ReceivedRequests({ pendingRequests, defaultAvatar }) {
   const { mutate: respond } = useRespondFriendRequest();
   return (
     <div className="cm-list-container">
@@ -16,7 +16,7 @@ function ReceivedRequests({ pendingRequests }) {
               <div className="friend-card" key={pending.requester?.id}>
                 <div className="fr-left-grid">
                   <NavLink to={`/profile/${pending.requester?.id}`}>
-                    <img src={pending.requester?.avatar_url} />
+                    <img src={pending.requester?.avatar_url || defaultAvatar} />
                   </NavLink>
                   <div>
                     <p>{pending.requester?.full_name}</p>

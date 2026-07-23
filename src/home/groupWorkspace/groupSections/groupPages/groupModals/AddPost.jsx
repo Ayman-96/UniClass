@@ -20,6 +20,7 @@ import {
   getFileStyle,
 } from "../../../../../data/addCourseData.jsx";
 import { useGroupMembers } from "../../../../../hooks/useGroupMembers.js";
+import defaultAvatar from "../../../../../assets/default-avatar.svg";
 
 const postData = {
   author_name: "",
@@ -138,9 +139,10 @@ function AddPost({ handlePostModal }) {
 
         <div className="post-modal-body">
           <div className="author-info">
-            {myProfile?.avatar_url && (
-              <img src={myProfile.avatar_url} className="author-pro-pic" />
-            )}
+            <img
+              src={myProfile.avatar_url || defaultAvatar}
+              className="author-pro-pic"
+            />
             <div className="author-name">
               <p>{myProfile?.username}</p>
               <p>

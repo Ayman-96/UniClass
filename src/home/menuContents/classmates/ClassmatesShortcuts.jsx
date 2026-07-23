@@ -12,10 +12,10 @@ import {
 } from "../../../hooks/useFriends";
 import { FaRegCopy, FaUserCheck, FaUserTimes } from "react-icons/fa";
 
-function ClassmatesShortcuts({ setActiveTab }) {
+function ClassmatesShortcuts({ setActiveTab, defaultAvatar }) {
   const { user } = useAuth();
   const [copied, setCopied] = useState(false);
-//
+  //
   const { data: mine } = useProfile(user?.id);
 
   const { received } = useFriendRequests();
@@ -43,7 +43,7 @@ function ClassmatesShortcuts({ setActiveTab }) {
             return (
               <div className="requester-card" key={requester.id}>
                 <div className="received-left-grid">
-                  <img src={requester.requester?.avatar_url} />
+                  <img src={requester.requester?.avatar_url || defaultAvatar} />
                   <div>
                     <p>{requester.requester?.full_name}</p>
                     <p>
@@ -98,7 +98,7 @@ function ClassmatesShortcuts({ setActiveTab }) {
             return (
               <div className="requester-card" key={addressee.addressee?.id}>
                 <div className="received-left-grid">
-                  <img src={addressee.addressee?.avatar_url} />
+                  <img src={addressee.addressee?.avatar_url || defaultAvatar} />
                   <div>
                     <p>{addressee.addressee?.full_name}</p>
                     <p>

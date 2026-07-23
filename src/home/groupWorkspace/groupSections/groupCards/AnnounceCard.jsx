@@ -24,6 +24,7 @@ import handleDownload from "../../../../components/DownloadFile";
 import { formatFileSize, getFileStyle } from "../../../../data/addCourseData";
 import { renderMentions } from "../../../../components/renderMentions";
 import useLightboxStore from "../../../../store/useLightboxStore.js";
+import defaultAvatar from "../../../../assets/default-avatar.svg";
 
 function AnnounceCard({
   announce,
@@ -82,7 +83,7 @@ function AnnounceCard({
           <div className="rep-info">
             <NavLink to={`/profile/${announce.rep_id}`}>
               <img
-                src={announce.profiles.avatar_url}
+                src={announce.profiles.avatar_url || defaultAvatar}
                 className="author-pro-pic"
               />
             </NavLink>

@@ -6,6 +6,7 @@ import { useIsRep } from "../../../../../hooks/useIsRep";
 import { BsPinAngle, BsPinAngleFill } from "react-icons/bs";
 import { useTogglePinDiscussion } from "../../../../../hooks/useDiscussion";
 import useLightboxStore from "../../../../../store/useLightboxStore";
+import defaultAvatar from "../../../../../assets/default-avatar.svg";
 
 function DiscussionCard({
   comment,
@@ -49,7 +50,7 @@ function DiscussionCard({
       )}
       <div className="discuss-header">
         <div className="user-avatar-discussion">
-          <img src={comment.profiles?.avatar_url} />{" "}
+          <img src={comment.profiles?.avatar_url || defaultAvatar} />{" "}
           <span>{comment.profiles?.username}</span>
         </div>
         {!isReply && (

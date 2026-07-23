@@ -21,6 +21,7 @@ import {
 } from "../../../../../data/addCourseData.jsx";
 import { toast } from "sonner";
 import { useGroupMembers } from "../../../../../hooks/useGroupMembers.js";
+import defaultAvatar from "../../../../../assets/default-avatar.svg";
 
 const announceData = {
   title: "",
@@ -144,9 +145,10 @@ function AddAnnounce({ handleAnnounceModal }) {
 
         <div className="post-modal-body">
           <div className="rep-info">
-            {myProfile?.avatar_url && (
-              <img className="author-pro-pic" src={myProfile.avatar_url} />
-            )}
+            <img
+              className="author-pro-pic"
+              src={myProfile.avatar_url || defaultAvatar}
+            />
             <div className="rep-name">
               <p>{myProfile?.username}</p>
               <p>

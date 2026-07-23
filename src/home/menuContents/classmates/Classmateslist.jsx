@@ -10,7 +10,7 @@ import { useFriends, useRemoveFriend } from "../../../hooks/useFriends";
 import Chats from "./Chats";
 import useChatUIStore from "../../../store/useChatUiStore";
 
-function ClassmatesList() {
+function ClassmatesList({ defaultAvatar }) {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -83,7 +83,9 @@ function ClassmatesList() {
                   <div className="friend-card" key={friend.friendshipId}>
                     <div className="fr-left-grid">
                       <NavLink to={`/profile/${friend.profile?.id}`}>
-                        <img src={friend.profile?.avatar_url} />
+                        <img
+                          src={friend.profile?.avatar_url || defaultAvatar}
+                        />
                       </NavLink>
                       <div>
                         <p>{friend.profile?.full_name}</p>

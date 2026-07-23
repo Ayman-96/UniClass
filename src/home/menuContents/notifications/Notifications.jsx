@@ -181,7 +181,6 @@ function entityLink(n = []) {
 function Notifications() {
   const { user } = useAuth();
   const { data: profile } = useProfile(user?.id);
-  console.log(profile);
   const [openSettings, setOpenSettings] = useState(false);
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [activeFilter, setActiveFilter] = useState("all_notifications");

@@ -17,6 +17,7 @@ import { LuCircleArrowOutUpLeft } from "react-icons/lu";
 import { useAuth } from "../../AuthContext";
 import useLightboxStore from "../../store/useLightboxStore";
 import { toast } from "sonner";
+import defaultAvatar from "../../assets/default-avatar.svg";
 
 function ProfileHeader({
   userId,
@@ -158,12 +159,10 @@ function ProfileHeader({
             else useLightboxStore.getState().openLightbox(userInfo?.avatar_url);
           }}
         >
-          {userInfo?.avatar_url && (
-            <img
-              src={previewAvatarUrl || userInfo?.avatar_url}
-              className={`${isEditing ? "" : "zoom-img"}`}
-            />
-          )}
+          <img
+            src={previewAvatarUrl || userInfo?.avatar_url || defaultAvatar}
+            className={`${isEditing ? "" : "zoom-img"}`}
+          />
         </button>
       </div>
 

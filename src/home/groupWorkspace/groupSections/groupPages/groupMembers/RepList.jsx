@@ -10,6 +10,7 @@ import { LuShieldOff, LuShieldX } from "react-icons/lu";
 import { useIsModerator, useIsRep } from "../../../../../hooks/useIsRep";
 import { BadgeInfo, ChevronLeft, Crown, EllipsisVertical } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import defaultAvatar from "../../../../../assets/default-avatar.svg";
 
 function RepsList({ groupData, countRep, user, reps }) {
   const groupId = groupData?.id;
@@ -91,7 +92,10 @@ function RepsList({ groupData, countRep, user, reps }) {
                 className="user-avatar-card"
                 to={`/profile/${rep?.user_id}`}
               >
-                <img src={rep.profiles.avatar_url} alt="user-avatar" />
+                <img
+                  src={rep.profiles.avatar_url || defaultAvatar}
+                  alt="user-avatar"
+                />
               </NavLink>
 
               <div className="member-name">

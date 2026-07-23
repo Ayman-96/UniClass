@@ -14,7 +14,7 @@ import LoadingSpinner from "../../../components/loadingSpinner/LoadingSpinner";
 import { useSearchProfiles } from "../../../hooks/useSaveProfile";
 import { NavLink } from "react-router-dom";
 
-function AddFriend({ setOpenAddCard }) {
+function AddFriend({ setOpenAddCard, defaultAvatar }) {
   const [search, setSearch] = useState("");
 
   const { data: searchResult } = useSearchProfiles(search);
@@ -60,7 +60,7 @@ function AddFriend({ setOpenAddCard }) {
               ) : (
                 <div className="people-left-grid">
                   <NavLink to={`/profile/${res?.id}`}>
-                    <img src={res?.avatar_url || ""} />
+                    <img src={res?.avatar_url || defaultAvatar} />
                   </NavLink>
                   <div>
                     <p>{res.full_name}</p>

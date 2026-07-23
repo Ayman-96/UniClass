@@ -4,7 +4,7 @@ import { GoDotFill } from "react-icons/go";
 import { TbSendOff } from "react-icons/tb";
 import { formatDistanceToNow } from "date-fns";
 
-function SentRequests({ sentRequests }) {
+function SentRequests({ sentRequests, defaultAvatar }) {
   const { mutate: cancelRequest } = useCancelFriendRequest();
 
   return (
@@ -17,7 +17,7 @@ function SentRequests({ sentRequests }) {
               <div className="friend-card" key={pending.addressee?.id}>
                 <div className="fr-left-grid">
                   <NavLink to={`/profile/${pending.addressee?.id}`}>
-                    <img src={pending.addressee?.avatar_url} />
+                    <img src={pending.addressee?.avatar_url || defaultAvatar} />
                   </NavLink>
                   <div>
                     <p>{pending.addressee?.full_name}</p>
