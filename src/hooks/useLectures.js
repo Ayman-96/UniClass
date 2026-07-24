@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase";
+import { toast } from "sonner";
 
 export function useLectures(courseId) {
   return useQuery({
@@ -23,6 +24,7 @@ export function useAddLectures() {
 
   return useMutation({
     mutationFn: async (newLecture) => {
+      toast.message("Uploading Pdf...");
       let pdf_url = null;
       if (newLecture.pdfFile) {
         pdf_url = await UploadPDF(newLecture.pdfFile);
@@ -33,6 +35,7 @@ export function useAddLectures() {
         .insert({ ...lectureData, pdf_url })
         .select()
         .single();
+
       if (error) throw error;
       return data;
     },
@@ -45,7 +48,7 @@ export function useAddLectures() {
     },
   });
 }
-
+//
 export function useDeleteLecture() {
   const queryClient = useQueryClient();
   return useMutation({

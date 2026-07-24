@@ -1,26 +1,33 @@
 import "./CourseSidebar.css";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import {
   BookCopy,
   BookOpen,
+  EllipsisVertical,
   FileIcon,
   House,
   LockIcon,
   Plus,
 } from "lucide-react";
 import { useCourses } from "../../../../../hooks/useCourses";
-import { useAddLectures, useLectures } from "../../../../../hooks/useLectures";
+import {
+  useAddLectures,
+  useDeleteLecture,
+  useLectures,
+} from "../../../../../hooks/useLectures";
 import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpinner";
 import { useIsRep } from "../../../../../hooks/useIsRep";
 import { COURSE_ICON_MAP } from "../../../../../data/addCourseData";
 import { useAuth } from "../../../../../AuthContext";
 
-function CourseSidebar() {
+function CourseSidebar({ toDelete, setToDelete }) {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { courseId, groupId, lectureId } = useParams();
   const { data: isRep } = useIsRep(groupId);
 
   const { mutate: addLecture } = useAddLectures();
+  const { mutate: deleteLecture } = useDeleteLecture();
   const { data: storedCourses = [] } = useCourses(groupId);
   const { data: lectures } = useLectures(courseId);
   const selectedLecture = lectures?.find((l) => l.id === lectureId);
@@ -73,8 +80,10 @@ function CourseSidebar() {
           <p>{courseDetails?.name}</p>
 
           <p>
-            {courseDetails?.season} {courseDetails?.year} •{" "}
-            {courseDetails?.lectures[0]?.count}
+            <span style={{ textTransform: "capitalize" }}>
+              {courseDetails?.season}{" "}
+            </span>
+            {courseDetails?.year} • {courseDetails?.lectures[0]?.count}
           </p>
         </div>
       </div>
@@ -112,6 +121,17 @@ function CourseSidebar() {
                   {lecture.slide_count} slides
                 </p>
               </div>
+              {isRep && (
+                <div title="delete lecture">
+                  <EllipsisVertical
+                    style={{ color: "#144923", marginTop: "4px" }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setToDelete(lecture);
+                    }}
+                  />
+                </div>
+              )}
             </NavLink>
           ))}
           <div className="lecture-nav-foote">
@@ -139,6 +159,38 @@ function CourseSidebar() {
           }}
         />
       </div>
+
+      {toDelete && isRep && (
+        <div className="dlm-overlay">
+          <div className="dlm-card">
+            <h3 className="dlm-title">
+              Are you sure you want to delete <span>{toDelete.title}</span>?
+            </h3>
+            <p className="dlm-subtext">This action cannot be undone!</p>
+
+            <div className="dlm-actions">
+              <button
+                className="dlm-btn dlm-btn-cancel"
+                onClick={() => {
+                  setToDelete(null);
+                }}
+              >
+                No, Cancel
+              </button>
+              <button
+                className="dlm-btn dlm-btn-delete"
+                onClick={() => {
+                  navigate(`/home/group/${groupId}/courses/${courseId}`);
+                  deleteLecture({ lectureId: toDelete.id, courseId });
+                  setToDelete(null);
+                }}
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

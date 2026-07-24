@@ -10,6 +10,7 @@ import LoadingSpinner from "../../../../../components/loadingSpinner/LoadingSpin
 
 function CourseWorkspace() {
   const { courseId, lectureId } = useParams();
+  const [toDelete, setToDelete] = useState(false);
   const { data: lectures } = useLectures(courseId);
   const selectedLecture = lectures?.find((l) => l.id === lectureId);
   const [isOpenDiscussion, setIsOpenDiscussion] = useState(false);
@@ -22,7 +23,7 @@ function CourseWorkspace() {
   if (isError) return <div>Error Occured!</div>;
   return (
     <div className="course-workspace">
-      <CourseSidebar />
+      <CourseSidebar toDelete={toDelete} setToDelete={setToDelete} />
       <div className="course-main">
         <LectureView key={selectedLecture?.id} />
       </div>
@@ -30,7 +31,7 @@ function CourseWorkspace() {
       <div
         className={`course-discussion ${isOpenDiscussion ? "is-open" : "is-closed"}`}
       >
-        {selectedLecture && (
+        {selectedLecture && !toDelete && (
           <button
             className="discussion-toggle-btn"
             onClick={handleOpenDiscussion}

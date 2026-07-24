@@ -18,9 +18,16 @@
   transform: translateX(-80%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.lecture-sidebar .return-home {
+  left: -5px;
+}
+.lecture-sidebar:hover .return-home {
+  left: 33px;
+}
 .lecture-sidebar:hover {
   padding-right: 25px;
   transform: translateX(0);
+  width: 300px;
 }
 /* ── Course header ── */
 .lec-nav-head {
@@ -98,6 +105,7 @@
   align-items: flex-end;
   margin-left: 13.6rem;
   top: 10px;
+  left: 35px;
   flex-direction: column;
   gap: 6px;
 }
@@ -202,8 +210,9 @@
 }
 .add-lecture {
   width: 25%;
-  padding: 5px 0;
+  padding: 5px 0px;
   border-radius: 10px;
+  margin-left: 30px;
   border: none;
   background: #51ad8b;
   color: #ffffff;
@@ -225,6 +234,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 5px;
   margin-top: 7px;
   gap: 7px;
   padding: 8px 0;
@@ -288,4 +298,126 @@
 
 .lecture-sidebar.is-open .rotated-lecture-name {
   opacity: 0;
+}
+
+/* Darkened Backdrop Overlay */
+.dlm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+  animation: dlmFadeIn 0.2s ease-out;
+}
+
+/* Modal Card */
+.dlm-card {
+  background-color: #ffffff;
+  padding: 32px 28px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  animation: dlmPopIn 0.2s ease-out;
+}
+
+/* Typography */
+.dlm-title {
+  margin: 0 0 8px 0;
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.dlm-title span {
+  color: #ef4444;
+}
+
+.dlm-subtext {
+  margin: 0 0 24px 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* Buttons Container */
+.dlm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Shared Button Styles */
+.dlm-btn {
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Cancel Button */
+.dlm-btn-cancel {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.dlm-btn-cancel:hover {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+/* Delete Button */
+.dlm-btn-delete {
+  background-color: #dc2626;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+.dlm-btn-delete:hover {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
+}
+
+.dlm-btn-delete:active {
+  transform: translateY(0);
+}
+
+/* Keyframe Animations */
+@keyframes dlmFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dlmPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
