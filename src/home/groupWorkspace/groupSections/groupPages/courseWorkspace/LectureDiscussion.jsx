@@ -23,7 +23,7 @@ import {
 import { useParams } from "react-router-dom";
 import NotesCollection from "./NotesCollection";
 import { useAuth } from "../../../../../AuthContext";
-import DiscussionCollection from "./DiscussionCOllection";
+import DiscussionCollection from "./DiscussionCollection";
 import useLectureStore from "../../../../../store/useLectureStore";
 import useCommentStore from "../../../../../store/useCommentStore";
 import {

@@ -16,7 +16,7 @@ import {
   ShieldCheck,
   Crown,
 } from "lucide-react";
-import "./ManageNotifications.css";
+import "./manageNotifications.css";
 import { GrGroup } from "react-icons/gr";
 import { PiPresentationChartBold } from "react-icons/pi";
 
