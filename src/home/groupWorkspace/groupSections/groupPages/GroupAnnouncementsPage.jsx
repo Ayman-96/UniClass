@@ -9,7 +9,7 @@ import {
   useAnnounces,
   useToggleAnnouncementLike,
 } from "../../../../hooks/useAnnounce";
-import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
+import LoadingSpinner from "../../../../components/loadingSpinner/LoadingSpinner";
 import AnnounceCard from "../groupCards/AnnounceCard";
 import { useAuth } from "../../../../AuthContext";
 function GroupAnnouncementsPage() {
