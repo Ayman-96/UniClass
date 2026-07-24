@@ -1,4 +1,5 @@
 import "./CourseSidebar.css";
+import { pdfjs } from "react-pdf";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import {
   BookCopy,
@@ -38,8 +39,12 @@ function CourseSidebar({ toDelete, setToDelete }) {
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error Occured!</div>;
 
-  function handleAddLecture(e) {
+  async function handleAddLecture(e) {
     const file = e.target.files[0];
+
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+    const slideCount = pdf.numPages;
 
     if (!file) return;
 
@@ -52,7 +57,7 @@ function CourseSidebar({ toDelete, setToDelete }) {
         .replace(/[-_]/g, " "),
       pdfFile: file,
       uploaded_by: user.id,
-      slide_count: 0,
+      slide_count: slideCount,
     });
   }
 
