@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 
+function checkIsDesktop() {
+  const ua = navigator.userAgent.toLowerCase();
+  const isMobileUA = /iphone|ipod|android.*mobile/.test(ua);
+  return !isMobileUA;
+}
+
 function DesktopOnlyGate({ children }) {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+  const [isDesktop, setIsDesktop] = useState(checkIsDesktop());
 
   useEffect(() => {
-    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    const handleResize = () => setIsDesktop(checkIsDesktop());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
