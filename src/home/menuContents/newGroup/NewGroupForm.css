@@ -36,6 +36,7 @@
 
 /* ── Header ── */
 .group-form-label {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -90,6 +91,7 @@
 
 /* ── Tab Switcher ── */
 .switch-new-buttons {
+  flex-shrink: 0;
   display: flex;
   gap: 0;
   border-bottom: 1.5px solid #e5e7eb;
@@ -133,6 +135,7 @@
 /* ── Form Container ── */
 .form-container {
   flex: 1;
+  min-height: 0;
 }
 
 /* ── Bottom Buttons ── */
@@ -229,4 +232,27 @@
   border-top: 1.5px solid #e5e7eb;
   margin: 0 -32px 20px; /* remove the top negative margin if any */
   width: calc(100% + 64px);
+}
+@media (max-width: 480px) {
+  .new-group-popup {
+    width: 92vw;
+    max-height: 88vh;
+    padding: 20px 18px 18px;
+    border-radius: 16px;
+  }
+
+  .group-form-label p {
+    font-size: 17px;
+  }
+
+  .form-buttons {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .cancel-btn,
+  .perform-group-btn {
+    width: 100%;
+    padding: 10px 16px;
+  }
 }

@@ -33,7 +33,7 @@
 .comment-sheet {
   width: 100%;
   max-width: 680px;
-  height: 100vh; /* full height instead of max-height: 80vh */
+  height: 100dvh; /* full height instead of max-height: 80vh */
   max-height: 100vh;
   overflow-y: auto;
   background: var(--pc-white);
@@ -153,6 +153,9 @@
   background: var(--pc-bubble);
   border-radius: var(--pc-radius-md);
   padding: 8px 12px;
+  display: inline-block;
+  max-width: 100%;
+  width: fit-content;
 }
 
 .comm-content p {
@@ -381,18 +384,6 @@
   outline-offset: 2px;
 }
 
-@media (max-width: 480px) {
-  .comment-sheet {
-    padding: 1rem;
-  }
-
-  .comm-content img,
-  .comm-content image {
-    max-width: 140px;
-    max-height: 120px;
-  }
-}
-
 .reply-to-parent {
   display: flex;
   align-items: center;
@@ -445,4 +436,41 @@
 .reply-tag {
   color: #1a9e78;
   font-weight: 600;
+}
+@media (max-width: 480px) {
+  .comment-sheet {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .user-pro {
+    width: 32px;
+    height: 32px;
+  }
+
+  .comm-interactions {
+    margin-left: 42px; /* keep aligned under 36px avatar + gap, same as desktop */
+    gap: 12px;
+  }
+
+  .smaller-comment-reply {
+    margin-left: 30px;
+  }
+
+  .added-image {
+    margin-left: 34px;
+  }
+
+  .commenting input[type="text"] {
+    font-size: 13px;
+    padding: 7px 12px;
+  }
+
+  .comm-content p {
+    font-size: 13px;
+  }
+
+  .comm-head {
+    font-size: 12px;
+  }
 }

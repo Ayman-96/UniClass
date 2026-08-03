@@ -359,3 +359,34 @@
   background: #d1d1d6;
   border-radius: 10px;
 }
+@media (max-width: 768px) {
+  .add-member-modal {
+    width: 92vw;
+    max-height: 88vh;
+  }
+
+  .member-modal-header,
+  .member-modal-body {
+    padding: 16px;
+  }
+
+  .friend-card-inv {
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+  }
+
+  .member-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .buttons {
+    justify-content: stretch;
+  }
+
+  .buttons button {
+    flex: 1;
+  }
+}

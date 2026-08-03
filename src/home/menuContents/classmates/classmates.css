@@ -1153,3 +1153,184 @@
   border: none;
   box-sizing: border-box;
 }
+
+/*RESPONSIVE*/
+@media (max-width: 768px) {
+  .classmates-section {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .classmates-side-card {
+    position: static;
+  }
+
+  .cm-row1 > div:last-child {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cm-list-filtering {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .friend-card {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .fr-status-col {
+    justify-content: flex-start;
+  }
+
+  .fr-right-grid {
+    justify-content: flex-start;
+  }
+
+  .add-friend-container {
+    width: 92vw;
+    padding: 1.2rem;
+  }
+
+  .perople-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .people-right-grid {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 480px) {
+  .classmates-section {
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .cm-row1 > div:first-child {
+    font-size: 22px;
+  }
+
+  .cm-row1 button {
+    padding: 9px 14px;
+    font-size: 13px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cm-row2 {
+    overflow-x: auto;
+  }
+
+  .cm-tabs {
+    padding: 8px 12px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .cm-list-container {
+    padding: 14px;
+  }
+
+  .cm-search {
+    padding: 9px 12px 9px 36px;
+    font-size: 13px;
+  }
+
+  .toggle-online-status {
+    justify-content: center;
+  }
+
+  .friend-card {
+    padding: 12px 14px;
+  }
+
+  .fr-left-grid img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .fr-left-grid p:first-child {
+    font-size: 13px;
+  }
+
+  .fr-left-grid p:nth-child(2),
+  .fr-left-grid p:nth-child(3) {
+    font-size: 12px;
+  }
+
+  .fr-card-interaction button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .side-card-container {
+    gap: 12px;
+  }
+
+  .pending-card,
+  .request-card,
+  .add-me-card {
+    padding: 14px;
+  }
+
+  .received-left-grid img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .my-id-copy p {
+    letter-spacing: 2px;
+    font-size: 12px;
+  }
+
+  .add-friend-container {
+    width: 94vw;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .add-header div p:first-child {
+    font-size: 1.4rem;
+  }
+
+  .add-header div p:last-child {
+    font-size: 0.85rem;
+  }
+
+  .add-header button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .add-friend-container input {
+    height: 46px;
+    font-size: 0.88rem;
+  }
+
+  .perople-card {
+    min-height: auto;
+    padding: 0.8rem;
+  }
+
+  .people-left-grid img {
+    width: 46px;
+    height: 46px;
+  }
+
+  .people-left-grid div p:first-child {
+    font-size: 0.9rem;
+  }
+
+  .people-left-grid div p:last-child {
+    font-size: 0.8rem;
+  }
+
+  .friend-status {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+  }
+}

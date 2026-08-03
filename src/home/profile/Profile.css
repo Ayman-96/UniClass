@@ -882,3 +882,139 @@ button.friendship-stat:active {
     line-height: 1.5;
   }
 }
+@media (max-width: 480px) {
+  .user-profile {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  /* Header: stack avatar + name instead of side-by-side over a short banner */
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: auto;
+    padding: 60px 16px 20px;
+    gap: 12px;
+  }
+
+  .pro-pic button {
+    width: 76px;
+    height: 76px;
+  }
+
+  .initial-fullname p {
+    font-size: 1.15rem;
+  }
+
+  .initial-username p {
+    font-size: 0.95rem;
+  }
+
+  .user-initials {
+    bottom: 0;
+  }
+
+  /* Top-left back button stays small and pinned */
+  .profile-header .leave-profile {
+    top: 12px;
+    left: 12px;
+  }
+
+  /* Edit buttons: move out of absolute top-right, stack under content */
+  .profile-header .edit-btns {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 100%;
+    order: 3;
+  }
+
+  .profile-header .save-profile-info,
+  .profile-header .change-background-img,
+  .profile-header .change-banner-img,
+  .cancel-profile-changes {
+    width: auto;
+    flex: 1 1 auto;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+
+  /* Friendship status: move to top-right but smaller, avoid colliding with leave-profile */
+  .profile-header .friendship-stat {
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .edit-profile-info {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+
+  /* Body sections collapse to single column */
+  .profile-body {
+    padding: 18px;
+    gap: 16px;
+  }
+
+  .body-header {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .body-header > div:nth-child(2) {
+    display: none;
+  }
+
+  .body-header {
+    grid-template-columns: 1fr;
+  }
+
+  /* Swap "Personal Information" text via CSS */
+  .body-header > div:first-child {
+    font-size: 0; /* hides original text node */
+  }
+
+  .body-header > div:first-child svg {
+    /* icon sizing is width/height based, unaffected by font-size: 0 */
+  }
+
+  .body-header > div:first-child::after {
+    content: "Personal & Academic Info";
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a2e27;
+  }
+  .profile-body-content {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .profile-footer {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .about-user {
+    grid-column: span 1;
+    padding: 18px;
+  }
+
+  .user-contacts {
+    padding: 18px;
+  }
+
+  .contacts-grid,
+  .user-contacts .contacts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .user-information-table,
+  .user-contact-table {
+    padding: 10px 0;
+  }
+  .user-profile .user-contacts .contacts-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

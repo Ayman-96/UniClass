@@ -712,3 +712,93 @@
 .activity-entity {
   color: #3ba0e0;
 }
+
+/*Responsive*/
+@media (max-width: 768px) {
+  .group-members-overlay {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .gp-mmb-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gp-members-header {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .header-left-col img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .group-count-members {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .group-data-count {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .group-description {
+    max-width: 100%;
+  }
+
+  .header-right-col {
+    border-left: none;
+    padding-left: 0;
+    padding-top: 16px;
+    border-top: 1px solid #ebebeb;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .members-list-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .members-list-header input {
+    width: 100%;
+  }
+
+  .member-card {
+    justify-content: space-between;
+    height: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .member-card > div:last-child {
+    justify-content: flex-start;
+    margin-left: auto;
+  }
+
+  .user-role-card {
+    width: auto;
+  }
+
+  .interaction-list {
+    right: 0;
+    left: auto;
+  }
+  .body-right {
+    order: 1;
+    width: 100%;
+  }
+
+  .body-left {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}

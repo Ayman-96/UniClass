@@ -12,6 +12,7 @@ import {
   Settings,
 } from "lucide-react";
 import { useGroupMembers } from "../../hooks/useGroupMembers";
+import { useSidebarStore } from "../../store/useSidebarStore";
 
 const groupSections = [
   {
@@ -48,10 +49,14 @@ function GroupSideBar() {
   const specifiedGroup = storedGroups?.find((group) => group.id === groupId);
   const { data: members } = useGroupMembers(groupId);
   const moderator = members?.filter((g) => g.is_moderator === true);
+  const isOpenSideBar = useSidebarStore((state) => state.isOpenSideBar);
+
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Something went wrong</div>;
   return (
-    <nav className="group-nav">
+    <nav
+      className={`group-nav ${isOpenSideBar ? "hide-on-mobile-sidebar" : ""}`}
+    >
       <div className="group-nav-header">
         <img src={specifiedGroup?.avatar_url} className="group-logo" />
         <div className="group-nav-name">{specifiedGroup?.name}</div>

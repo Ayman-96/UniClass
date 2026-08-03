@@ -187,3 +187,8 @@
 
 /* ── Outlet wrapper ── */
 /* Make sure your outlet has: position: relative; overflow: hidden; */
+@media (max-width: 768px) {
+  .group-nav.hide-on-mobile-sidebar {
+    display: none;
+  }
+}

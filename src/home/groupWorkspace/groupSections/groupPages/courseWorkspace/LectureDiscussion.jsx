@@ -62,7 +62,8 @@ const commentTypes = [
     color: "rgba(255, 27, 27, 0.69)",
   },
 ];
-function LectureDiscussion({ selectedLecture }) {
+
+function LectureDiscussion({ selectedLecture, setIsOpenDiscussion, isMobile }) {
   const inputRef = useRef(null);
   const imgInputRef = useRef(null);
 
@@ -193,7 +194,22 @@ function LectureDiscussion({ selectedLecture }) {
 
   return (
     <div className="comment-note-overlay">
-      <MessagesSquare /> Discussion & Notes <span>Slide {currentSlide}</span>
+      <div className="discuss-head-disp">
+        <div className="discuss-head-title">
+          <MessagesSquare />
+          <span>Discussion & Notes</span>
+        </div>
+
+        <div className="discuss-head-right">
+          <span className="slide-counter-head">Slide {currentSlide}</span>
+
+          {isMobile && (
+            <button onClick={() => setIsOpenDiscussion(false)}>
+              <X />
+            </button>
+          )}
+        </div>
+      </div>
       <div className="discussion-buttons">
         {discussBtns.map((btn, i) => {
           return (

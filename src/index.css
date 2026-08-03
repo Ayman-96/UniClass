@@ -16,6 +16,7 @@
 *::-webkit-scrollbar-thumb:hover {
   background: #1a9e6e;
 }
+
 .lightbox-overlay {
   position: fixed;
   inset: 0;

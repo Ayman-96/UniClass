@@ -18,6 +18,18 @@
   transform: translateX(-80%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+@media (max-width: 420px) {
+  .lecture-sidebar {
+    width: 200px;
+  }
+  .lecture-sidebar .return-home {
+    right: 5px;
+    margin-left: -10px;
+  }
+  .lecture-sidebar:hover .return-home {
+    right: 33px;
+  }
+}
 .lecture-sidebar .return-home {
   left: -5px;
 }

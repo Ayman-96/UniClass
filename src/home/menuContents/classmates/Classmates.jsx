@@ -1,5 +1,5 @@
 import "./classmates.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddFriend from "./AddFriends";
 import SentRequests from "./SentRequests";
 import ClassmatesList from "./Classmateslist";
@@ -13,6 +13,13 @@ import defaultAvatar from "../../../assets/default-avatar.svg";
 function Classmates() {
   const [activeTab, setActiveTab] = useState(0);
   const [openAddCard, setOpenAddCard] = useState(false);
+  const [isOnMobile, setIsOnMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsOnMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const { received } = useFriendRequests();
   const { sent } = useFriendRequests();
@@ -44,12 +51,15 @@ function Classmates() {
             />
           )}
         </div>
-        <div className="classmates-side-card">
-          <ClassmatesShortcuts
-            setActiveTab={setActiveTab}
-            defaultAvatar={defaultAvatar}
-          />
-        </div>
+
+        {(!isOnMobile || activeTab === 0) && (
+          <div className="classmates-side-card">
+            <ClassmatesShortcuts
+              setActiveTab={setActiveTab}
+              defaultAvatar={defaultAvatar}
+            />
+          </div>
+        )}
 
         {openAddCard ? (
           <div className="add-friend-mockup">

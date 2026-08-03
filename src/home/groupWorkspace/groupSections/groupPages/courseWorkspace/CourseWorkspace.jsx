@@ -1,5 +1,5 @@
 import "./CourseWorkspace.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LectureView from "./LectureView";
 import { PanelRightOpen, PanelLeftOpen } from "lucide-react";
 import CourseSidebar from "./CourseSidebar";
@@ -15,17 +15,29 @@ function CourseWorkspace() {
   const selectedLecture = lectures?.find((l) => l.id === lectureId);
   const [isOpenDiscussion, setIsOpenDiscussion] = useState(false);
   const { isLoading, isError } = useLectures(courseId);
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia("(max-width: 768px)").matches,
+  );
 
   function handleOpenDiscussion() {
     setIsOpenDiscussion((prev) => !prev);
   }
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 768px)");
+    const handleChange = (e) => setIsMobile(e.matches);
+    media.addEventListener("change", handleChange);
+    return () => media.removeEventListener("change", handleChange);
+  }, []);
+
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div>Error Occured!</div>;
+
   return (
     <div className="course-workspace">
       <CourseSidebar toDelete={toDelete} setToDelete={setToDelete} />
       <div className="course-main">
-        <LectureView key={selectedLecture?.id} />
+        <LectureView key={selectedLecture?.id} isMobile={isMobile} />
       </div>
 
       <div
@@ -40,7 +52,11 @@ function CourseWorkspace() {
           </button>
         )}
         {isOpenDiscussion && (
-          <LectureDiscussion selectedLecture={selectedLecture} />
+          <LectureDiscussion
+            selectedLecture={selectedLecture}
+            setIsOpenDiscussion={setIsOpenDiscussion}
+            isMobile={isMobile}
+          />
         )}
       </div>
     </div>

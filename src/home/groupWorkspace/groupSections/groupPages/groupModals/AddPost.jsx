@@ -21,6 +21,7 @@ import {
 } from "../../../../../data/addCourseData.jsx";
 import { useGroupMembers } from "../../../../../hooks/useGroupMembers.js";
 import defaultAvatar from "../../../../../assets/default-avatar.svg";
+import { createPortal } from "react-dom";
 
 const postData = {
   author_name: "",
@@ -125,7 +126,7 @@ function AddPost({ handlePostModal }) {
       onClick: () => handleMentionButtonClick(),
     },
   ];
-  return (
+  return createPortal(
     <div className="add-post-overlay">
       <div className="add-post-modal">
         <div className="post-modal-header">
@@ -312,7 +313,8 @@ function AddPost({ handlePostModal }) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 export default AddPost;

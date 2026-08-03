@@ -69,3 +69,35 @@
 }
 
 /* When no button is passed — title stays left aligned naturally */
+@media (max-width: 480px) {
+  .gsr-header {
+    padding: 12px 14px;
+  }
+
+  .gsr-header p {
+    margin-left: 8px;
+    font-size: 16px;
+    gap: 8px;
+  }
+
+  .gsr-header p svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .gsr-header span {
+    font-size: 16px;
+  }
+
+  .group-header-btn {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 12px;
+    margin-right: 0;
+  }
+
+  .group-header-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}

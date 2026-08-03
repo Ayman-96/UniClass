@@ -18,9 +18,10 @@ import { Logo } from "../../../../../components/Logo";
 import handleDownload from "../../../../../components/DownloadFile";
 import { useParams } from "react-router-dom";
 import { useLectures } from "../../../../../hooks/useLectures";
+import { useDiscussion } from "../../../../../hooks/useDiscussion";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-function LectureView() {
+function LectureView({ isMobile }) {
   const BASE_SCALE = 0.8;
   const pdfRef = useRef(null);
 
@@ -35,6 +36,11 @@ function LectureView() {
   const [pageNumber, setPageNumber] = useState(1);
   const [fullScreen, setFullScreen] = useState(false);
   const displayZoom = Math.round((scale / BASE_SCALE) * 100);
+
+  const { data: storedComments = [] } = useDiscussion(
+    selectedLecture?.id,
+    pageNumber,
+  );
 
   const handleFullScreen = async () => {
     if (pdfRef.current && !document.fullscreenElement) {
@@ -82,33 +88,44 @@ function LectureView() {
         <div className="slide-counter">
           <input
             type="number"
+            min={1}
             max={numPages}
-            value={pageNumber}
-            onChange={(e) => {
+            defaultValue={pageNumber}
+            key={pageNumber}
+            onKeyDown={(e) => {
+              if (e.key !== "Enter") return;
               const value = Number(e.target.value);
-              if (!value) return;
+              if (Number.isNaN(value)) return;
               setPageNumber(Math.min(Math.max(value, 1), numPages));
+              e.target.blur();
             }}
           />
           <span>/{numPages}</span>
         </div>
 
-        <div className="pdf-zoom">
-          <button
-            onClick={() =>
-              setScale((prev) => Math.max(prev - 0.1 * BASE_SCALE, 0.4))
-            }
-          >
-            <MinusIcon />
-          </button>
-          {displayZoom}%
-          <button
-            onClick={() =>
-              setScale((prev) => Math.min(prev + 0.1 * BASE_SCALE, 3.0))
-            }
-          >
-            <PlusIcon />
-          </button>
+        <div className="zoom-and-comment-count">
+          <div className="pdf-zoom">
+            <button
+              onClick={() =>
+                setScale((prev) => Math.max(prev - 0.1 * BASE_SCALE, 0.24))
+              }
+            >
+              <MinusIcon />
+            </button>
+            {displayZoom}%
+            <button
+              onClick={() =>
+                setScale((prev) => Math.min(prev + 0.1 * BASE_SCALE, 3.0))
+              }
+            >
+              <PlusIcon />
+            </button>
+          </div>
+          <div className="comments-per-slide">
+            {isMobile
+              ? storedComments?.length
+              : storedComments?.length + " Comments"}
+          </div>
         </div>
 
         <div className="pdf-download-view">
@@ -139,7 +156,7 @@ function LectureView() {
           <div className="pdf-zoom fullscreen-zoom">
             <button
               onClick={() =>
-                setScale((prev) => Math.max(prev - 0.1 * BASE_SCALE, 0.4))
+                setScale((prev) => Math.max(prev - 0.1 * BASE_SCALE, 0.24))
               }
             >
               <MinusIcon />
@@ -154,26 +171,49 @@ function LectureView() {
             </button>
           </div>
         )}
+        {numPages && (
+          <>
+            <div
+              className="pdf-tap-zone pdf-tap-left"
+              onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
+            />
+            <div
+              className="pdf-tap-zone pdf-tap-right"
+              onClick={() =>
+                setPageNumber((prev) => Math.min(prev + 1, numPages))
+              }
+            />
+          </>
+        )}
 
-        <button
-          className="pdf-nav-arrow left-arrow"
-          onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
-          disabled={pageNumber <= 1}
-        >
-          <ChevronLeft />
-        </button>
-
+        {!fullScreen && !isMobile && (
+          <button
+            className="pdf-nav-arrow left-arrow"
+            onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
+            disabled={pageNumber <= 1}
+          >
+            <ChevronLeft />
+          </button>
+        )}
         <Document file={signedPdfUrl} onLoadSuccess={onLoadSuccess}>
-          <Page pageNumber={pageNumber} scale={scale} width={1000} />
+          <Page
+            pageNumber={pageNumber}
+            scale={scale}
+            width={isMobile ? undefined : 1000}
+          />
         </Document>
 
-        <button
-          className="pdf-nav-arrow right-arrow"
-          onClick={() => setPageNumber((prev) => Math.min(prev + 1, numPages))}
-          disabled={pageNumber >= numPages}
-        >
-          <ChevronRight />
-        </button>
+        {!fullScreen && !isMobile && (
+          <button
+            className="pdf-nav-arrow right-arrow"
+            onClick={() =>
+              setPageNumber((prev) => Math.min(prev + 1, numPages))
+            }
+            disabled={pageNumber >= numPages}
+          >
+            <ChevronRight />
+          </button>
+        )}
       </div>
       <div className="pdf-footer">
         <Logo />

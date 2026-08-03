@@ -146,7 +146,20 @@
   flex-shrink: 0;
   transition: background 0.15s ease-in-out;
 }
-
+.on-mob-plat h2 {
+  align-self: flex-start;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.2;
+}
+.on-mob-plat p {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0;
+  font-weight: 500;
+}
 .notifications-btn:hover,
 .settings-btn:hover {
   background-color: #f1f5f9;
@@ -247,4 +260,97 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px 24px;
+}
+
+.on-mob-uniclass-logo {
+  /* 1. Dimensions of the green box */
+  width: 50px; /* Adjust this size to match your layout */
+  height: 50px;
+  aspect-ratio: 1 / 1; /* Keeps it a perfect square */
+
+  /* 2. Styling the green box */
+  background-color: #eaf6f4; /* The light mint-green background color */
+  border-radius: 12px; /* Smooth rounded corners */
+
+  /* 3. Centering the image inside */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 4. Padding & Safety */
+  padding: 8px; /* Prevents the logo from touching the very edge */
+  box-sizing: border-box; /* Keeps padding inside the defined width/height */
+  overflow: hidden; /* Ensures nothing bleeds out of the rounded corners */
+}
+@media (max-width: 768px) {
+  .home-sideBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    margin-left: -260px; /* default hidden on mobile regardless of desktop state */
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  }
+  .on-mob-uniclass-logo {
+    /* 1. Dimensions of the green box */
+    width: 40px; /* Adjust this size to match your layout */
+    height: 40px;
+  }
+  .sidebar-open .home-sideBar {
+    margin-left: 0;
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 90;
+  }
+
+  .home-header {
+    height: 60px;
+    padding: 8px 16px 0;
+  }
+
+  .header-left,
+  .header-right {
+    gap: 8px;
+  }
+
+  .search-bar {
+    max-width: none;
+    height: 38px;
+    padding: 0 12px;
+  }
+
+  .toggle-menu {
+    width: 38px;
+    height: 38px;
+  }
+
+  .notifications-btn,
+  .settings-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .notifications-btn svg,
+  .settings-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .profile-btn p {
+    display: none;
+  }
+
+  .my-pro-avatar,
+  .my-pro-no-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .on-mob-plat p {
+    font-size: 0.6rem;
+  }
 }

@@ -1,4 +1,3 @@
-import "./App.css";
 import Profile from "./home/profile/Profile";
 import Homepage from "./home/Homepage";
 import OnBoarding from "./home/OnBoarding";

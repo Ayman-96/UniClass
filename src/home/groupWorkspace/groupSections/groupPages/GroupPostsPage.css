@@ -37,7 +37,14 @@
 
 @media (max-width: 768px) {
   .storedPosts-cards {
-    padding: 12px 12px 12px 72px; /* Keeps content visible on tight mobile viewports */
+    padding: 12px 16px;
     gap: 16px;
+  }
+}
+@media (max-width: 1024px) {
+  .storedPosts-cards {
+    max-width: 100%;
+    margin: 0;
+    padding: 20px 16px;
   }
 }

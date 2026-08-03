@@ -174,3 +174,28 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/*RESPONSIVE*/
+@media (max-width: 768px) {
+  .mn-modal {
+    width: 92vw;
+    border-radius: 16px;
+  }
+
+  .mn-header {
+    padding: 16px 18px;
+  }
+
+  .mn-list {
+    padding: 6px 8px;
+  }
+
+  .mn-row {
+    padding: 10px 8px;
+  }
+
+  .mn-footer {
+    padding: 14px 18px;
+    flex-direction: column;
+  }
+}

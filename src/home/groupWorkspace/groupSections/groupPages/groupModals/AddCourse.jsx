@@ -9,6 +9,7 @@ import RequiredWarning from "./RequiredWarning";
 import { useEffect, useReducer, useState } from "react";
 import { BookOpen, X, Info, LayersPlus } from "lucide-react";
 import { useAddCourse } from "../../../../../hooks/useCourses";
+import { createPortal } from "react-dom";
 const courseData = {
   id: "",
   name: "",
@@ -74,7 +75,7 @@ function AddCourse({ handleCourseModal }) {
     dispatch({ type: "RESET" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
+  return createPortal(
     <div className="add-course-overlay">
       <div className="add-course-modal">
         <div className="course-modal-header">
@@ -256,7 +257,8 @@ function AddCourse({ handleCourseModal }) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

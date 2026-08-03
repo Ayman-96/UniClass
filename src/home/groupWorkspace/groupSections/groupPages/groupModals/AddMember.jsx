@@ -16,6 +16,7 @@ import {
   BsPersonFillUp,
   BsPersonFillX,
 } from "react-icons/bs";
+import { createPortal } from "react-dom";
 
 function AddMember({ handleMemberModal }) {
   const { groupId } = useParams();
@@ -47,7 +48,7 @@ function AddMember({ handleMemberModal }) {
     if (hours < 24) return `${hours}h ago`;
     return `${days}d ago`;
   };
-  return (
+  return createPortal(
     <div className="add-member-overlay">
       <div className="add-member-modal">
         <div className="member-modal-header">
@@ -179,7 +180,8 @@ function AddMember({ handleMemberModal }) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 export default AddMember;

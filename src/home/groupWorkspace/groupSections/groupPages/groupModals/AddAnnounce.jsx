@@ -22,6 +22,7 @@ import {
 import { toast } from "sonner";
 import { useGroupMembers } from "../../../../../hooks/useGroupMembers.js";
 import defaultAvatar from "../../../../../assets/default-avatar.svg";
+import { createPortal } from "react-dom";
 
 const announceData = {
   title: "",
@@ -131,7 +132,7 @@ function AddAnnounce({ handleAnnounceModal }) {
       onClick: () => handleMentionButtonClick(),
     },
   ];
-  return (
+  return createPortal(
     <div className="add-post-overlay">
       <div className="add-post-modal">
         <div className="modal-header">
@@ -356,7 +357,8 @@ function AddAnnounce({ handleAnnounceModal }) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 export default AddAnnounce;

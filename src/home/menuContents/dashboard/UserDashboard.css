@@ -34,3 +34,39 @@
   width: 14px;
   height: 14px;
 }
+@media (max-width: 768px) {
+  .dashboard-page {
+    padding: 1.2rem;
+  }
+
+  .dashbord-body {
+    margin-top: 1.2rem;
+  }
+
+  .dev-tag {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-page {
+    padding: 1rem;
+  }
+
+  .dashbord-body {
+    margin-top: 1rem;
+  }
+
+  .dev-tag {
+    gap: 0.25rem;
+    margin-top: 1.25rem;
+    font-size: 0.72rem;
+    text-align: center;
+  }
+
+  .dev-tag svg {
+    width: 12px;
+    height: 12px;
+  }
+}

@@ -23,6 +23,7 @@ import { useProfile } from "../../../../hooks/useSaveProfile.js";
 import { useSingleGroup } from "../../../../hooks/useGroups.js";
 import useLightboxStore from "../../../../store/useLightboxStore.js";
 import defaultAvatar from "../../../../assets/default-avatar.svg";
+import { createPortal } from "react-dom";
 
 const initialState = {
   content: "",
@@ -118,7 +119,7 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
   }, [previewUrl]);
 
   if (isError) return <div>Error Occured...</div>;
-  return (
+  return createPortal(
     <div className="post-comment-section">
       <div className="comment-sheet">
         <div className="comment-sec-header">
@@ -234,7 +235,8 @@ function AnnounceComments({ setOpenComments, storedComments, announceId }) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 function CommentItem({

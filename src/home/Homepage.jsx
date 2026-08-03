@@ -1,13 +1,14 @@
 import "./Homepage.css";
 import SideNav from "./SideNav";
-import { useState, memo } from "react";
+import { memo } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { Menu, X, Bell, Settings, GraduationCap } from "lucide-react";
 import { useProfile } from "../hooks/useSaveProfile";
 import { useNotifications } from "../hooks/useNotifications";
 import defaultAvatar from "../assets/default-avatar.svg";
+import { useSidebarStore } from "../store/useSidebarStore";
 function Homepage() {
-  const [isOpenSideBar, setIsOpenSideBar] = useState(false);
+  const { isOpenSideBar, setIsOpenSideBar } = useSidebarStore();
 
   return (
     <div
@@ -16,6 +17,12 @@ function Homepage() {
       <div className="home-sideBar">
         <SideNav />
       </div>
+      {isOpenSideBar && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setIsOpenSideBar(false)}
+        />
+      )}
       <div className="home-container">
         <div className="home-header">
           <HomeHeader
@@ -47,10 +54,10 @@ const HomeHeader = memo(function HomeHeader({
           {isOpenSideBar ? <X /> : <Menu />}
         </button>{" "}
         <NavLink to="/Home" className="logo">
-          <div className="uniclass-logo">
+          <div className="on-mob-uniclass-logo">
             <GraduationCap size={28} />
           </div>
-          <div className="plat-name">
+          <div className="on-mob-plat">
             <h2 style={{ color: "#0d9488" }}>UniClass</h2>
             <p>Student Learning Platform</p>
           </div>

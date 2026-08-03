@@ -193,3 +193,24 @@
   color: #ef4444;
   background-color: #ffebebb3;
 }
+@media (max-width: 768px) {
+  .course-card-container {
+    width: 100%;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .course-card-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .course-card-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .course-card-body p {
+    font-size: 16px;
+  }
+}

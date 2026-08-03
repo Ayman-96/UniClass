@@ -423,3 +423,22 @@
   background-color: #ebdcb9;
   color: #42866dc7;
 }
+@media (max-width: 768px) {
+  .groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .group-card {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .groups {
+    padding: 0 0.4rem;
+  }
+
+  .group-card {
+    min-width: 0;
+  }
+}
